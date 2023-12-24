@@ -1,10 +1,13 @@
-import React from 'react'
-import Sidebar from '../components/Sidebar'
+import React from "react";
+import Sidebar from "../components/Sidebar";
 
-const layout = () => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div><Sidebar /></div>
-  )
-}
+    <div>
+      <Sidebar />
+      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+    </div>
+  );
+};
 
-export default layout
+export default layout;

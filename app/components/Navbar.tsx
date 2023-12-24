@@ -1,12 +1,27 @@
 import Link from "next/link";
 import React from "react";
 
+const pageList = [
+  {
+    displayName: "Schedule",
+    pathName: "Schedule",
+  },
+  {
+    displayName: "Journal",
+    pathName: "Journal",
+  },
+  {
+    displayName: "To Do List",
+    pathName: "ToDoList",
+  },
+];
+
 const Navbar = () => {
   return (
     <div className="flex justify-center border">
       <div className="flex flex-row justify-between items-center h-[60px] container">
         <div>
-          <Link href={"#"} className="flex flex-row">
+          <Link href={"/"} className="flex flex-row">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -25,15 +40,13 @@ const Navbar = () => {
           </Link>
         </div>
         <div>
-          <Link href={"#"} className="mx-1 px-2">
-            Schedule
-          </Link>
-          <Link href={"#"} className="mx-1 px-2">
-            Journal
-          </Link>
-          <Link href={"#"} className="mx-1 px-2">
-            To Do List
-          </Link>
+          {pageList.map((data, index) => {
+            return (
+              <Link key={index} href={data.pathName} className="mx-1 px-2">
+                {data.displayName}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
