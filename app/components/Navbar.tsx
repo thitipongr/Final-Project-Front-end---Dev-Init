@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -39,7 +40,7 @@ const Navbar = () => {
             <div className="pl-1">Personal Information Management</div>
           </Link>
         </div>
-        <div>
+        <div className="flex flex-row items-center">
           {pageList.map((data, index) => {
             return (
               <Link key={index} href={data.pathName} className="mx-1 px-2">
@@ -47,6 +48,13 @@ const Navbar = () => {
               </Link>
             );
           })}
+          <Image
+            src={"https://avatars.githubusercontent.com/u/144009672?v=4"}
+            alt="Thitipong"
+            width={40}
+            height={40}
+            className="rounded-full ml-3"
+          />
         </div>
       </div>
     </div>
