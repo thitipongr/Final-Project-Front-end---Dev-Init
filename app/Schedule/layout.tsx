@@ -1,11 +1,28 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 
+const sidebarMenuList = [
+  {
+    displayName: "Schedule",
+    pathName: "Schedule",
+  },
+  {
+    displayName: "Journal",
+    pathName: "Journal",
+  },
+  {
+    displayName: "To Do List",
+    pathName: "ToDoList",
+  },
+];
+
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      <Sidebar />
-      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+    <div className="grid grid-cols-12">
+      <div className="col-span-2">
+        <Sidebar sidebarMenuList={sidebarMenuList} />
+      </div>
+      <div className="flex-grow md:overflow-y-auto col-span-10">{children}</div>
     </div>
   );
 };
