@@ -10,10 +10,10 @@ const page = () => {
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView="dayGridMonth"
-        weekends={false}
+        height={"auto"}
         events={[
-          { title: "event 1", date: "2019-04-01" },
-          { title: "event 2", date: "2019-04-02" },
+          { title: "event 1", date: "2023-12-01" },
+          { title: "event 2", date: "2023-12-02" },
         ]}
       />
     </div>
