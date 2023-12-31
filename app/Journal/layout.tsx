@@ -18,9 +18,11 @@ const sidebarMenuList = [
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      <Sidebar sidebarMenuList={sidebarMenuList} />
-      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+    <div className="grid grid-cols-12 h-full">
+      <div className="col-span-2">
+        <Sidebar sidebarMenuList={sidebarMenuList} />
+      </div>
+      <div className="col-span-10">{children}</div>
     </div>
   );
 };
