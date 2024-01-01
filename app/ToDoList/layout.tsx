@@ -3,16 +3,16 @@ import Sidebar from "../components/Sidebar";
 
 const sidebarMenuList = [
   {
-    displayName: "Schedule",
-    pathName: "Schedule",
+    displayName: "ToDoList-Menu#1",
+    pathName: "#",
   },
   {
-    displayName: "Journal",
-    pathName: "Journal",
+    displayName: "ToDoList-Menu#2",
+    pathName: "#",
   },
   {
-    displayName: "To Do List",
-    pathName: "ToDoList",
+    displayName: "ToDoList-Menu#3",
+    pathName: "#",
   },
 ];
 
