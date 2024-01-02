@@ -22,7 +22,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <div className="col-span-2">
         <Sidebar sidebarMenuList={sidebarMenuList} />
       </div>
-      <div className="col-span-10">{children}</div>
+      <div className="col-span-10 h-full ml-2 rounded-lg pt-4 pl-4">{children}</div>
     </div>
   );
 };
