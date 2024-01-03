@@ -4,7 +4,7 @@ import FullCalendar from "@fullcalendar/react";
 import React from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
-const page = () => {
+const Page = () => {
   return (
     <FullCalendar
       plugins={[dayGridPlugin]}
@@ -18,4 +18,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
