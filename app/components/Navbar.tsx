@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -74,7 +75,7 @@ const Navbar = () => {
           <div className="pl-1">PIM</div>
         </div>
         <div className="flex flex-row items-center">
-          <div className="sm:flex flex-row items-center hidden">
+          <div className={clsx("sm:flex sm:flex-row items-center hidden")}>
             {pageList.map((data, index) => {
               return (
                 <Link key={index} href={data.pathName} className="mx-1 px-2">
