@@ -1,7 +1,9 @@
+"use client";
+
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 const pageList = [
   {
@@ -19,10 +21,17 @@ const pageList = [
 ];
 
 const Navbar = () => {
+  const [expandMenuState, setExpandMenuState] = useState(false);
+
+  const expandMenuHandler = () => {
+    expandMenuState === false
+      ? setExpandMenuState(true)
+      : setExpandMenuState(false);
+  };
   return (
     <div className="flex justify-center border px-5">
       <div className="flex flex-row justify-between items-center h-[60px] container">
-        <div className="flex sm:hidden">
+        <div className="flex sm:hidden" onClick={expandMenuHandler}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -75,7 +84,12 @@ const Navbar = () => {
           <div className="pl-1">PIM</div>
         </div>
         <div className="flex flex-row items-center">
-          <div className={clsx("sm:flex sm:flex-row items-center hidden")}>
+          <div
+            className={clsx("sm:flex sm:flex-row items-center", {
+              // flex: x,
+              hidden: !expandMenuState,
+            })}
+          >
             {pageList.map((data, index) => {
               return (
                 <Link key={index} href={data.pathName} className="mx-1 px-2">
