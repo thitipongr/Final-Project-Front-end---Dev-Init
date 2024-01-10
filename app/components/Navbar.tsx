@@ -28,22 +28,41 @@ const Navbar = () => {
       ? setExpandMenuState(true)
       : setExpandMenuState(false);
   };
+
   return (
-    <div className="flex justify-center border px-5">
+    <div className="flex justify-center border-b px-5">
       <div className="flex flex-row justify-between items-center h-[60px] container">
-        <div className="flex sm:hidden" onClick={expandMenuHandler}>
+        <div className="flex sm:hidden w-[40px] items-center h-full" onClick={expandMenuHandler}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className={clsx("w-6 h-6", {
+              hidden: expandMenuState,
+            })}
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            className={clsx("w-6 bg-gray-200 rounded-t-xl h-full mt-5 pb-5", {
+              hidden: !expandMenuState,
+            })}
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
             />
           </svg>
         </div>
@@ -85,9 +104,9 @@ const Navbar = () => {
         </div>
         <div className="flex flex-row items-center">
           <div
-            className={clsx("sm:flex sm:flex-row items-center", {
-              // flex: x,
+            className={clsx("items-center sm:flex sm:flex-row sm:static sm:bg-white", {
               hidden: !expandMenuState,
+              "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mx-[20px] sm:mx-0 rounded-b-xl z-10": expandMenuState,
             })}
           >
             {pageList.map((data, index) => {
@@ -120,7 +139,7 @@ const Navbar = () => {
             alt="Thitipong"
             width={40}
             height={40}
-            className="rounded-full ml-3"
+            className="rounded-full sm:ml-3"
           />
         </div>
       </div>
