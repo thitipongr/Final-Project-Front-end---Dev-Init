@@ -30,9 +30,17 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-center border-b px-5">
+    <div className="flex justify-center border-b pr-5">
       <div className="flex flex-row justify-between items-center h-[60px] container">
-        <div className="flex sm:hidden w-[40px] items-center h-full" onClick={expandMenuHandler}>
+        <div
+          className={clsx(
+            "flex sm:hidden w-[60px] items-center justify-center h-full",
+            {
+              "bg-gray-200": expandMenuState,
+            }
+          )}
+          onClick={expandMenuHandler}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -55,7 +63,7 @@ const Navbar = () => {
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            className={clsx("w-6 bg-gray-200 rounded-t-xl h-full mt-5 pb-5", {
+            className={clsx("w-6 h-6", {
               hidden: !expandMenuState,
             })}
           >
@@ -104,35 +112,41 @@ const Navbar = () => {
         </div>
         <div className="flex flex-row items-center">
           <div
-            className={clsx("items-center sm:flex sm:flex-row sm:static sm:bg-white", {
-              hidden: !expandMenuState,
-              "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mx-[20px] sm:mx-0 rounded-b-xl z-10": expandMenuState,
-            })}
+            className={clsx(
+              "items-center sm:flex sm:flex-row sm:static sm:bg-white",
+              {
+                hidden: !expandMenuState,
+                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] sm:mx-0 rounded-br-xl z-10":
+                  expandMenuState,
+              }
+            )}
           >
             {pageList.map((data, index) => {
               return (
-                <Link key={index} href={data.pathName} className="mx-1 px-2">
+                <Link key={index} href={data.pathName} className="pt-6 sm:mx-1 sm:pt-0 sm:px-2">
                   {data.displayName}
                 </Link>
               );
             })}
-            <button className="rounded-lg border mx-3 py-2 px-3 w-52 flex flex-row hover:bg-gray-100">
-              <div className="w-full text-left">Quick search...</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </button>
+            <div className="pt-6 pb-5 sm:pt-0 sm:pb-0">
+              <button className="rounded-lg border mx-3 py-2 px-3 w-52 flex flex-row hover:bg-gray-100">
+                <div className="w-full text-left">Quick search...</div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
           <Image
             src={"https://avatars.githubusercontent.com/u/144009672?v=4"}
