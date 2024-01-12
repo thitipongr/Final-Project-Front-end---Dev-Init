@@ -4,19 +4,20 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const pageList = [
   {
     displayName: "Schedule",
-    pathName: "Schedule",
+    pathName: "/Schedule",
   },
   {
     displayName: "Journal",
-    pathName: "Journal",
+    pathName: "/Journal",
   },
   {
     displayName: "To Do List",
-    pathName: "ToDoList",
+    pathName: "/ToDoList",
   },
 ];
 
@@ -28,6 +29,9 @@ const Navbar = () => {
       ? setExpandMenuState(true)
       : setExpandMenuState(false);
   };
+
+  const pathname = usePathname();
+  console.log(pathname);
 
   return (
     <div className="flex justify-center border-b pr-5">
@@ -113,23 +117,30 @@ const Navbar = () => {
         <div className="flex flex-row items-center">
           <div
             className={clsx(
-              "items-center sm:flex sm:flex-row sm:static sm:bg-white",
+              "items-center py-5 pt-4 sm:flex sm:flex-row sm:static sm:bg-white sm:py-0 sm:mr-4",
               {
                 hidden: !expandMenuState,
-                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] sm:mx-0 rounded-br-xl z-10":
+                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] sm:mx-0 rounded-br-lg z-10":
                   expandMenuState,
               }
             )}
           >
             {pageList.map((data, index) => {
               return (
-                <Link key={index} href={data.pathName} className="pt-6 sm:mx-1 sm:pt-0 sm:px-2">
+                <Link
+                  key={index}
+                  href={data.pathName}
+                  className={clsx("p-2 w-10/12 mx-1 my-1 sm:w-auto sm:hover:bg-gray-100 sm:hover:rounded-lg", {
+                    "bg-gray-50 rounded-lg sm:bg-gray-300 hover:sm:bg-gray-300":
+                      pathname === data.pathName,
+                  })}
+                >
                   {data.displayName}
                 </Link>
               );
             })}
-            <div className="pt-6 pb-5 sm:pt-0 sm:pb-0">
-              <button className="rounded-lg border mx-3 py-2 px-3 w-52 flex flex-row hover:bg-gray-100">
+            <div className="pt-2 w-10/12 sm:pt-0 sm:pb-0 sm:w-auto">
+              <button className="rounded-lg border sm:mx-3 py-2 px-3 w-full flex flex-row hover:bg-gray-100">
                 <div className="w-full text-left">Quick search...</div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
