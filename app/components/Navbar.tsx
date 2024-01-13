@@ -130,10 +130,14 @@ const Navbar = () => {
                 <Link
                   key={index}
                   href={data.pathName}
-                  className={clsx("p-2 w-10/12 mx-1 my-1 sm:w-auto sm:hover:bg-gray-100 sm:hover:rounded-lg", {
-                    "bg-gray-50 rounded-lg sm:bg-gray-300 hover:sm:bg-gray-300":
-                      pathname === data.pathName,
-                  })}
+                  className={clsx(
+                    "p-2 w-10/12 mx-1 my-1 sm:w-auto sm:hover:bg-gray-100 sm:hover:rounded-lg",
+                    {
+                      "bg-gray-50 rounded-lg sm:bg-gray-300 hover:sm:bg-gray-300":
+                        pathname === data.pathName ||
+                        (pathname === "/" && data.displayName === "Schedule"),
+                    }
+                  )}
                 >
                   {data.displayName}
                 </Link>
