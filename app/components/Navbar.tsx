@@ -22,6 +22,7 @@ const pageList = [
 ];
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [expandMenuState, setExpandMenuState] = useState(false);
 
   const expandMenuHandler = () => {
@@ -30,11 +31,15 @@ const Navbar = () => {
       : setExpandMenuState(false);
   };
 
-  const pathname = usePathname();
-  console.log(pathname);
+  const [expandProfileState, setExpandProfileState] = useState(false);
+  const expandProfileHandler = () => {
+    expandProfileState === false
+      ? setExpandProfileState(true)
+      : setExpandProfileState(false);
+  };
 
   return (
-    <div className="flex justify-center border-b pr-5">
+    <div className="flex justify-center border-b z-10">
       <div className="flex flex-row justify-between items-center h-[60px] container">
         <div
           className={clsx(
@@ -65,15 +70,15 @@ const Navbar = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className={clsx("w-6 h-6", {
               hidden: !expandMenuState,
             })}
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M6 18 18 6M6 6l12 12"
             />
           </svg>
@@ -114,13 +119,13 @@ const Navbar = () => {
           </svg>
           <div className="pl-1">PIM</div>
         </div>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-row items-center pr-5 sm:pr-0">
           <div
             className={clsx(
               "items-center py-5 pt-4 sm:flex sm:flex-row sm:static sm:bg-white sm:py-0 sm:mr-4",
               {
                 hidden: !expandMenuState,
-                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] sm:mx-0 rounded-br-lg z-10":
+                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] sm:mx-0 rounded-br-lg":
                   expandMenuState,
               }
             )}
@@ -163,13 +168,85 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-          <Image
-            src={"https://avatars.githubusercontent.com/u/144009672?v=4"}
-            alt="Thitipong"
-            width={40}
-            height={40}
-            className="rounded-full sm:ml-3"
-          />
+          <div className="relative">
+            <Image onClick={expandProfileHandler}
+              src={"https://avatars.githubusercontent.com/u/144009672?v=4"}
+              alt="Thitipong"
+              width={40}
+              height={40}
+              className="rounded-full z-50 sm:ml-3"
+            />
+            <div
+              className={clsx(
+                "items-center w-10 py-5 pt-12 space-y-7 sm:ml-3",
+                {
+                  hidden: !expandProfileState,
+                  "flex flex-col fixed top-[30px] bg-gray-200 rounded-b-full -z-10":
+                    expandProfileState,
+                }
+              )}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6 mt-3"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+              </svg>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                />
+              </svg>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
+                />
+              </svg>
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
