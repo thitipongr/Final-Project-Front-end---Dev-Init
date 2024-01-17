@@ -7,14 +7,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 const Page = () => {
+  const handleDateClick = (args: any) => {
+    console.log(args);
+  };
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
       headerToolbar={{
         left: "prev,next today",
         center: "title",
-        right: "timeGridWeek,dayGridMonth",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
       }}
+      dateClick={handleDateClick}
       events={[
         { title: "event 1", date: "2024-01-01" },
         { title: "event 2", date: "2024-01-01" },
