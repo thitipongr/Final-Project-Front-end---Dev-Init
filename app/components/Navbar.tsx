@@ -182,6 +182,7 @@ const Navbar = () => {
               alt="Thitipong"
               width={40}
               height={40}
+              priority={true}
               className="rounded-full z-50 sm:ml-3"
             />
             <div
@@ -217,7 +218,7 @@ const Navbar = () => {
                 stroke="currentColor"
                 className={clsx("w-6 h-6", {
                   hidden: darkModeSwicth,
-                  flex : !darkModeSwicth,
+                  flex: !darkModeSwicth,
                 })}
                 onClick={darkModeSwicthHandler}
               >
@@ -236,7 +237,7 @@ const Navbar = () => {
                 stroke="currentColor"
                 className={clsx("w-6 h-6", {
                   hidden: !darkModeSwicth,
-                  flex : darkModeSwicth,
+                  flex: darkModeSwicth,
                 })}
                 onClick={darkModeSwicthHandler}
               >
