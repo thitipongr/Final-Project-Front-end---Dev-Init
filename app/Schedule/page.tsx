@@ -1,42 +1,38 @@
 "use client";
 
 import FullCalendar from "@fullcalendar/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 const Page = () => {
-  const [defaultView, setDefaultView] = useState(getDefaultView());
+  const [defaultView, setDefaultView] = useState("");
+  const calendarRef = useRef<FullCalendar>(null!);
 
   useEffect(() => {
-    const handleResize = () => {
-      setDefaultView(getDefaultView());
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    setDefaultView(window.innerWidth <= 768 ? "timeGridDay" : "dayGridMonth");
   }, []);
 
-  function getDefaultView() {
-    return window.innerWidth < 600 ? "timeGridDay" : "dayGridMonth";
-  }
-  
   const handleDateClick = (args: any) => {
     console.log(args);
   };
 
   return (
     <FullCalendar
+      ref={calendarRef}
       plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
       initialView={defaultView}
       headerToolbar={{
         left: "prev,next today",
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay",
+      }}
+      buttonText={{
+        today: "TODAY",
+        month: "MONTH",
+        week: "WEEK",
+        day: "DAY",
       }}
       dateClick={handleDateClick}
       events={[
@@ -49,6 +45,12 @@ const Page = () => {
       selectable={true}
       selectMirror={true}
       height={"100%"}
+      windowResize={(x) => {
+        let calendarApi = calendarRef.current.getApi();
+        window.innerWidth <= 768
+          ? calendarApi.changeView("timeGridDay")
+          : calendarApi.changeView("dayGridMonth");
+      }}
     />
   );
 };
