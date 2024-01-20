@@ -46,11 +46,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-center border-b z-10">
+    <div className="flex justify-center border-b z-10  lg:px-7">
       <div className="flex flex-row justify-between items-center h-[60px] container">
         <div
           className={clsx(
-            "flex sm:hidden w-[60px] items-center justify-center h-full",
+            "flex lg:hidden w-[60px] items-center justify-center h-full",
             {
               "bg-gray-200": expandMenuState,
             }
@@ -90,7 +90,7 @@ const Navbar = () => {
             />
           </svg>
         </div>
-        <div className="hidden sm:flex">
+        <div className="hidden lg:flex">
           <Link href={"/"} className="flex flex-row">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +109,7 @@ const Navbar = () => {
             <div className="pl-1">Personal Information Management</div>
           </Link>
         </div>
-        <div className="flex sm:hidden">
+        <div className="flex lg:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -126,13 +126,13 @@ const Navbar = () => {
           </svg>
           <div className="pl-1">PIM</div>
         </div>
-        <div className="flex flex-row items-center pr-5 sm:pr-0">
+        <div className="flex flex-row items-center pr-5 lg:pr-0">
           <div
             className={clsx(
-              "items-center py-5 pt-4 sm:flex sm:flex-row sm:static sm:bg-white sm:py-0 sm:mr-4",
+              "items-center py-5 pt-4 lg:flex lg:flex-row lg:static lg:bg-white lg:py-0 lg:mr-4",
               {
                 hidden: !expandMenuState,
-                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] sm:mx-0 rounded-br-lg":
+                "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] lg:mx-0 rounded-br-lg":
                   expandMenuState,
               }
             )}
@@ -143,9 +143,9 @@ const Navbar = () => {
                   key={index}
                   href={data.pathName}
                   className={clsx(
-                    "p-2 w-10/12 mx-1 my-1 sm:w-auto sm:hover:bg-gray-100 sm:hover:rounded-lg",
+                    "p-2 w-10/12 mx-1 my-1 lg:w-auto lg:hover:bg-gray-100 lg:hover:rounded-lg",
                     {
-                      "bg-gray-50 rounded-lg sm:bg-gray-300 hover:sm:bg-gray-300":
+                      "bg-gray-50 rounded-lg lg:bg-gray-300 hover:lg:bg-gray-300":
                         pathname === data.pathName ||
                         (pathname === "/" && data.displayName === "Schedule"),
                     }
@@ -155,8 +155,8 @@ const Navbar = () => {
                 </Link>
               );
             })}
-            <div className="pt-2 w-10/12 sm:pt-0 sm:pb-0 sm:w-auto">
-              <button className="rounded-lg border sm:mx-3 py-2 px-3 w-full flex flex-row hover:bg-gray-100">
+            <div className="pt-2 w-10/12 lg:pt-0 lg:pb-0 lg:w-auto">
+              <button className="rounded-lg border lg:mx-3 py-2 px-3 w-full flex flex-row hover:bg-gray-100">
                 <div className="w-full text-left">Quick search...</div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -183,11 +183,11 @@ const Navbar = () => {
               width={40}
               height={40}
               priority={true}
-              className="rounded-full z-50 sm:ml-3"
+              className="rounded-full z-50 lg:ml-3"
             />
             <div
               className={clsx(
-                "items-center w-10 py-5 pt-12 space-y-7 sm:ml-3",
+                "items-center w-10 py-5 pt-12 space-y-7 lg:ml-3",
                 {
                   hidden: !expandProfileState,
                   "flex flex-col fixed top-[30px] bg-gray-200 rounded-b-full -z-10":
