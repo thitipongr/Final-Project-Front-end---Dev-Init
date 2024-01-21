@@ -1,21 +1,22 @@
 "use client";
 
 import FullCalendar from "@fullcalendar/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 const Page = () => {
-  const [defaultView, setDefaultView] = useState("");
-  const calendarRef = useRef<FullCalendar>(null!);
+  let defaultView = "";
+  if (typeof window !== "undefined") {
+    defaultView = window.innerWidth < 768 ? "timeGridDay" : "dayGridMonth";
+  }
 
-  useEffect(() => {
-    setDefaultView(window.innerWidth <= 768 ? "timeGridDay" : "dayGridMonth");
-  }, []);
+  const calendarRef = useRef<FullCalendar>(null!);
 
   const handleDateClick = (args: any) => {
     console.log(args);
+    console.log(defaultView);
   };
 
   return (
@@ -28,7 +29,7 @@ const Page = () => {
         center: "title",
         right: "dayGridMonth,timeGridWeek,timeGridDay",
       }}
-      buttonText={{
+            buttonText={{
         today: "TODAY",
         month: "MONTH",
         week: "WEEK",
