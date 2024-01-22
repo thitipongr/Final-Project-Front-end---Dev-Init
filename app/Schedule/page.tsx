@@ -7,12 +7,12 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 const Page = () => {
+  const calendarRef = useRef<FullCalendar>(null!);
+
   let defaultView = "";
   if (typeof window !== "undefined") {
-    defaultView = window.innerWidth < 768 ? "timeGridDay" : "dayGridMonth";
+    defaultView = window.innerWidth <= 768 ? "timeGridDay" : "dayGridMonth";
   }
-
-  const calendarRef = useRef<FullCalendar>(null!);
 
   const handleDateClick = (args: any) => {
     console.log(args);
@@ -25,15 +25,25 @@ const Page = () => {
       plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
       initialView={defaultView}
       headerToolbar={{
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay",
+        left: "title",
+        center: "",
+        right: "today",
       }}
-            buttonText={{
+      footerToolbar={{
+        left: "dayGridMonth,timeGridWeek,timeGridDay",
+        center: "",
+        right: "prev,next",
+      }}
+      titleFormat={{
+        year: "2-digit",
+        month: "short",
+        day: "2-digit",
+      }}
+      buttonText={{
         today: "TODAY",
-        month: "MONTH",
-        week: "WEEK",
-        day: "DAY",
+        month: "Month",
+        week: "Week",
+        day: "Day",
       }}
       dateClick={handleDateClick}
       events={[
@@ -46,11 +56,13 @@ const Page = () => {
       selectable={true}
       selectMirror={true}
       height={"100%"}
-      windowResize={(x) => {
+      windowResize={() => {
         let calendarApi = calendarRef.current.getApi();
         window.innerWidth <= 768
           ? calendarApi.changeView("timeGridDay")
           : calendarApi.changeView("dayGridMonth");
+
+        calendarApi.view.calendar;
       }}
     />
   );
