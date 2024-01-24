@@ -70,7 +70,11 @@ const Page = () => {
         }}
       />
       {showModal ? (
-        <AddEventModal setShowModal={setShowModal} sendDateStr={sendDateStr} />
+        <AddEventModal
+          setShowModal={setShowModal}
+          sendDateStr={sendDateStr}
+          defaultCheckId={"Schedule"}
+        />
       ) : null}
     </div>
   );
