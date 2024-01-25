@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
+import clsx from "clsx";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 const pageList = [
   {
@@ -8,7 +9,7 @@ const pageList = [
     displayName: "Journal",
   },
   {
-    displayName: "ToDoList",
+    displayName: "ToDo",
   },
 ];
 
@@ -23,6 +24,8 @@ const AddEventModal = ({
   sendDateStr,
   defaultCheckId,
 }: AddEventModal) => {
+  const [defaultType, setDefaultType] = useState(defaultCheckId);
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -44,28 +47,31 @@ const AddEventModal = ({
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
-              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+              <div className="space-x-2">
                 {pageList.map((list, key) => {
                   return (
-                    <div className="" key={key}>
-                      <input
-                        type="radio"
-                        id={list.displayName}
-                        name="adding_type"
-                        value={list.displayName}
-                        defaultChecked={
-                          defaultCheckId === list.displayName ? true : false
+                    <button
+                      key={key}
+                      className={clsx(
+                        "h-9 px-2 border-0 rounded-lg bg-slate-100",
+                        {
+                          "bg-slate-400": defaultType === list.displayName,
                         }
-                      />
-                      <label htmlFor={list.displayName}>
-                        {list.displayName}
-                      </label>
-                    </div>
+                      )}
+                      onClick={() => {
+                        setDefaultType(list.displayName);
+                      }}
+                    >
+                      {list.displayName}
+                    </button>
                   );
                 })}
+              </div>
 
-                {sendDateStr}
-              </p>
+              <input type="datetime-local" />
+              <input type="datetime-local" />
+
+              <p className="my-4 text-blueGray-500 text-lg">{sendDateStr}</p>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
