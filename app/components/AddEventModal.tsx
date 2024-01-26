@@ -34,8 +34,7 @@ const AddEventModal = ({
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-3xl font-semibold">Add Some...</h3>
-
+              <input type="text" placeholder="Add title" />
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                 onClick={() => setShowModal(false)}
@@ -70,6 +69,11 @@ const AddEventModal = ({
 
               <input type="datetime-local" />
               <input type="datetime-local" />
+              <textarea
+                cols={30}
+                rows={10}
+                placeholder="Add description"
+              ></textarea>
 
               <p className="my-4 text-blueGray-500 text-lg">{sendDateStr}</p>
             </div>
