@@ -17,8 +17,10 @@ const Page = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [sendDateStr, setSendDateStr] = useState("");
+  const [allDayState, setAllDayState] = useState(false);
 
   const handleDateClick = (args: any) => {
+    args.dateStr.includes("T") ? setAllDayState(false) : setAllDayState(true);
     setSendDateStr(args.dateStr);
     showModal ? setShowModal(false) : setShowModal(true);
   };
@@ -73,6 +75,7 @@ const Page = () => {
         <AddEventModal
           setShowModal={setShowModal}
           sendDateStr={sendDateStr}
+          allDayState={allDayState}
           defaultCheckId={"Schedule"}
         />
       ) : null}

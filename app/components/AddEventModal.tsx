@@ -16,15 +16,22 @@ const pageList = [
 type AddEventModal = {
   setShowModal: Dispatch<SetStateAction<boolean>>;
   sendDateStr: string;
+  allDayState: boolean;
   defaultCheckId: string;
 };
 
 const AddEventModal = ({
   setShowModal,
   sendDateStr,
+  allDayState,
   defaultCheckId,
 }: AddEventModal) => {
   const [defaultType, setDefaultType] = useState(defaultCheckId);
+  const [startDate, setStartDate] = useState(sendDateStr);
+  const [endDate, setEndDate] = useState(sendDateStr);
+
+  const [inDate, setInDate] = useState(sendDateStr.split("T")[0]);
+  const [inStartTime, setInStartTime] = useState(sendDateStr.split("T")[1]);
 
   return (
     <>
@@ -71,8 +78,56 @@ const AddEventModal = ({
                 })}
               </div>
 
-              <input type="datetime-local" />
-              <input type="datetime-local" />
+              <div className="">
+                {allDayState ? (
+                  <div className="">
+                    <input
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => {
+                        setStartDate(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => {
+                        setEndDate(e.target.value);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="">
+                    <input
+                      type="date"
+                      value={inDate}
+                      onChange={(e) => {
+                        setInDate(e.target.value);
+                      }}
+                    />
+                    <select
+                      name=""
+                      id=""
+                      value={inStartTime}
+                      onChange={(e) => {
+                        setInStartTime(e.target.value);
+                      }}
+                    >
+                      <option value="12:00am">12:00am</option>
+                      <option value="12:15am">12:15am</option>
+                      <option value="12:30am">12:30am</option>
+                      <option value="12:45am">12:45am</option>
+                    </select>
+                    <select name="" id="">
+                      <option value="12:00am">12:00am</option>
+                      <option value="12:15am">12:15am</option>
+                      <option value="12:30am">12:30am</option>
+                      <option value="12:45am">12:45am</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
               <textarea
                 cols={30}
                 rows={10}
