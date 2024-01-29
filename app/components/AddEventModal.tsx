@@ -33,6 +33,8 @@ const AddEventModal = ({
   const [inDate, setInDate] = useState(sendDateStr.split("T")[0]);
   const [inStartTime, setInStartTime] = useState(sendDateStr.split("T")[1]);
 
+  const [handleAllDayState, setHandleAllDayState] = useState(allDayState);
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -79,7 +81,7 @@ const AddEventModal = ({
               </div>
 
               <div className="">
-                {allDayState ? (
+                {handleAllDayState ? (
                   <div className="">
                     <input
                       type="date"
@@ -126,6 +128,15 @@ const AddEventModal = ({
                     </select>
                   </div>
                 )}
+                <input
+                  type="checkbox"
+                  id="allDayState"
+                  defaultChecked={handleAllDayState ? true : false}
+                  onChange={(e) => {
+                    setHandleAllDayState(e.target.checked);
+                  }}
+                />
+                <label htmlFor="allDayState">All day</label>
               </div>
 
               <textarea
