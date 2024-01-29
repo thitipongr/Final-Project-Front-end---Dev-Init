@@ -27,11 +27,33 @@ const AddEventModal = ({
   defaultCheckId,
 }: AddEventModal) => {
   const [defaultType, setDefaultType] = useState(defaultCheckId);
-  const [startDate, setStartDate] = useState(sendDateStr);
-  const [endDate, setEndDate] = useState(sendDateStr);
+  const [startDate, setStartDate] = useState(
+    new Date(sendDateStr).toLocaleDateString("en-CA")
+  );
+  const [endDate, setEndDate] = useState(
+    new Date(sendDateStr).toLocaleDateString("en-CA")
+  );
 
-  const [inDate, setInDate] = useState(sendDateStr.split("T")[0]);
-  const [inStartTime, setInStartTime] = useState(sendDateStr.split("T")[1]);
+  const [inDate, setInDate] = useState(
+    new Date(sendDateStr).toLocaleDateString("en-CA")
+  );
+  const [inStartTime, setInStartTime] = useState(
+    new Date(sendDateStr)
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace(" ", "")
+  );
+  const [inEndTime, setInEndTime] = useState(
+    new Date(new Date(sendDateStr).getTime() + 30 * 60000)
+      .toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+      .replace(" ", "")
+  );
+  console.log(inEndTime);
 
   const [handleAllDayState, setHandleAllDayState] = useState(allDayState);
 
@@ -114,17 +136,26 @@ const AddEventModal = ({
                       onChange={(e) => {
                         setInStartTime(e.target.value);
                       }}
-                    >
-                      <option value="12:00am">12:00am</option>
-                      <option value="12:15am">12:15am</option>
-                      <option value="12:30am">12:30am</option>
-                      <option value="12:45am">12:45am</option>
+                    >{}
+                      <option value="12:00AM">12:00AM</option>
+                      <option value="12:15AM">12:15AM</option>
+                      <option value="12:30AM">12:30AM</option>
+                      <option value="12:45AM">12:45AM</option>
+                      <option value="01:00AM">01:00AM</option>
                     </select>
-                    <select name="" id="">
-                      <option value="12:00am">12:00am</option>
-                      <option value="12:15am">12:15am</option>
-                      <option value="12:30am">12:30am</option>
-                      <option value="12:45am">12:45am</option>
+                    <select
+                      name=""
+                      id=""
+                      value={inEndTime}
+                      onChange={(e) => {
+                        setInEndTime(e.target.value);
+                      }}
+                    >
+                      <option value="12:00AM">12:00AM</option>
+                      <option value="12:15AM">12:15AM</option>
+                      <option value="12:30AM">12:30AM</option>
+                      <option value="12:45AM">12:45AM</option>
+                      <option value="01:00AM">01:00AM</option>
                     </select>
                   </div>
                 )}
