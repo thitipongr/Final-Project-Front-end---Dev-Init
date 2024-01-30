@@ -53,9 +53,38 @@ const AddEventModal = ({
       })
       .replace(" ", "")
   );
-  console.log(inEndTime);
 
   const [handleAllDayState, setHandleAllDayState] = useState(allDayState);
+
+  // Define start and end times
+  var startTime = new Date();
+  startTime.setHours(0, 0, 0, 0); // Set to 12:00 AM
+
+  var endTime = new Date();
+  endTime.setHours(23, 45, 0, 0); // Set to 11:45 PM
+
+  // Loop through the time intervals
+  var currentTime = new Date(startTime);
+  var timeIntervals = [];
+
+  while (currentTime <= endTime) {
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+
+    var am_pm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle midnight
+
+    var hoursStr = hours.toString().padStart(2, "0");
+    var minutesStr = minutes.toString().padStart(2, "0");
+
+    var timeString = hoursStr + ":" + minutesStr + am_pm;
+
+    timeIntervals.push(timeString);
+
+    // Increment time by 15 minutes
+    currentTime.setMinutes(currentTime.getMinutes() + 15);
+  }
 
   return (
     <>
@@ -136,12 +165,14 @@ const AddEventModal = ({
                       onChange={(e) => {
                         setInStartTime(e.target.value);
                       }}
-                    >{}
-                      <option value="12:00AM">12:00AM</option>
-                      <option value="12:15AM">12:15AM</option>
-                      <option value="12:30AM">12:30AM</option>
-                      <option value="12:45AM">12:45AM</option>
-                      <option value="01:00AM">01:00AM</option>
+                    >
+                      {timeIntervals.map((data) => {
+                        return (
+                          <option key={data} value={data}>
+                            {data}
+                          </option>
+                        );
+                      })}
                     </select>
                     <select
                       name=""
@@ -151,11 +182,13 @@ const AddEventModal = ({
                         setInEndTime(e.target.value);
                       }}
                     >
-                      <option value="12:00AM">12:00AM</option>
-                      <option value="12:15AM">12:15AM</option>
-                      <option value="12:30AM">12:30AM</option>
-                      <option value="12:45AM">12:45AM</option>
-                      <option value="01:00AM">01:00AM</option>
+                      {timeIntervals.map((data) => {
+                        return (
+                          <option key={data} value={data}>
+                            {data}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 )}
