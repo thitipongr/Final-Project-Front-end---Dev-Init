@@ -13,6 +13,105 @@ const pageList = [
   },
 ];
 
+const timeIntervals = [
+  "12:00AM",
+  "12:15AM",
+  "12:30AM",
+  "12:45AM",
+  "01:00AM",
+  "01:15AM",
+  "01:30AM",
+  "01:45AM",
+  "02:00AM",
+  "02:15AM",
+  "02:30AM",
+  "02:45AM",
+  "03:00AM",
+  "03:15AM",
+  "03:30AM",
+  "03:45AM",
+  "04:00AM",
+  "04:15AM",
+  "04:30AM",
+  "04:45AM",
+  "05:00AM",
+  "05:15AM",
+  "05:30AM",
+  "05:45AM",
+  "06:00AM",
+  "06:15AM",
+  "06:30AM",
+  "06:45AM",
+  "07:00AM",
+  "07:15AM",
+  "07:30AM",
+  "07:45AM",
+  "08:00AM",
+  "08:15AM",
+  "08:30AM",
+  "08:45AM",
+  "09:00AM",
+  "09:15AM",
+  "09:30AM",
+  "09:45AM",
+  "10:00AM",
+  "10:15AM",
+  "10:30AM",
+  "10:45AM",
+  "11:00AM",
+  "11:15AM",
+  "11:30AM",
+  "11:45AM",
+  "12:00PM",
+  "12:15PM",
+  "12:30PM",
+  "12:45PM",
+  "01:00PM",
+  "01:15PM",
+  "01:30PM",
+  "01:45PM",
+  "02:00PM",
+  "02:15PM",
+  "02:30PM",
+  "02:45PM",
+  "03:00PM",
+  "03:15PM",
+  "03:30PM",
+  "03:45PM",
+  "04:00PM",
+  "04:15PM",
+  "04:30PM",
+  "04:45PM",
+  "05:00PM",
+  "05:15PM",
+  "05:30PM",
+  "05:45PM",
+  "06:00PM",
+  "06:15PM",
+  "06:30PM",
+  "06:45PM",
+  "07:00PM",
+  "07:15PM",
+  "07:30PM",
+  "07:45PM",
+  "08:00PM",
+  "08:15PM",
+  "08:30PM",
+  "08:45PM",
+  "09:00PM",
+  "09:15PM",
+  "09:30PM",
+  "09:45PM",
+  "10:00PM",
+  "10:15PM",
+  "10:30PM",
+  "10:45PM",
+  "11:00PM",
+  "11:15PM",
+  "11:30PM",
+  "11:45PM",
+];
+
 type AddEventModal = {
   setShowModal: Dispatch<SetStateAction<boolean>>;
   sendDateStr: string;
@@ -56,60 +155,17 @@ const AddEventModal = ({
 
   const [handleAllDayState, setHandleAllDayState] = useState(allDayState);
 
-  // Define start and end times
-  var startTime = new Date();
-  startTime.setHours(0, 0, 0, 0); // Set to 12:00 AM
-
-  var endTime = new Date();
-  endTime.setHours(23, 45, 0, 0); // Set to 11:45 PM
-
-  // Loop through the time intervals
-  var currentTime = new Date(startTime);
-  var timeIntervals = [];
-
-  while (currentTime <= endTime) {
-    var hours = currentTime.getHours();
-    var minutes = currentTime.getMinutes();
-
-    var am_pm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // Handle midnight
-
-    var hoursStr = hours.toString().padStart(2, "0");
-    var minutesStr = minutes.toString().padStart(2, "0");
-
-    var timeString = hoursStr + ":" + minutesStr + am_pm;
-
-    timeIntervals.push(timeString);
-
-    // Increment time by 15 minutes
-    currentTime.setMinutes(currentTime.getMinutes() + 15);
-  }
-
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-          {/*content*/}
+        <div className="relative w-[300px]">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            {/*header*/}
-            <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+            <div className="relative p-2 flex-auto space-y-2">
               <input
                 type="text"
                 placeholder="Add title"
                 className="w-full py-1 border-b focus:outline-none focus:border-cyan-900"
               />
-              <button
-                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                onClick={() => setShowModal(false)}
-              >
-                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                  ×
-                </span>
-              </button>
-            </div>
-            {/*body*/}
-            <div className="relative p-6 flex-auto">
               <div className="space-x-2">
                 {pageList.map((list, key) => {
                   return (
@@ -133,8 +189,9 @@ const AddEventModal = ({
 
               <div className="">
                 {handleAllDayState ? (
-                  <div className="">
+                  <div className="space-y-2">
                     <input
+                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                       type="date"
                       value={startDate}
                       onChange={(e) => {
@@ -142,6 +199,7 @@ const AddEventModal = ({
                       }}
                     />
                     <input
+                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                       type="date"
                       value={endDate}
                       onChange={(e) => {
@@ -150,8 +208,9 @@ const AddEventModal = ({
                     />
                   </div>
                 ) : (
-                  <div className="">
+                  <div className="space-y-2">
                     <input
+                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                       type="date"
                       value={inDate}
                       onChange={(e) => {
@@ -159,6 +218,7 @@ const AddEventModal = ({
                       }}
                     />
                     <select
+                      className="px-3 py-2 h-[44px] w-1/2 border rounded-xl focus:outline-none focus:border-cyan-900"
                       name=""
                       id=""
                       value={inStartTime}
@@ -175,6 +235,7 @@ const AddEventModal = ({
                       })}
                     </select>
                     <select
+                      className="px-3 py-2 h-[44px] w-1/2 border rounded-xl focus:outline-none focus:border-cyan-900"
                       name=""
                       id=""
                       value={inEndTime}
@@ -193,6 +254,7 @@ const AddEventModal = ({
                   </div>
                 )}
                 <input
+                className="mt-3 mr-1"
                   type="checkbox"
                   id="allDayState"
                   defaultChecked={handleAllDayState ? true : false}
@@ -204,15 +266,13 @@ const AddEventModal = ({
               </div>
 
               <textarea
-                cols={30}
-                rows={10}
+                rows={3}
+                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                 placeholder="Add description"
               ></textarea>
-
-              <p className="my-4 text-blueGray-500 text-lg">{sendDateStr}</p>
             </div>
             {/*footer*/}
-            <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+            <div className="flex items-center justify-end p-2 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
@@ -225,7 +285,7 @@ const AddEventModal = ({
                 type="button"
                 onClick={() => setShowModal(false)}
               >
-                Save Changes
+                Save
               </button>
             </div>
           </div>
