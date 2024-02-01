@@ -117,6 +117,8 @@ type AddEventModal = {
   sendDateStr: string;
   allDayState: boolean;
   defaultCheckId: string;
+  calendarEvents: {}[];
+  setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
 };
 
 const AddEventModal = ({
@@ -124,6 +126,8 @@ const AddEventModal = ({
   sendDateStr,
   allDayState,
   defaultCheckId,
+  calendarEvents,
+  setCalendarEvents,
 }: AddEventModal) => {
   const [defaultType, setDefaultType] = useState(defaultCheckId);
   const [startDate, setStartDate] = useState(
@@ -155,6 +159,8 @@ const AddEventModal = ({
 
   const [handleAllDayState, setHandleAllDayState] = useState(allDayState);
 
+  const [eventTitle, setEventTitle] = useState("");
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -165,6 +171,10 @@ const AddEventModal = ({
                 type="text"
                 placeholder="Add title"
                 className="w-full py-1 border-b focus:outline-none focus:border-cyan-900"
+                value={eventTitle}
+                onChange={(e) => {
+                  setEventTitle(e.target.value);
+                }}
               />
               <div className="space-x-2">
                 {pageList.map((list, key) => {
@@ -254,7 +264,7 @@ const AddEventModal = ({
                   </div>
                 )}
                 <input
-                className="mt-3 mr-1"
+                  className="mt-3 mr-1"
                   type="checkbox"
                   id="allDayState"
                   defaultChecked={handleAllDayState ? true : false}
@@ -283,7 +293,14 @@ const AddEventModal = ({
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  const oldEvent = calendarEvents;
+                  const newEvent = [{ title: eventTitle, date: startDate }];
+                  const addEvent = [...oldEvent, ...newEvent];
+
+                  setCalendarEvents(addEvent);
+                  setShowModal(false);
+                }}
               >
                 Save
               </button>

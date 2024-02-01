@@ -25,6 +25,8 @@ const Page = () => {
     showModal ? setShowModal(false) : setShowModal(true);
   };
 
+  const [calendarEvents, setCalendarEvents] = useState([{}]);
+
   return (
     <div className="inline">
       <FullCalendar
@@ -53,10 +55,7 @@ const Page = () => {
           day: "Day",
         }}
         dateClick={handleDateClick}
-        events={[
-          { title: "event 1", date: "2024-01-01" },
-          { title: "event 2", date: "2024-01-01" },
-        ]}
+        events={calendarEvents}
         nowIndicator={true}
         editable={true}
         droppable={true}
@@ -77,6 +76,8 @@ const Page = () => {
           sendDateStr={sendDateStr}
           allDayState={allDayState}
           defaultCheckId={"Schedule"}
+          calendarEvents={calendarEvents}
+          setCalendarEvents={setCalendarEvents}
         />
       ) : null}
     </div>
