@@ -114,8 +114,7 @@ const timeIntervals = [
 
 type AddEventModal = {
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  sendDateStr: string;
-  allDayState: boolean;
+  getDataToModal: { allDay: boolean; startStr: string; endStr: string };
   defaultCheckId: string;
   calendarEvents: {}[];
   setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
@@ -123,25 +122,32 @@ type AddEventModal = {
 
 const AddEventModal = ({
   setShowModal,
-  sendDateStr,
-  allDayState,
+  getDataToModal,
   defaultCheckId,
   calendarEvents,
   setCalendarEvents,
 }: AddEventModal) => {
+  console.log(getDataToModal);
+
   const [defaultType, setDefaultType] = useState(defaultCheckId);
   const [startDate, setStartDate] = useState(
-    new Date(sendDateStr).toLocaleDateString("en-CA")
+    new Date(getDataToModal.startStr).toLocaleDateString("en-CA")
   );
   const [endDate, setEndDate] = useState(
-    new Date(sendDateStr).toLocaleDateString("en-CA")
+    new Date(
+      getDataToModal.allDay
+        ? new Date(getDataToModal.endStr).setDate(
+            new Date(getDataToModal.endStr).getDate() - 1
+          )
+        : getDataToModal.endStr
+    ).toLocaleDateString("en-CA")
   );
 
   const [inDate, setInDate] = useState(
-    new Date(sendDateStr).toLocaleDateString("en-CA")
+    new Date(getDataToModal.startStr).toLocaleDateString("en-CA")
   );
   const [inStartTime, setInStartTime] = useState(
-    new Date(sendDateStr)
+    new Date(getDataToModal.startStr)
       .toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -149,7 +155,7 @@ const AddEventModal = ({
       .replace(" ", "")
   );
   const [inEndTime, setInEndTime] = useState(
-    new Date(new Date(sendDateStr).getTime() + 30 * 60000)
+    new Date(getDataToModal.endStr)
       .toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
@@ -157,14 +163,16 @@ const AddEventModal = ({
       .replace(" ", "")
   );
 
-  const [handleAllDayState, setHandleAllDayState] = useState(allDayState);
+  const [handleAllDayState, setHandleAllDayState] = useState(
+    getDataToModal.allDay
+  );
 
   const [eventTitle, setEventTitle] = useState("");
 
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-[300px]">
+        <div className="relative w-[315px]">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="relative p-2 flex-auto space-y-2">
               <input
@@ -217,7 +225,7 @@ const AddEventModal = ({
                       }}
                     />
                   </div>
-                ) : (
+                ) : startDate === endDate ? (
                   <div className="space-y-2">
                     <input
                       className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
@@ -261,6 +269,25 @@ const AddEventModal = ({
                         );
                       })}
                     </select>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <input
+                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                      type="datetime-local"
+                      value={getDataToModal.startStr.replace(":00+07:00", "")}
+                      onChange={(e) => {
+                        setInDate(e.target.value);
+                      }}
+                    />
+                    <input
+                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                      type="datetime-local"
+                      value={getDataToModal.endStr.replace(":00+07:00", "")}
+                      onChange={(e) => {
+                        setInDate(e.target.value);
+                      }}
+                    />
                   </div>
                 )}
                 <input

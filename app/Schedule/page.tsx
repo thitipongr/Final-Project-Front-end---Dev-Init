@@ -16,13 +16,24 @@ const Page = () => {
   }
 
   const [showModal, setShowModal] = useState(false);
-  const [sendDateStr, setSendDateStr] = useState("");
-  const [allDayState, setAllDayState] = useState(false);
 
-  const handleDateClick = (args: any) => {
-    args.dateStr.includes("T") ? setAllDayState(false) : setAllDayState(true);
-    setSendDateStr(args.dateStr);
-    showModal ? setShowModal(false) : setShowModal(true);
+  const [sendDataToModal, setSendDataToModal] = useState({
+    allDay: false,
+    startStr: "",
+    endStr: "",
+  });
+
+  const handleDateSelect = (args: any) => {
+    const rewriteEndStr = new Date(args.endStr);
+    rewriteEndStr.setDate(rewriteEndStr.getDate() - 1);
+
+    const packData = {
+      allDay: args.allDay,
+      startStr: args.startStr,
+      endStr: args.endStr,
+    };
+    setSendDataToModal(packData);
+    setShowModal(true);
   };
 
   const [calendarEvents, setCalendarEvents] = useState([{}]);
@@ -54,7 +65,7 @@ const Page = () => {
           week: "Week",
           day: "Day",
         }}
-        dateClick={handleDateClick}
+        select={handleDateSelect}
         events={calendarEvents}
         nowIndicator={true}
         editable={true}
@@ -69,12 +80,15 @@ const Page = () => {
             : calendarApi.changeView("dayGridMonth");
           calendarApi.view.calendar;
         }}
+        dayMaxEvents
+        eventClick={(event) => {
+          alert("heehe");
+        }}
       />
       {showModal ? (
         <AddEventModal
           setShowModal={setShowModal}
-          sendDateStr={sendDateStr}
-          allDayState={allDayState}
+          getDataToModal={sendDataToModal}
           defaultCheckId={"Schedule"}
           calendarEvents={calendarEvents}
           setCalendarEvents={setCalendarEvents}
