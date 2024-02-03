@@ -67,6 +67,11 @@ const Page = () => {
         }}
         select={handleDateSelect}
         events={calendarEvents}
+        eventTimeFormat={{
+          hour: "numeric",
+          minute: "2-digit",
+          meridiem: "short",
+        }}
         nowIndicator={true}
         editable={true}
         droppable={true}
@@ -82,7 +87,7 @@ const Page = () => {
         }}
         dayMaxEvents
         eventClick={(event) => {
-          alert("heehe");
+          alert(`${event.event.start} - ${event.event.end}`);
         }}
       />
       {showModal ? (
