@@ -40,7 +40,7 @@ const AddEventModal = ({
           new Date(getDataToModal.endStr).setDate(
             new Date(getDataToModal.endStr).getDate() - 1
           )
-        ).toLocaleDateString("en-CA")}T00:30`
+        ).toLocaleDateString("en-CA")}T00:00`
       : getDataToModal.endStr
   );
 
@@ -180,7 +180,13 @@ const AddEventModal = ({
                             new Date(endPeriod).getDate() + 1
                           )
                         : new Date(endPeriod),
-                      allDay: allDayState,
+                      allDay: allDayState
+                        ? allDayState
+                        : startPeriod.split("T")[1] ===
+                            endPeriod.split("T")[1] &&
+                          endPeriod.split("T")[1] === "00:00"
+                        ? true
+                        : false,
                       description: eventDescription,
                     },
                   ];
