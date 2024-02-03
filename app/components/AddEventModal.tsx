@@ -40,7 +40,18 @@ const AddEventModal = ({
           new Date(getDataToModal.endStr).setDate(
             new Date(getDataToModal.endStr).getDate() - 1
           )
-        ).toLocaleDateString("en-CA")}T00:00`
+        ).toLocaleDateString("en-CA")}T00:${
+          startPeriod.split("T")[0] ===
+          new Date(
+            new Date(getDataToModal.endStr).setDate(
+              new Date(getDataToModal.endStr).getDate() - 1
+            )
+          )
+            .toLocaleDateString("en-CA")
+            .split("T")[0]
+            ? "30"
+            : "00"
+        }`
       : getDataToModal.endStr
   );
 
@@ -84,7 +95,6 @@ const AddEventModal = ({
                   );
                 })}
               </div>
-
               <div className="">
                 {allDayState ? (
                   <div className="space-y-2">
@@ -110,11 +120,7 @@ const AddEventModal = ({
                     <input
                       className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                       type="datetime-local"
-                      value={
-                        startPeriod.includes("T")
-                          ? startPeriod.replace(":00+07:00", "")
-                          : `${startPeriod}T00:00`
-                      }
+                      value={startPeriod.replace(":00+07:00", "")}
                       onChange={(e) => {
                         setStartPeriod(e.target.value);
                       }}
@@ -123,9 +129,13 @@ const AddEventModal = ({
                       className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                       type="datetime-local"
                       value={
-                        endPeriod.includes("T")
-                          ? endPeriod.replace(":00+07:00", "")
-                          : `${endPeriod}T00:00`
+                        startPeriod.split("T")[0] === endPeriod.split("T")[0]
+                          ? endPeriod
+                              .replace(":00", ":30")
+                              .replace(":30+07:00", "")
+                          : endPeriod
+                              .replace(":00", ":00")
+                              .replace(":00+07:00", "")
                       }
                       onChange={(e) => {
                         setEndPeriod(e.target.value);
@@ -142,7 +152,7 @@ const AddEventModal = ({
                     setAllDayState(e.target.checked);
                   }}
                 />
-                <label htmlFor="allDayState">All day</label>
+                <label htmlFor="allDayState">ALL DAY</label>
               </div>
 
               <textarea
