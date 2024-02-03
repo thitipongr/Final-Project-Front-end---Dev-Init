@@ -87,7 +87,9 @@ const Page = () => {
         }}
         dayMaxEvents
         eventClick={(event) => {
-          alert(`${event.event.start} - ${event.event.end}`);
+          alert(
+            `${event.event.start} - ${event.event.end} - ${event.event.extendedProps.description}`
+          );
         }}
       />
       {showModal ? (

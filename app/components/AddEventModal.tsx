@@ -30,23 +30,24 @@ const AddEventModal = ({
 }: AddEventModal) => {
   const [defaultType, setDefaultType] = useState(defaultCheckId);
   const [startPeriod, setStartPeriod] = useState(
-    getDataToModal.allDay
-      ? new Date(getDataToModal.startStr).toLocaleDateString("en-CA")
+    !getDataToModal.startStr.includes("T")
+      ? `${getDataToModal.startStr}T00:00`
       : getDataToModal.startStr
   );
   const [endPeriod, setEndPeriod] = useState(
-    getDataToModal.allDay
-      ? new Date(
+    !getDataToModal.endStr.includes("T")
+      ? `${new Date(
           new Date(getDataToModal.endStr).setDate(
             new Date(getDataToModal.endStr).getDate() - 1
           )
-        ).toLocaleDateString("en-CA")
+        ).toLocaleDateString("en-CA")}T00:30`
       : getDataToModal.endStr
   );
 
   const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
 
   const [eventTitle, setEventTitle] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
 
   return (
     <>
@@ -112,7 +113,7 @@ const AddEventModal = ({
                       value={
                         startPeriod.includes("T")
                           ? startPeriod.replace(":00+07:00", "")
-                          : `${startPeriod}T12:00`
+                          : `${startPeriod}T00:00`
                       }
                       onChange={(e) => {
                         setStartPeriod(e.target.value);
@@ -124,7 +125,7 @@ const AddEventModal = ({
                       value={
                         endPeriod.includes("T")
                           ? endPeriod.replace(":00+07:00", "")
-                          : `${endPeriod}T12:00`
+                          : `${endPeriod}T00:00`
                       }
                       onChange={(e) => {
                         setEndPeriod(e.target.value);
@@ -148,6 +149,10 @@ const AddEventModal = ({
                 rows={3}
                 className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                 placeholder="Add description"
+                value={eventDescription}
+                onChange={(e) => {
+                  setEventDescription(e.target.value);
+                }}
               ></textarea>
             </div>
             {/*footer*/}
@@ -176,6 +181,7 @@ const AddEventModal = ({
                           )
                         : new Date(endPeriod),
                       allDay: allDayState,
+                      description: eventDescription,
                     },
                   ];
                   const addEvent = [...oldEvent, ...newEvent];
