@@ -28,6 +28,7 @@ const AddEventModal = ({
   calendarEvents,
   setCalendarEvents,
 }: AddEventModal) => {
+
   const [defaultType, setDefaultType] = useState(defaultCheckId);
   const [startPeriod, setStartPeriod] = useState(
     !getDataToModal.startStr.includes("T")
@@ -136,12 +137,12 @@ const AddEventModal = ({
                       type="datetime-local"
                       value={
                         startPeriod.split("T")[0] === endPeriod.split("T")[0]
-                          ? endPeriod
-                              .replace(":00", ":30")
-                              .replace(":30+07:00", "")
-                          : endPeriod
-                              .replace(":00", ":00")
-                              .replace(":00+07:00", "")
+                          ? endPeriod.includes("T")
+                            ? endPeriod.replace(":00+07:00", "")
+                            : endPeriod
+                                .replace(":00", ":30")
+                                .replace(":30+07:00", "")
+                          : endPeriod.replace(":00+07:00", "")
                       }
                       onChange={(e) => {
                         setEndPeriod(e.target.value);
