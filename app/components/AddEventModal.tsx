@@ -67,9 +67,15 @@ const AddEventModal = ({
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="relative p-2 flex-auto space-y-2">
               <input
+                autoFocus
                 type="text"
                 placeholder="Add title"
-                className="w-full py-1 border-b focus:outline-none focus:border-cyan-900"
+                className={clsx(
+                  "w-full py-1 border-b focus:outline-none focus:border-cyan-900",
+                  {
+                    "border-red-500": eventTitle === "",
+                  }
+                )}
                 value={eventTitle}
                 onChange={(e) => {
                   setEventTitle(e.target.value);
@@ -157,7 +163,7 @@ const AddEventModal = ({
 
               <textarea
                 rows={3}
-                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
                 placeholder="Add description"
                 value={eventDescription}
                 onChange={(e) => {
@@ -175,7 +181,11 @@ const AddEventModal = ({
                 Close
               </button>
               <button
-                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                disabled={eventTitle === "" ? true : false}
+                className={clsx(
+                  "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 disabled:opacity-50",
+                  {}
+                )}
                 type="button"
                 onClick={() => {
                   const oldEvent = calendarEvents;
