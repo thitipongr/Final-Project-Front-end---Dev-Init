@@ -28,7 +28,9 @@ const AddEventModal = ({
   calendarEvents,
   setCalendarEvents,
 }: AddEventModal) => {
-  const [defaultType, setDefaultType] = useState(defaultCheckId);
+  const [addingType, setAddingType] = useState(defaultCheckId);
+
+  // Schedule
   const [startPeriod, setStartPeriod] = useState(
     !getDataToModal.startStr.includes("T")
       ? `${getDataToModal.startStr}T00:00`
@@ -60,137 +62,191 @@ const AddEventModal = ({
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
 
+  // Journal
+  const [journalDate, setJournalDate] = useState(
+    new Date().toLocaleString("sv-SE").replace(" ", "T").slice(0, -3)
+  );
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-[315px]">
-          <div className="border-0 rounded-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-            <div className="relative p-2 flex-auto space-y-2">
-              <input
-                autoFocus
-                type="text"
-                placeholder="Add title"
-                className={clsx(
-                  "w-full py-1 border-b focus:outline-none focus:border-cyan-900",
-                  {
-                    "border-red-500": eventTitle === "",
-                  }
-                )}
-                value={eventTitle}
-                onChange={(e) => {
-                  setEventTitle(e.target.value);
-                }}
-              />
-              <div className="space-x-2">
-                {pageList.map((list, key) => {
-                  return (
-                    <button
-                      key={key}
-                      className={clsx(
-                        "h-9 px-2 border-0 rounded-lg bg-slate-100",
-                        {
-                          "bg-slate-400": defaultType === list.displayName,
-                        }
-                      )}
-                      onClick={() => {
-                        setDefaultType(list.displayName);
-                      }}
-                    >
-                      {list.displayName}
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="">
-                {allDayState ? (
-                  <div className="space-y-2">
-                    <input
-                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
-                      type="date"
-                      value={startPeriod.split("T")[0]}
-                      onChange={(e) => {
-                        setStartPeriod(e.target.value);
-                        if (
-                          new Date(e.target.value).getTime() >
-                          new Date(endPeriod).getTime()
-                        )
-                          setEndPeriod(e.target.value);
-                      }}
-                    />
-                    <input
-                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
-                      type="date"
-                      value={endPeriod.split("T")[0]}
-                      onChange={(e) => {
-                        setEndPeriod(e.target.value);
-                      }}
-                      min={startPeriod.split("T")[0]}
-                    />
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <input
-                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
-                      type="datetime-local"
-                      value={
-                        startPeriod.includes("T")
-                          ? startPeriod.replace(":00+07:00", "")
-                          : startPeriod + "T00:00"
-                      }
-                      onChange={(e) => {
-                        setStartPeriod(e.target.value);
-                        if (
-                          new Date(e.target.value).getTime() >
-                          new Date(endPeriod).getTime()
-                        )
-                          setEndPeriod(e.target.value);
-                      }}
-                    />
-                    <input
-                      className={clsx(
-                        "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
-                        {
-                          "border-red-500": startPeriod >= endPeriod,
-                        }
-                      )}
-                      type="datetime-local"
-                      value={
-                        startPeriod.split("T")[0] === endPeriod.split("T")[0]
-                          ? endPeriod.includes("T")
-                            ? endPeriod.replace(":00+07:00", "")
-                            : endPeriod + "T00:00"
-                          : endPeriod.includes("T")
-                          ? endPeriod.replace(":00+07:00", "")
-                          : endPeriod + "T00:00"
-                      }
-                      onChange={(e) => {
-                        setEndPeriod(e.target.value);
-                      }}
-                      min={startPeriod}
-                    />
-                  </div>
-                )}
+        <div className="relative w-[315px] ">
+          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none">
+            <div className="relative p-2 flex flex-col space-y-2 h-full">
+              <div className="flex flex-col space-y-2">
                 <input
-                  className="mt-3 mr-1"
-                  type="checkbox"
-                  id="allDayState"
-                  defaultChecked={allDayState ? true : false}
+                  autoFocus
+                  type="text"
+                  placeholder="Add title"
+                  className={clsx(
+                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900",
+                    {
+                      "border-red-500": eventTitle === "",
+                    }
+                  )}
+                  value={eventTitle}
                   onChange={(e) => {
-                    setAllDayState(e.target.checked);
+                    setEventTitle(e.target.value);
                   }}
                 />
-                <label htmlFor="allDayState">ALL DAY</label>
-              </div>
 
-              <textarea
-                rows={3}
-                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
-                placeholder="Add description"
-                value={eventDescription}
-                onChange={(e) => {
-                  setEventDescription(e.target.value);
-                }}
-              ></textarea>
+                <div className="space-x-2">
+                  {pageList.map((list, key) => {
+                    return (
+                      <button
+                        key={key}
+                        className={clsx(
+                          "h-9 px-2 border-0 rounded-lg bg-slate-100",
+                          {
+                            "bg-slate-400": addingType === list.displayName,
+                          }
+                        )}
+                        onClick={() => {
+                          setAddingType(list.displayName);
+                        }}
+                      >
+                        {list.displayName}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex-1">
+                {
+                  {
+                    Schedule: (
+                      <div className="space-y-2 flex flex-col h-full">
+                        <div className="">
+                          {allDayState ? (
+                            <div className="space-y-2">
+                              <input
+                                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                                type="date"
+                                value={startPeriod.split("T")[0]}
+                                onChange={(e) => {
+                                  setStartPeriod(e.target.value);
+                                  if (
+                                    new Date(e.target.value).getTime() >
+                                      new Date(endPeriod).getTime() ||
+                                    isNaN(new Date(endPeriod).getTime()) ||
+                                    isNaN(new Date(startPeriod).getTime())
+                                  )
+                                    setEndPeriod(e.target.value);
+                                }}
+                              />
+                              <input
+                                className={clsx(
+                                  "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
+                                  {
+                                    "border-red-500": startPeriod >= endPeriod,
+                                  }
+                                )}
+                                type="date"
+                                value={endPeriod.split("T")[0]}
+                                onChange={(e) => {
+                                  setEndPeriod(e.target.value);
+                                }}
+                                min={startPeriod.split("T")[0]}
+                              />
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              <input
+                                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                                type="datetime-local"
+                                value={
+                                  startPeriod.includes("T")
+                                    ? startPeriod.replace(":00+07:00", "")
+                                    : startPeriod === ""
+                                    ? startPeriod
+                                    : startPeriod + "T00:00"
+                                }
+                                onChange={(e) => {
+                                  setStartPeriod(e.target.value);
+                                  if (
+                                    new Date(e.target.value).getTime() >
+                                      new Date(endPeriod).getTime() ||
+                                    isNaN(new Date(endPeriod).getTime()) ||
+                                    isNaN(new Date(startPeriod).getTime())
+                                  )
+                                    setEndPeriod(e.target.value);
+                                }}
+                              />
+                              <input
+                                className={clsx(
+                                  "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
+                                  {
+                                    "border-red-500": startPeriod >= endPeriod,
+                                  }
+                                )}
+                                type="datetime-local"
+                                value={
+                                  startPeriod.split("T")[0] ===
+                                  endPeriod.split("T")[0]
+                                    ? endPeriod.includes("T")
+                                      ? endPeriod.replace(":00+07:00", "")
+                                      : endPeriod + "T00:00"
+                                    : endPeriod.includes("T")
+                                    ? endPeriod.replace(":00+07:00", "")
+                                    : endPeriod + "T00:00"
+                                }
+                                onChange={(e) => {
+                                  setEndPeriod(e.target.value);
+                                }}
+                                min={startPeriod}
+                              />
+                            </div>
+                          )}
+                          <input
+                            className="mt-3 mr-1"
+                            type="checkbox"
+                            id="allDayState"
+                            defaultChecked={allDayState ? true : false}
+                            onChange={(e) => {
+                              setAllDayState(e.target.checked);
+                            }}
+                          />
+                          <label htmlFor="allDayState">ALL DAY</label>
+                        </div>
+                        <div className="flex-1">
+                          <textarea
+                            className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
+                            placeholder="Add description"
+                            value={eventDescription}
+                            onChange={(e) => {
+                              setEventDescription(e.target.value);
+                            }}
+                          ></textarea>
+                        </div>
+                      </div>
+                    ),
+                    Journal: (
+                      <div className="space-y-2 flex flex-col h-full">
+                        <div className="">
+                          <input
+                            type="datetime-local"
+                            className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                            value={journalDate}
+                            onChange={(e) => {
+                              setJournalDate(e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <textarea
+                            className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
+                            placeholder="Add description"
+                            value={eventDescription}
+                            onChange={(e) => {
+                              setEventDescription(e.target.value);
+                            }}
+                          ></textarea>
+                        </div>
+                      </div>
+                    ),
+                  }[addingType]
+                }
+              </div>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-2 border-t border-solid border-blueGray-200 rounded-b">
@@ -203,7 +259,11 @@ const AddEventModal = ({
               </button>
               <button
                 disabled={
-                  eventTitle !== "" && startPeriod < endPeriod ? false : true
+                  eventTitle !== "" &&
+                  new Date(startPeriod).getTime() <
+                    new Date(endPeriod).getTime()
+                    ? false
+                    : true
                 }
                 className={
                   "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
