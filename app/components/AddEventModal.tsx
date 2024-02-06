@@ -28,7 +28,6 @@ const AddEventModal = ({
   calendarEvents,
   setCalendarEvents,
 }: AddEventModal) => {
-
   const [defaultType, setDefaultType] = useState(defaultCheckId);
   const [startPeriod, setStartPeriod] = useState(
     !getDataToModal.startStr.includes("T")
@@ -65,7 +64,7 @@ const AddEventModal = ({
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-[315px]">
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="relative p-2 flex-auto space-y-2">
               <input
                 autoFocus
@@ -111,6 +110,11 @@ const AddEventModal = ({
                       value={startPeriod.split("T")[0]}
                       onChange={(e) => {
                         setStartPeriod(e.target.value);
+                        if (
+                          new Date(e.target.value).getTime() >
+                          new Date(endPeriod).getTime()
+                        )
+                          setEndPeriod(e.target.value);
                       }}
                     />
                     <input
@@ -120,6 +124,7 @@ const AddEventModal = ({
                       onChange={(e) => {
                         setEndPeriod(e.target.value);
                       }}
+                      min={startPeriod.split("T")[0]}
                     />
                   </div>
                 ) : (
@@ -127,26 +132,41 @@ const AddEventModal = ({
                     <input
                       className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                       type="datetime-local"
-                      value={startPeriod.replace(":00+07:00", "")}
+                      value={
+                        startPeriod.includes("T")
+                          ? startPeriod.replace(":00+07:00", "")
+                          : startPeriod + "T00:00"
+                      }
                       onChange={(e) => {
                         setStartPeriod(e.target.value);
+                        if (
+                          new Date(e.target.value).getTime() >
+                          new Date(endPeriod).getTime()
+                        )
+                          setEndPeriod(e.target.value);
                       }}
                     />
                     <input
-                      className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                      className={clsx(
+                        "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
+                        {
+                          "border-red-500": startPeriod >= endPeriod,
+                        }
+                      )}
                       type="datetime-local"
                       value={
                         startPeriod.split("T")[0] === endPeriod.split("T")[0]
                           ? endPeriod.includes("T")
                             ? endPeriod.replace(":00+07:00", "")
-                            : endPeriod
-                                .replace(":00", ":30")
-                                .replace(":30+07:00", "")
-                          : endPeriod.replace(":00+07:00", "")
+                            : endPeriod + "T00:00"
+                          : endPeriod.includes("T")
+                          ? endPeriod.replace(":00+07:00", "")
+                          : endPeriod + "T00:00"
                       }
                       onChange={(e) => {
                         setEndPeriod(e.target.value);
                       }}
+                      min={startPeriod}
                     />
                   </div>
                 )}
@@ -175,18 +195,19 @@ const AddEventModal = ({
             {/*footer*/}
             <div className="flex items-center justify-end p-2 border-t border-solid border-blueGray-200 rounded-b">
               <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
                 type="button"
                 onClick={() => setShowModal(false)}
               >
                 Close
               </button>
               <button
-                disabled={eventTitle === "" ? true : false}
-                className={clsx(
-                  "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 disabled:opacity-50",
-                  {}
-                )}
+                disabled={
+                  eventTitle !== "" && startPeriod < endPeriod ? false : true
+                }
+                className={
+                  "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                }
                 type="button"
                 onClick={() => {
                   const oldEvent = calendarEvents;
