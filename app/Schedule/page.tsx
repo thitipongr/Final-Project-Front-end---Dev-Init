@@ -5,8 +5,7 @@ import React, { useRef, useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import AddEventModal from "../components/modal/AddEventModal";
-import Modal from "../components/modal/Modal";
+import AddEventModal from "../components/AddEventModal";
 
 const Page = () => {
   const calendarRef = useRef<FullCalendar>(null!);
@@ -94,10 +93,10 @@ const Page = () => {
         }}
       />
       {showModal ? (
-        <Modal
+        <AddEventModal
           setShowModal={setShowModal}
           getDataToModal={sendDataToModal}
-          defaultCheckId={"Add_Schedule"}
+          defaultCheckId={"Schedule"}
           calendarEvents={calendarEvents}
           setCalendarEvents={setCalendarEvents}
         />
