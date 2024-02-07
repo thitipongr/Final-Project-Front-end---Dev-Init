@@ -6,6 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import AddEventModal from "../components/AddEventModal";
+import ShowEventModal from "../components/ShowEventModal";
 
 const Page = () => {
   const calendarRef = useRef<FullCalendar>(null!);
@@ -15,7 +16,8 @@ const Page = () => {
     defaultView = window.innerWidth <= 768 ? "timeGridDay" : "dayGridMonth";
   }
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAddingModal, setShowAddingModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
 
   const [sendDataToModal, setSendDataToModal] = useState({
     allDay: false,
@@ -33,7 +35,7 @@ const Page = () => {
       endStr: args.endStr,
     };
     setSendDataToModal(packData);
-    setShowModal(true);
+    setShowAddingModal(true);
   };
 
   const [calendarEvents, setCalendarEvents] = useState([{}]);
@@ -87,19 +89,24 @@ const Page = () => {
         }}
         dayMaxEvents
         eventClick={(event) => {
+          console.log(event.event);
           alert(
-            `${event.event.start} - ${event.event.end} - ${event.event.extendedProps.description}`
+            `${event.event.start} - ${event.event.end} - ${event.event.extendedProps.description} - ${event.event.id}`
           );
+          setShowDetailModal(true);
         }}
       />
-      {showModal ? (
+      {showAddingModal ? (
         <AddEventModal
-          setShowModal={setShowModal}
+          setShowModal={setShowAddingModal}
           getDataToModal={sendDataToModal}
           defaultCheckId={"Schedule"}
           calendarEvents={calendarEvents}
           setCalendarEvents={setCalendarEvents}
         />
+      ) : null}
+      {showDetailModal ? (
+        <ShowEventModal setShowDetailModal={setShowDetailModal} />
       ) : null}
     </div>
   );
