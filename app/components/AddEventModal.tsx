@@ -248,7 +248,6 @@ const AddEventModal = ({
                 }
               </div>
             </div>
-            {/*footer*/}
             <div className="flex items-center justify-end p-2 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
@@ -257,49 +256,105 @@ const AddEventModal = ({
               >
                 Close
               </button>
-              <button
-                disabled={
-                  eventTitle !== "" &&
-                  new Date(startPeriod).getTime() <
-                    new Date(endPeriod).getTime()
-                    ? false
-                    : true
-                }
-                className={
-                  "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                }
-                type="button"
-                onClick={() => {
-                  const oldEvent = calendarEvents;
-                  const newEvent = [
-                    {
-                      title: eventTitle,
-                      start: allDayState
-                        ? new Date(startPeriod).toLocaleDateString("en-CA")
-                        : new Date(startPeriod),
-                      end: allDayState
-                        ? new Date(endPeriod).setDate(
-                            new Date(endPeriod).getDate() + 1
-                          )
-                        : new Date(endPeriod),
-                      allDay: allDayState
-                        ? allDayState
-                        : startPeriod.split("T")[1] ===
-                            endPeriod.split("T")[1] &&
-                          endPeriod.split("T")[1] === "00:00"
-                        ? true
-                        : false,
-                      description: eventDescription,
-                    },
-                  ];
-                  const addEvent = [...oldEvent, ...newEvent];
+              {
+                {
+                  Schedule: (
+                    <button
+                      disabled={
+                        eventTitle !== "" &&
+                        new Date(startPeriod).getTime() <
+                          new Date(endPeriod).getTime()
+                          ? false
+                          : true
+                      }
+                      className={
+                        "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                      }
+                      type="button"
+                      onClick={() => {
+                        const oldEvent = calendarEvents;
+                        const newEvent = [
+                          {
+                            id: new Date().getTime(),
+                            title: eventTitle,
+                            start: allDayState
+                              ? new Date(startPeriod).toLocaleDateString(
+                                  "en-CA"
+                                )
+                              : new Date(startPeriod),
+                            end: allDayState
+                              ? new Date(endPeriod).setDate(
+                                  new Date(endPeriod).getDate() + 1
+                                )
+                              : new Date(endPeriod),
+                            allDay: allDayState
+                              ? allDayState
+                              : startPeriod.split("T")[1] ===
+                                  endPeriod.split("T")[1] &&
+                                endPeriod.split("T")[1] === "00:00"
+                              ? true
+                              : false,
+                            description: eventDescription,
+                          },
+                        ];
+                        const addEvent = [...oldEvent, ...newEvent];
 
-                  setCalendarEvents(addEvent);
-                  setShowModal(false);
-                }}
-              >
-                Save
-              </button>
+                        setCalendarEvents(addEvent);
+                        setShowModal(false);
+                      }}
+                    >
+                      Save
+                    </button>
+                  ),
+                  Journal: (
+                    <button
+                      disabled={
+                        eventTitle !== "" &&
+                        new Date(startPeriod).getTime() <
+                          new Date(endPeriod).getTime()
+                          ? false
+                          : true
+                      }
+                      className={
+                        "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                      }
+                      type="button"
+                      onClick={() => {
+                        const oldEvent = calendarEvents;
+                        const newEvent = [
+                          {
+                            title: eventTitle,
+                            start: allDayState
+                              ? new Date(startPeriod).toLocaleDateString(
+                                  "en-CA"
+                                )
+                              : new Date(startPeriod),
+                            end: allDayState
+                              ? new Date(endPeriod).setDate(
+                                  new Date(endPeriod).getDate() + 1
+                                )
+                              : new Date(endPeriod),
+                            allDay: allDayState
+                              ? allDayState
+                              : startPeriod.split("T")[1] ===
+                                  endPeriod.split("T")[1] &&
+                                endPeriod.split("T")[1] === "00:00"
+                              ? true
+                              : false,
+                            description: eventDescription,
+                          },
+                        ];
+                        const addEvent = [...oldEvent, ...newEvent];
+
+                        setCalendarEvents(addEvent);
+                        setShowModal(false);
+                      }}
+                    >
+                      Save
+                    </button>
+                  ),
+                }[addingType]
+              }
             </div>
           </div>
         </div>
