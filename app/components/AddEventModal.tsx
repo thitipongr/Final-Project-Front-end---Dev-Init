@@ -81,7 +81,7 @@ const AddEventModal = ({
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-[315px] ">
+        <div className="relative w-[315px]">
           <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none">
             <div className="relative p-2 flex flex-col space-y-2 h-full">
               <div className="flex flex-col space-y-2">
@@ -90,7 +90,7 @@ const AddEventModal = ({
                   type="text"
                   placeholder="Add title"
                   className={clsx(
-                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900",
+                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 px-1",
                     {
                       "border-red-500 focus:border-red-500": eventTitle === "",
                     }
@@ -255,89 +255,91 @@ const AddEventModal = ({
               </div>
             </div>
             <div className="flex items-center justify-end p-2 border-t border-solid border-blueGray-200 rounded-b">
-              <button
-                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
-                type="button"
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-              {
+              <div className="flex flex-row w-3/4">
+                <button
+                  className="w-full text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancle
+                </button>
                 {
-                  Schedule: (
-                    <button
-                      disabled={
-                        eventTitle !== "" &&
-                        (new Date(startPeriod_allDay).getTime() <
-                          new Date(endPeriod_allDay).getTime() ||
-                          new Date(startPeriod_subDay).getTime() <
-                            new Date(endPeriod_subDay).getTime())
-                          ? false
-                          : true
-                      }
-                      className={
-                        "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                      }
-                      type="button"
-                      onClick={() => {
-                        const oldEvent = calendarEvents.filter(
-                          (value) => Object.keys(value).length !== 0
-                        );
-                        const newEvent = [
-                          {
-                            id: new Date().getTime(),
-                            title: eventTitle,
-                            start: allDayState
-                              ? new Date(startPeriod_allDay).getTime()
-                              : new Date(startPeriod_subDay).getTime(),
-                            end: allDayState
-                              ? new Date(
-                                  new Date(endPeriod_allDay).setDate(
-                                    new Date(endPeriod_allDay).getDate() + 1
-                                  )
-                                ).getTime()
-                              : new Date(endPeriod_subDay).getTime(),
-                            allDay: allDayState
-                              ? allDayState
-                              : startPeriod_subDay.split("T")[1] ===
-                                  endPeriod_subDay.split("T")[1] &&
-                                endPeriod_subDay.split("T")[1] === "00:00"
-                              ? true
-                              : false,
-                            description: eventDescription,
-                          },
-                        ];
-                        const addEvent = [...oldEvent, ...newEvent];
+                  {
+                    Schedule: (
+                      <button
+                        disabled={
+                          eventTitle !== "" &&
+                          (new Date(startPeriod_allDay).getTime() <
+                            new Date(endPeriod_allDay).getTime() ||
+                            new Date(startPeriod_subDay).getTime() <
+                              new Date(endPeriod_subDay).getTime())
+                            ? false
+                            : true
+                        }
+                        className={
+                          "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                        }
+                        type="button"
+                        onClick={() => {
+                          const oldEvent = calendarEvents.filter(
+                            (value) => Object.keys(value).length !== 0
+                          );
+                          const newEvent = [
+                            {
+                              id: new Date().getTime().toString(),
+                              title: eventTitle,
+                              start: allDayState
+                                ? new Date(startPeriod_allDay).getTime()
+                                : new Date(startPeriod_subDay).getTime(),
+                              end: allDayState
+                                ? new Date(
+                                    new Date(endPeriod_allDay).setDate(
+                                      new Date(endPeriod_allDay).getDate() + 1
+                                    )
+                                  ).getTime()
+                                : new Date(endPeriod_subDay).getTime(),
+                              allDay: allDayState
+                                ? allDayState
+                                : startPeriod_subDay.split("T")[1] ===
+                                    endPeriod_subDay.split("T")[1] &&
+                                  endPeriod_subDay.split("T")[1] === "00:00"
+                                ? true
+                                : false,
+                              description: eventDescription,
+                            },
+                          ];
+                          const addEvent = [...oldEvent, ...newEvent];
 
-                        setCalendarEvents(addEvent);
-                        setShowModal(false);
-                      }}
-                    >
-                      Save
-                    </button>
-                  ),
-                  Journal: (
-                    <button
-                      // disabled={
-                      //   eventTitle !== "" &&
-                      //   new Date(startPeriod).getTime() <
-                      //     new Date(endPeriod).getTime()
-                      //     ? false
-                      //     : true
-                      // }
-                      className={
-                        "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                      }
-                      type="button"
-                      onClick={() => {
-                        setShowModal(false);
-                      }}
-                    >
-                      Save
-                    </button>
-                  ),
-                }[addingType]
-              }
+                          setCalendarEvents(addEvent);
+                          setShowModal(false);
+                        }}
+                      >
+                        Save
+                      </button>
+                    ),
+                    Journal: (
+                      <button
+                        // disabled={
+                        //   eventTitle !== "" &&
+                        //   new Date(startPeriod).getTime() <
+                        //     new Date(endPeriod).getTime()
+                        //     ? false
+                        //     : true
+                        // }
+                        className={
+                          "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                        }
+                        type="button"
+                        onClick={() => {
+                          setShowModal(false);
+                        }}
+                      >
+                        Save
+                      </button>
+                    ),
+                  }[addingType]
+                }
+              </div>
             </div>
           </div>
         </div>
