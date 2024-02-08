@@ -116,7 +116,7 @@ const AddEventModal = ({
                   {
                     Schedule: (
                       <div className="space-y-2 flex flex-col h-full">
-                        <div className="">
+                        <div>
                           {allDayState ? (
                             <div className="space-y-2">
                               <input
@@ -222,7 +222,7 @@ const AddEventModal = ({
                     ),
                     Journal: (
                       <div className="space-y-2 flex flex-col h-full">
-                        <div className="">
+                        <div>
                           <input
                             type="datetime-local"
                             className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
@@ -272,7 +272,9 @@ const AddEventModal = ({
                       }
                       type="button"
                       onClick={() => {
-                        const oldEvent = calendarEvents;
+                        const oldEvent = calendarEvents.filter(
+                          (value) => Object.keys(value).length !== 0
+                        );
                         const newEvent = [
                           {
                             id: new Date().getTime(),
@@ -320,33 +322,6 @@ const AddEventModal = ({
                       }
                       type="button"
                       onClick={() => {
-                        const oldEvent = calendarEvents;
-                        const newEvent = [
-                          {
-                            title: eventTitle,
-                            start: allDayState
-                              ? new Date(startPeriod).toLocaleDateString(
-                                  "en-CA"
-                                )
-                              : new Date(startPeriod),
-                            end: allDayState
-                              ? new Date(endPeriod).setDate(
-                                  new Date(endPeriod).getDate() + 1
-                                )
-                              : new Date(endPeriod),
-                            allDay: allDayState
-                              ? allDayState
-                              : startPeriod.split("T")[1] ===
-                                  endPeriod.split("T")[1] &&
-                                endPeriod.split("T")[1] === "00:00"
-                              ? true
-                              : false,
-                            description: eventDescription,
-                          },
-                        ];
-                        const addEvent = [...oldEvent, ...newEvent];
-
-                        setCalendarEvents(addEvent);
                         setShowModal(false);
                       }}
                     >
