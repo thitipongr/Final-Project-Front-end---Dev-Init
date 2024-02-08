@@ -31,30 +31,41 @@ const AddEventModal = ({
   const [addingType, setAddingType] = useState(defaultCheckId);
 
   // Schedule
-  const [startPeriod, setStartPeriod] = useState(
-    !getDataToModal.startStr.includes("T")
-      ? `${getDataToModal.startStr}T00:00`
-      : getDataToModal.startStr
+  const [startPeriod_allDay, setStartPeriod_allDay] = useState(
+    getDataToModal.allDay
+      ? getDataToModal.startStr
+      : getDataToModal.startStr.split("T")[0]
   );
-  const [endPeriod, setEndPeriod] = useState(
-    !getDataToModal.endStr.includes("T")
-      ? `${new Date(
+  const [endPeriod_allDay, setEndPeriod_allDay] = useState(
+    getDataToModal.allDay
+      ? new Date(
           new Date(getDataToModal.endStr).setDate(
             new Date(getDataToModal.endStr).getDate() - 1
           )
-        ).toLocaleDateString("en-CA")}T00:${
-          startPeriod.split("T")[0] ===
+        ).toLocaleDateString("en-CA")
+      : getDataToModal.endStr.split("T")[0]
+  );
+  const [startPeriod_subDay, setStartPeriod_subDay] = useState(
+    getDataToModal.allDay
+      ? getDataToModal.startStr + "T00:00"
+      : getDataToModal.startStr.replace(":00+07:00", "")
+  );
+  const [endPeriod_subDay, setEndPeriod_subDay] = useState(
+    getDataToModal.allDay
+      ? new Date(
+          new Date(getDataToModal.endStr).setDate(
+            new Date(getDataToModal.endStr).getDate() - 1
+          )
+        ).toLocaleDateString("en-CA") +
+          (getDataToModal.startStr ===
           new Date(
             new Date(getDataToModal.endStr).setDate(
               new Date(getDataToModal.endStr).getDate() - 1
             )
-          )
-            .toLocaleDateString("en-CA")
-            .split("T")[0]
-            ? "30"
-            : "00"
-        }`
-      : getDataToModal.endStr
+          ).toLocaleDateString("en-CA")
+            ? "T00:30"
+            : "T00:00")
+      : getDataToModal.endStr.replace(":00+07:00", "")
   );
 
   const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
@@ -122,16 +133,20 @@ const AddEventModal = ({
                               <input
                                 className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                                 type="date"
-                                value={startPeriod.split("T")[0]}
+                                value={startPeriod_allDay}
                                 onChange={(e) => {
-                                  setStartPeriod(e.target.value);
+                                  setStartPeriod_allDay(e.target.value);
                                   if (
                                     new Date(e.target.value).getTime() >
-                                      new Date(endPeriod).getTime() ||
-                                    isNaN(new Date(endPeriod).getTime()) ||
-                                    isNaN(new Date(startPeriod).getTime())
+                                      new Date(endPeriod_allDay).getTime() ||
+                                    isNaN(
+                                      new Date(endPeriod_allDay).getTime()
+                                    ) ||
+                                    isNaN(
+                                      new Date(startPeriod_allDay).getTime()
+                                    )
                                   )
-                                    setEndPeriod(e.target.value);
+                                    setEndPeriod_allDay(e.target.value);
                                 }}
                               />
                               <input
@@ -139,15 +154,15 @@ const AddEventModal = ({
                                   "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
                                   {
                                     "border-red-500 focus:border-red-500":
-                                      startPeriod > endPeriod + "T00:00",
+                                      startPeriod_allDay > endPeriod_allDay,
                                   }
                                 )}
                                 type="date"
-                                value={endPeriod.split("T")[0]}
+                                value={endPeriod_allDay}
                                 onChange={(e) => {
-                                  setEndPeriod(e.target.value);
+                                  setEndPeriod_allDay(e.target.value);
                                 }}
-                                min={startPeriod.split("T")[0]}
+                                min={startPeriod_allDay}
                               />
                             </div>
                           ) : (
@@ -155,46 +170,36 @@ const AddEventModal = ({
                               <input
                                 className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
                                 type="datetime-local"
-                                value={
-                                  startPeriod.includes("T")
-                                    ? startPeriod.replace(":00+07:00", "")
-                                    : startPeriod === ""
-                                    ? startPeriod
-                                    : startPeriod + "T00:00"
-                                }
+                                value={startPeriod_subDay}
                                 onChange={(e) => {
-                                  setStartPeriod(e.target.value);
+                                  setStartPeriod_subDay(e.target.value);
                                   if (
                                     new Date(e.target.value).getTime() >
-                                      new Date(endPeriod).getTime() ||
-                                    isNaN(new Date(endPeriod).getTime()) ||
-                                    isNaN(new Date(startPeriod).getTime())
+                                      new Date(endPeriod_subDay).getTime() ||
+                                    isNaN(
+                                      new Date(endPeriod_subDay).getTime()
+                                    ) ||
+                                    isNaN(
+                                      new Date(startPeriod_subDay).getTime()
+                                    )
                                   )
-                                    setEndPeriod(e.target.value);
+                                    setEndPeriod_subDay(e.target.value);
                                 }}
                               />
                               <input
                                 className={clsx(
                                   "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
                                   {
-                                    "border-red-500 focus:border-red-500": startPeriod >= endPeriod,
+                                    "border-red-500 focus:border-red-500":
+                                      startPeriod_subDay >= endPeriod_subDay,
                                   }
                                 )}
                                 type="datetime-local"
-                                value={
-                                  startPeriod.split("T")[0] ===
-                                  endPeriod.split("T")[0]
-                                    ? endPeriod.includes("T")
-                                      ? endPeriod.replace(":00+07:00", "")
-                                      : endPeriod + "T00:00"
-                                    : endPeriod.includes("T")
-                                    ? endPeriod.replace(":00+07:00", "")
-                                    : endPeriod + "T00:00"
-                                }
+                                value={endPeriod_subDay}
                                 onChange={(e) => {
-                                  setEndPeriod(e.target.value);
+                                  setEndPeriod_subDay(e.target.value);
                                 }}
-                                min={startPeriod}
+                                min={startPeriod_subDay}
                               />
                             </div>
                           )}
@@ -263,8 +268,10 @@ const AddEventModal = ({
                     <button
                       disabled={
                         eventTitle !== "" &&
-                        new Date(startPeriod).getTime() <
-                          new Date(endPeriod).getTime()
+                        (new Date(startPeriod_allDay).getTime() <
+                          new Date(endPeriod_allDay).getTime() ||
+                          new Date(startPeriod_subDay).getTime() <
+                            new Date(endPeriod_subDay).getTime())
                           ? false
                           : true
                       }
@@ -280,19 +287,21 @@ const AddEventModal = ({
                           {
                             id: new Date().getTime(),
                             title: eventTitle,
-                            start: new Date(startPeriod).getTime(),
+                            start: allDayState
+                              ? new Date(startPeriod_allDay).getTime()
+                              : new Date(startPeriod_subDay).getTime(),
                             end: allDayState
                               ? new Date(
-                                  new Date(endPeriod).setDate(
-                                    new Date(endPeriod).getDate() + 1
+                                  new Date(endPeriod_allDay).setDate(
+                                    new Date(endPeriod_allDay).getDate() + 1
                                   )
                                 ).getTime()
-                              : new Date(endPeriod).getTime(),
+                              : new Date(endPeriod_subDay).getTime(),
                             allDay: allDayState
                               ? allDayState
-                              : startPeriod.split("T")[1] ===
-                                  endPeriod.split("T")[1] &&
-                                endPeriod.split("T")[1] === "00:00"
+                              : startPeriod_subDay.split("T")[1] ===
+                                  endPeriod_subDay.split("T")[1] &&
+                                endPeriod_subDay.split("T")[1] === "00:00"
                               ? true
                               : false,
                             description: eventDescription,
@@ -309,13 +318,13 @@ const AddEventModal = ({
                   ),
                   Journal: (
                     <button
-                      disabled={
-                        eventTitle !== "" &&
-                        new Date(startPeriod).getTime() <
-                          new Date(endPeriod).getTime()
-                          ? false
-                          : true
-                      }
+                      // disabled={
+                      //   eventTitle !== "" &&
+                      //   new Date(startPeriod).getTime() <
+                      //     new Date(endPeriod).getTime()
+                      //     ? false
+                      //     : true
+                      // }
                       className={
                         "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                       }
