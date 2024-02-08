@@ -1,7 +1,7 @@
 "use client";
 
 import FullCalendar from "@fullcalendar/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -19,26 +19,87 @@ const Page = () => {
   const [showAddingModal, setShowAddingModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
-  const [sendDataToModal, setSendDataToModal] = useState({
+  const [sendDataToAddingModal, setSendDataToAddingModal] = useState({
     allDay: false,
     startStr: "",
     endStr: "",
   });
 
   const handleDateSelect = (args: any) => {
-    const rewriteEndStr = new Date(args.endStr);
-    rewriteEndStr.setDate(rewriteEndStr.getDate() - 1);
-
     const packData = {
       allDay: args.allDay,
       startStr: args.startStr,
       endStr: args.endStr,
     };
-    setSendDataToModal(packData);
+    setSendDataToAddingModal(packData);
     setShowAddingModal(true);
   };
 
   const [calendarEvents, setCalendarEvents] = useState([{}]);
+
+  useEffect(() => {
+    setCalendarEvents([
+      {
+        id: "1707376932304",
+        title: "1",
+        start: 1707411600000,
+        end: 1707499800000,
+        allDay: true,
+        description: "",
+      },
+      {
+        id: "1707376948585",
+        title: "2",
+        start: 1708016400000,
+        end: 1708189200000,
+        allDay: true,
+        description: "",
+      },
+      {
+        id: "1707376993221",
+        title: "3",
+        start: 1708621200000,
+        end: 1708623000000,
+        allDay: false,
+        description: "",
+      },
+      {
+        id: "1707377006071",
+        title: "4",
+        start: 1709226000000,
+        end: 1709312400000,
+        allDay: true,
+        description: "",
+      },
+    ]);
+  }, []);
+
+  const [SendDataToShowModal, setSendDataToShowModal] = useState({
+    id: "",
+    allDay: false,
+    startStr: "",
+    endStr: "",
+    title: "",
+    description: "",
+  });
+
+  const handleEventSelect = (args: any) => {
+    console.log("calendarEvents", calendarEvents);
+
+    console.log("args.event", args.event);
+
+    const packData = {
+      id: args.event.id,
+      allDay: args.event.allDay,
+      startStr: args.event.startStr,
+      endStr: args.event.endStr,
+      title: args.event.title,
+      description: args.event.extendedProps.description,
+    };
+
+    setSendDataToShowModal(packData);
+    setShowDetailModal(true);
+  };
 
   return (
     <div className="inline">
@@ -75,10 +136,7 @@ const Page = () => {
           meridiem: "short",
         }}
         nowIndicator={true}
-        editable={true}
-        droppable={true}
         selectable={true}
-        selectMirror={true}
         height={"100%"}
         windowResize={() => {
           let calendarApi = calendarRef.current.getApi();
@@ -88,25 +146,25 @@ const Page = () => {
           calendarApi.view.calendar;
         }}
         dayMaxEvents
-        eventClick={(event) => {
-          console.log(event.event);
-          alert(
-            `${event.event.start} - ${event.event.end} - ${event.event.extendedProps.description} - ${event.event.id}`
-          );
-          setShowDetailModal(true);
-        }}
+        eventClick={handleEventSelect}
       />
       {showAddingModal ? (
         <AddEventModal
           setShowModal={setShowAddingModal}
-          getDataToModal={sendDataToModal}
+          getDataToModal={sendDataToAddingModal}
           defaultCheckId={"Schedule"}
           calendarEvents={calendarEvents}
           setCalendarEvents={setCalendarEvents}
         />
       ) : null}
       {showDetailModal ? (
-        <ShowEventModal setShowDetailModal={setShowDetailModal} />
+        <ShowEventModal
+          setShowDetailModal={setShowDetailModal}
+          getDataToModal={SendDataToShowModal}
+          defaultCheckId={"Schedule"}
+          calendarEvents={calendarEvents}
+          setCalendarEvents={setCalendarEvents}
+        />
       ) : null}
     </div>
   );
