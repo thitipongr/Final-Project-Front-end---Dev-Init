@@ -81,7 +81,7 @@ const AddEventModal = ({
                   className={clsx(
                     "w-full py-1 border-b focus:outline-none focus:border-cyan-900",
                     {
-                      "border-red-500": eventTitle === "",
+                      "border-red-500 focus:border-red-500": eventTitle === "",
                     }
                   )}
                   value={eventTitle}
@@ -138,7 +138,8 @@ const AddEventModal = ({
                                 className={clsx(
                                   "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
                                   {
-                                    "border-red-500": startPeriod >= endPeriod,
+                                    "border-red-500 focus:border-red-500":
+                                      startPeriod > endPeriod + "T00:00",
                                   }
                                 )}
                                 type="date"
@@ -176,7 +177,7 @@ const AddEventModal = ({
                                 className={clsx(
                                   "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
                                   {
-                                    "border-red-500": startPeriod >= endPeriod,
+                                    "border-red-500 focus:border-red-500": startPeriod >= endPeriod,
                                   }
                                 )}
                                 type="datetime-local"
@@ -279,16 +280,14 @@ const AddEventModal = ({
                           {
                             id: new Date().getTime(),
                             title: eventTitle,
-                            start: allDayState
-                              ? new Date(startPeriod).toLocaleDateString(
-                                  "en-CA"
-                                )
-                              : new Date(startPeriod),
+                            start: new Date(startPeriod).getTime(),
                             end: allDayState
-                              ? new Date(endPeriod).setDate(
-                                  new Date(endPeriod).getDate() + 1
-                                )
-                              : new Date(endPeriod),
+                              ? new Date(
+                                  new Date(endPeriod).setDate(
+                                    new Date(endPeriod).getDate() + 1
+                                  )
+                                ).getTime()
+                              : new Date(endPeriod).getTime(),
                             allDay: allDayState
                               ? allDayState
                               : startPeriod.split("T")[1] ===
