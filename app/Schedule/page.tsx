@@ -84,9 +84,6 @@ const Page = () => {
   });
 
   const handleEventSelect = (args: any) => {
-    console.log("calendarEvents", calendarEvents);
-
-    console.log("args.event", args.event);
 
     const packData = {
       id: args.event.id,

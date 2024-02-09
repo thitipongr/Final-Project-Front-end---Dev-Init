@@ -24,7 +24,6 @@ const ShowEventModal = ({
   calendarEvents,
   setCalendarEvents,
 }: ShowEventModal) => {
-  console.log("getDataToModal", getDataToModal);
   const [addingType, setAddingType] = useState(defaultCheckId);
   const [editTogle, setEditTogle] = useState(false);
 
@@ -34,6 +33,8 @@ const ShowEventModal = ({
       ? getDataToModal.startStr
       : getDataToModal.startStr.split("T")[0]
   );
+  const startPeriod_allDay_old = startPeriod_allDay;
+
   const [endPeriod_allDay, setEndPeriod_allDay] = useState(
     getDataToModal.allDay
       ? new Date(
@@ -43,11 +44,15 @@ const ShowEventModal = ({
         ).toLocaleDateString("en-CA")
       : getDataToModal.endStr.split("T")[0]
   );
+  const endPeriod_allDay_old = endPeriod_allDay;
+
   const [startPeriod_subDay, setStartPeriod_subDay] = useState(
     getDataToModal.allDay
       ? getDataToModal.startStr + "T00:00"
       : getDataToModal.startStr.replace(":00+07:00", "")
   );
+  const startPeriod_subDay_old = startPeriod_subDay;
+
   const [endPeriod_subDay, setEndPeriod_subDay] = useState(
     getDataToModal.allDay
       ? new Date(
@@ -65,12 +70,14 @@ const ShowEventModal = ({
             : "T00:00")
       : getDataToModal.endStr.replace(":00+07:00", "")
   );
-  console.log(startPeriod_subDay, endPeriod_subDay);
+  const endPeriod_subDay_old = endPeriod_subDay;
 
   const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
 
   const [eventTitle, setEventTitle] = useState(getDataToModal.title);
-  const [eventDescription, setEventDescription] = useState("");
+  const [eventDescription, setEventDescription] = useState(
+    getDataToModal.description
+  );
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -268,10 +275,22 @@ const ShowEventModal = ({
                       <button
                         disabled={
                           (eventTitle !== "" &&
-                            new Date(startPeriod_allDay).getTime() <
-                              new Date(endPeriod_allDay).getTime()) ||
-                          new Date(startPeriod_subDay).getTime() <
-                            new Date(endPeriod_subDay).getTime()
+                            eventTitle !== getDataToModal.title) ||
+                          (allDayState
+                            ? startPeriod_allDay.length !== 0 &&
+                              endPeriod_allDay.length !== 0 &&
+                              (startPeriod_allDay !== startPeriod_allDay_old ||
+                                endPeriod_allDay !== endPeriod_allDay_old)
+                              ? true
+                              : false
+                            : (
+                                startPeriod_subDay.length !== 0 &&
+                                endPeriod_subDay.length !== 0
+                                  ? true
+                                  : false
+                              )
+                            ? true
+                            : false)
                             ? false
                             : true
                         }
