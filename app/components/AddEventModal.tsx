@@ -139,12 +139,7 @@ const AddEventModal = ({
                                   if (
                                     new Date(e.target.value).getTime() >
                                       new Date(endPeriod_allDay).getTime() ||
-                                    isNaN(
-                                      new Date(endPeriod_allDay).getTime()
-                                    ) ||
-                                    isNaN(
-                                      new Date(startPeriod_allDay).getTime()
-                                    )
+                                    endPeriod_allDay.length === 0
                                   )
                                     setEndPeriod_allDay(e.target.value);
                                 }}
@@ -175,13 +170,8 @@ const AddEventModal = ({
                                   setStartPeriod_subDay(e.target.value);
                                   if (
                                     new Date(e.target.value).getTime() >
-                                      new Date(endPeriod_subDay).getTime() ||
-                                    isNaN(
-                                      new Date(endPeriod_subDay).getTime()
-                                    ) ||
-                                    isNaN(
-                                      new Date(startPeriod_subDay).getTime()
-                                    )
+                                      new Date(endPeriod_allDay).getTime() ||
+                                    endPeriod_allDay.length === 0
                                   )
                                     setEndPeriod_subDay(e.target.value);
                                 }}

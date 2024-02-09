@@ -33,7 +33,9 @@ const ShowEventModal = ({
       ? getDataToModal.startStr
       : getDataToModal.startStr.split("T")[0]
   );
-  const startPeriod_allDay_old = startPeriod_allDay;
+  const startPeriod_allDay_old = getDataToModal.allDay
+    ? getDataToModal.startStr
+    : getDataToModal.startStr.split("T")[0];
 
   const [endPeriod_allDay, setEndPeriod_allDay] = useState(
     getDataToModal.allDay
@@ -44,14 +46,22 @@ const ShowEventModal = ({
         ).toLocaleDateString("en-CA")
       : getDataToModal.endStr.split("T")[0]
   );
-  const endPeriod_allDay_old = endPeriod_allDay;
+  const endPeriod_allDay_old = getDataToModal.allDay
+    ? new Date(
+        new Date(getDataToModal.endStr).setDate(
+          new Date(getDataToModal.endStr).getDate() - 1
+        )
+      ).toLocaleDateString("en-CA")
+    : getDataToModal.endStr.split("T")[0];
 
   const [startPeriod_subDay, setStartPeriod_subDay] = useState(
     getDataToModal.allDay
       ? getDataToModal.startStr + "T00:00"
       : getDataToModal.startStr.replace(":00+07:00", "")
   );
-  const startPeriod_subDay_old = startPeriod_subDay;
+  const startPeriod_subDay_old = getDataToModal.allDay
+    ? getDataToModal.startStr + "T00:00"
+    : getDataToModal.startStr.replace(":00+07:00", "");
 
   const [endPeriod_subDay, setEndPeriod_subDay] = useState(
     getDataToModal.allDay
@@ -70,13 +80,43 @@ const ShowEventModal = ({
             : "T00:00")
       : getDataToModal.endStr.replace(":00+07:00", "")
   );
-  const endPeriod_subDay_old = endPeriod_subDay;
+  const endPeriod_subDay_old = getDataToModal.allDay
+    ? new Date(
+        new Date(getDataToModal.endStr).setDate(
+          new Date(getDataToModal.endStr).getDate() - 1
+        )
+      ).toLocaleDateString("en-CA") +
+      (getDataToModal.startStr ===
+      new Date(
+        new Date(getDataToModal.endStr).setDate(
+          new Date(getDataToModal.endStr).getDate() - 1
+        )
+      ).toLocaleDateString("en-CA")
+        ? "T00:30"
+        : "T00:00")
+    : getDataToModal.endStr.replace(":00+07:00", "");
 
   const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
 
   const [eventTitle, setEventTitle] = useState(getDataToModal.title);
   const [eventDescription, setEventDescription] = useState(
     getDataToModal.description
+  );
+
+  startPeriod_allDay.length !== 0 &&
+  endPeriod_allDay.length !== 0 &&
+  (startPeriod_allDay !== startPeriod_allDay_old ||
+    endPeriod_allDay !== endPeriod_allDay_old)
+    ? console.log(true)
+    : console.log(false);
+
+  console.log(
+    startPeriod_allDay.length,
+    endPeriod_allDay.length,
+    startPeriod_allDay,
+    startPeriod_allDay_old,
+    endPeriod_allDay,
+    endPeriod_allDay_old
   );
   return (
     <>
@@ -142,12 +182,7 @@ const ShowEventModal = ({
                                   if (
                                     new Date(e.target.value).getTime() >
                                       new Date(endPeriod_allDay).getTime() ||
-                                    isNaN(
-                                      new Date(endPeriod_allDay).getTime()
-                                    ) ||
-                                    isNaN(
-                                      new Date(startPeriod_allDay).getTime()
-                                    )
+                                    endPeriod_allDay.length === 0
                                   )
                                     setEndPeriod_allDay(e.target.value);
                                 }}
@@ -178,13 +213,8 @@ const ShowEventModal = ({
                                   setStartPeriod_subDay(e.target.value);
                                   if (
                                     new Date(e.target.value).getTime() >
-                                      new Date(endPeriod_subDay).getTime() ||
-                                    isNaN(
-                                      new Date(endPeriod_subDay).getTime()
-                                    ) ||
-                                    isNaN(
-                                      new Date(startPeriod_subDay).getTime()
-                                    )
+                                      new Date(endPeriod_allDay).getTime() ||
+                                    endPeriod_allDay.length === 0
                                   )
                                     setEndPeriod_subDay(e.target.value);
                                 }}
