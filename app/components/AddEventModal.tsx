@@ -259,10 +259,24 @@ const AddEventModal = ({
                       <button
                         disabled={
                           eventTitle !== "" &&
-                          (new Date(startPeriod_allDay).getTime() <
-                            new Date(endPeriod_allDay).getTime() ||
-                            new Date(startPeriod_subDay).getTime() <
-                              new Date(endPeriod_subDay).getTime())
+                          (allDayState
+                            ? new Date(startPeriod_allDay).getTime() <=
+                              new Date(endPeriod_allDay).getTime()
+                              ? true
+                              : false
+                            : new Date(startPeriod_subDay).getTime() <
+                              new Date(endPeriod_subDay).getTime()
+                            ? true
+                            : false) &&
+                          (allDayState
+                            ? startPeriod_allDay.length !== 0 &&
+                              endPeriod_allDay.length !== 0
+                              ? true
+                              : false
+                            : startPeriod_subDay.length !== 0 &&
+                              endPeriod_subDay.length !== 0
+                            ? true
+                            : false)
                             ? false
                             : true
                         }
