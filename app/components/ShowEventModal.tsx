@@ -313,14 +313,13 @@ const ShowEventModal = ({
                                 endPeriod_allDay !== endPeriod_allDay_old)
                               ? true
                               : false
-                            : (
-                                startPeriod_subDay.length !== 0 &&
-                                endPeriod_subDay.length !== 0
-                                  ? true
-                                  : false
-                              )
+                            : startPeriod_subDay.length !== 0 &&
+                              endPeriod_subDay.length !== 0 &&
+                              (startPeriod_subDay !== startPeriod_subDay_old ||
+                                endPeriod_subDay !== endPeriod_subDay_old)
                             ? true
-                            : false)
+                            : false) ||
+                          eventDescription !== getDataToModal.description
                             ? false
                             : true
                         }
