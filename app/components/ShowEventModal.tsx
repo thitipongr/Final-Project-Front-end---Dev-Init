@@ -264,7 +264,20 @@ const ShowEventModal = ({
               </div>
             </div>
             <div className="flex items-center justify-between p-2 border-t border-solid border-blueGray-200 rounded-b">
-              <button className="items-start">
+              <button
+                className="items-start"
+                onClick={() => {
+                  switch (defaultCheckId) {
+                    case "Schedule": {
+                      const deleteResult = calendarEvents.filter(
+                        (object) => object.id !== getDataToModal.id
+                      );
+                      setCalendarEvents(deleteResult);
+                      setShowDetailModal(false)
+                    }
+                  }
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -280,6 +293,7 @@ const ShowEventModal = ({
                   />
                 </svg>
               </button>
+
               <div className="flex flex-row w-3/4">
                 {editTogle ? (
                   <button
