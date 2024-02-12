@@ -13,7 +13,15 @@ type ShowEventModal = {
     description: string;
   };
   defaultCheckId: string;
-  calendarEvents: {}[];
+  calendarEvents: {
+    id?: string;
+    title?: string;
+    start?: number;
+    end?: number;
+    allDay?: boolean;
+    description?: string;
+  }[];
+
   setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
 };
 
@@ -33,9 +41,11 @@ const ShowEventModal = ({
       ? getDataToModal.startStr
       : getDataToModal.startStr.split("T")[0]
   );
-  const startPeriod_allDay_old = getDataToModal.allDay
-    ? getDataToModal.startStr
-    : getDataToModal.startStr.split("T")[0];
+  const [startPeriod_allDay_old, setStartPeriod_allDay_old] = useState(
+    getDataToModal.allDay
+      ? getDataToModal.startStr
+      : getDataToModal.startStr.split("T")[0]
+  );
 
   const [endPeriod_allDay, setEndPeriod_allDay] = useState(
     getDataToModal.allDay
@@ -46,22 +56,26 @@ const ShowEventModal = ({
         ).toLocaleDateString("en-CA")
       : getDataToModal.endStr.split("T")[0]
   );
-  const endPeriod_allDay_old = getDataToModal.allDay
-    ? new Date(
-        new Date(getDataToModal.endStr).setDate(
-          new Date(getDataToModal.endStr).getDate() - 1
-        )
-      ).toLocaleDateString("en-CA")
-    : getDataToModal.endStr.split("T")[0];
+  const [endPeriod_allDay_old, setEndPeriod_allDay_old] = useState(
+    getDataToModal.allDay
+      ? new Date(
+          new Date(getDataToModal.endStr).setDate(
+            new Date(getDataToModal.endStr).getDate() - 1
+          )
+        ).toLocaleDateString("en-CA")
+      : getDataToModal.endStr.split("T")[0]
+  );
 
   const [startPeriod_subDay, setStartPeriod_subDay] = useState(
     getDataToModal.allDay
       ? getDataToModal.startStr + "T00:00"
       : getDataToModal.startStr.replace(":00+07:00", "")
   );
-  const startPeriod_subDay_old = getDataToModal.allDay
-    ? getDataToModal.startStr + "T00:00"
-    : getDataToModal.startStr.replace(":00+07:00", "");
+  const [startPeriod_subDay_old, setStartPeriod_subDay_old] = useState(
+    getDataToModal.allDay
+      ? getDataToModal.startStr + "T00:00"
+      : getDataToModal.startStr.replace(":00+07:00", "")
+  );
 
   const [endPeriod_subDay, setEndPeriod_subDay] = useState(
     getDataToModal.allDay
@@ -80,22 +94,23 @@ const ShowEventModal = ({
             : "T00:00")
       : getDataToModal.endStr.replace(":00+07:00", "")
   );
-  const endPeriod_subDay_old = getDataToModal.allDay
-    ? new Date(
-        new Date(getDataToModal.endStr).setDate(
-          new Date(getDataToModal.endStr).getDate() - 1
-        )
-      ).toLocaleDateString("en-CA") +
-      (getDataToModal.startStr ===
-      new Date(
-        new Date(getDataToModal.endStr).setDate(
-          new Date(getDataToModal.endStr).getDate() - 1
-        )
-      ).toLocaleDateString("en-CA")
-        ? "T00:30"
-        : "T00:00")
-    : getDataToModal.endStr.replace(":00+07:00", "");
-
+  const [endPeriod_subDay_old, setEndPeriod_subDay_old] = useState(
+    getDataToModal.allDay
+      ? new Date(
+          new Date(getDataToModal.endStr).setDate(
+            new Date(getDataToModal.endStr).getDate() - 1
+          )
+        ).toLocaleDateString("en-CA") +
+          (getDataToModal.startStr ===
+          new Date(
+            new Date(getDataToModal.endStr).setDate(
+              new Date(getDataToModal.endStr).getDate() - 1
+            )
+          ).toLocaleDateString("en-CA")
+            ? "T00:30"
+            : "T00:00")
+      : getDataToModal.endStr.replace(":00+07:00", "")
+  );
   const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
 
   const [eventTitle, setEventTitle] = useState(getDataToModal.title);
@@ -103,21 +118,6 @@ const ShowEventModal = ({
     getDataToModal.description
   );
 
-  startPeriod_allDay.length !== 0 &&
-  endPeriod_allDay.length !== 0 &&
-  (startPeriod_allDay !== startPeriod_allDay_old ||
-    endPeriod_allDay !== endPeriod_allDay_old)
-    ? console.log(true)
-    : console.log(false);
-
-  console.log(
-    startPeriod_allDay.length,
-    endPeriod_allDay.length,
-    startPeriod_allDay,
-    startPeriod_allDay_old,
-    endPeriod_allDay,
-    endPeriod_allDay_old
-  );
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -319,7 +319,8 @@ const ShowEventModal = ({
                                 endPeriod_subDay !== endPeriod_subDay_old)
                             ? true
                             : false) ||
-                          eventDescription !== getDataToModal.description
+                          eventDescription !== getDataToModal.description ||
+                          allDayState !== getDataToModal.allDay
                             ? false
                             : true
                         }
@@ -328,12 +329,48 @@ const ShowEventModal = ({
                         }
                         type="button"
                         onClick={() => {
-                          const oldEvent = calendarEvents.filter(
+                          const event = calendarEvents.filter(
                             (value) => Object.keys(value).length !== 0
                           );
-                          const newEvent = [{}];
-                          const addEvent = [...oldEvent, ...newEvent];
-                          // setCalendarEvents(addEvent);
+                          const editedIndex = event.findIndex(
+                            (object) => object.id === getDataToModal.id
+                          );
+                          const editedEvent = {
+                            id: getDataToModal.id,
+                            title: eventTitle,
+                            start: allDayState
+                              ? new Date(startPeriod_allDay).getTime()
+                              : new Date(startPeriod_subDay).getTime(),
+                            end: allDayState
+                              ? new Date(
+                                  new Date(endPeriod_allDay).setDate(
+                                    new Date(endPeriod_allDay).getDate() + 1
+                                  )
+                                ).getTime()
+                              : new Date(endPeriod_subDay).getTime(),
+                            allDay: allDayState
+                              ? allDayState
+                              : startPeriod_subDay.split("T")[1] ===
+                                  endPeriod_subDay.split("T")[1] &&
+                                endPeriod_subDay.split("T")[1] === "00:00"
+                              ? true
+                              : false,
+                            description: eventDescription,
+                          };
+
+                          event[editedIndex] = editedEvent;
+                          const addEvent = [...event, {}];
+
+                          setCalendarEvents(addEvent);
+
+                          setStartPeriod_allDay_old(startPeriod_allDay);
+                          setEndPeriod_allDay_old(endPeriod_allDay);
+                          setStartPeriod_subDay_old(startPeriod_subDay);
+                          setEndPeriod_subDay_old(endPeriod_subDay);
+                          getDataToModal.allDay = allDayState;
+                          getDataToModal.title = eventTitle;
+                          getDataToModal.description = eventDescription;
+
                           setEditTogle(false);
                         }}
                       >

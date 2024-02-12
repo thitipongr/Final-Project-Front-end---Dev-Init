@@ -34,7 +34,6 @@ const Page = () => {
     setSendDataToAddingModal(packData);
     setShowAddingModal(true);
   };
-
   const [calendarEvents, setCalendarEvents] = useState([{}]);
 
   useEffect(() => {
@@ -84,7 +83,6 @@ const Page = () => {
   });
 
   const handleEventSelect = (args: any) => {
-
     const packData = {
       id: args.event.id,
       allDay: args.event.allDay,
