@@ -1,6 +1,7 @@
 import { getDateMeta } from "@fullcalendar/core/internal";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 
 type ShowEventModal = {
   setShowDetailModal: Dispatch<SetStateAction<boolean>>;
@@ -32,8 +33,8 @@ const ShowEventModal = ({
   calendarEvents,
   setCalendarEvents,
 }: ShowEventModal) => {
-  const [addingType, setAddingType] = useState(defaultCheckId);
   const [editTogle, setEditTogle] = useState(false);
+  const [confirmationTogle, setConfirmationTogle] = useState(false);
 
   // Schedule
   const [startPeriod_allDay, setStartPeriod_allDay] = useState(
@@ -272,8 +273,9 @@ const ShowEventModal = ({
                       const deleteResult = calendarEvents.filter(
                         (object) => object.id !== getDataToModal.id
                       );
-                      setCalendarEvents(deleteResult);
-                      setShowDetailModal(false)
+                      // setCalendarEvents(deleteResult);
+                      // setShowDetailModal(false);
+                      setConfirmationTogle(true);
                     }
                   }
                 }}
@@ -293,7 +295,16 @@ const ShowEventModal = ({
                   />
                 </svg>
               </button>
-
+              {confirmationTogle ? (
+                <ConfirmationModal
+                  thisEventDetail={getDataToModal}
+                  calendarEvents={calendarEvents}
+                  setCalendarEvents={setCalendarEvents}
+                  setShowDetailModal={setShowDetailModal}
+                  confirmationFrom={defaultCheckId}
+                  setConfirmationTogle={setConfirmationTogle}
+                />
+              ) : null}
               <div className="flex flex-row w-3/4">
                 {editTogle ? (
                   <button
@@ -339,7 +350,7 @@ const ShowEventModal = ({
                             : true
                         }
                         className={
-                          "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                          "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                         }
                         type="button"
                         onClick={() => {
@@ -402,7 +413,7 @@ const ShowEventModal = ({
                             : true
                         }
                         className={
-                          "w-full bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                          "w-full bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                         }
                         type="button"
                         onClick={() => {
@@ -422,7 +433,7 @@ const ShowEventModal = ({
                         //     : true
                         // }
                         className={
-                          "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                          "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                         }
                         type="button"
                         onClick={() => {
