@@ -34,44 +34,15 @@ const Page = () => {
     setSendDataToAddingModal(packData);
     setShowAddingModal(true);
   };
-  const [calendarEvents, setCalendarEvents] = useState([{}]);
+  const [calendarEvents, setCalendarEvents] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("calendarEvents") || "[{}]")
+      : [{}]
+  );
 
   useEffect(() => {
-    setCalendarEvents([
-      {
-        id: "1707376932304",
-        title: "1",
-        start: 1707411600000,
-        end: 1707499800000,
-        allDay: true,
-        description: "",
-      },
-      {
-        id: "1707376948585",
-        title: "2",
-        start: 1708016400000,
-        end: 1708189200000,
-        allDay: true,
-        description: "",
-      },
-      {
-        id: "1707376993221",
-        title: "3",
-        start: 1708621200000,
-        end: 1708623000000,
-        allDay: false,
-        description: "",
-      },
-      {
-        id: "1707377006071",
-        title: "4",
-        start: 1709226000000,
-        end: 1709312400000,
-        allDay: true,
-        description: "",
-      },
-    ]);
-  }, []);
+    localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
+  }, [calendarEvents]);
 
   const [SendDataToShowModal, setSendDataToShowModal] = useState({
     id: "",
