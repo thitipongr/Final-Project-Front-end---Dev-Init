@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 const pageList = [
@@ -29,6 +30,7 @@ const AddEventModal = ({
   setCalendarEvents,
 }: AddEventModal) => {
   const [addingType, setAddingType] = useState(defaultCheckId);
+  const router = useRouter();
 
   // Schedule
   const [startPeriod_allDay, setStartPeriod_allDay] = useState(
@@ -316,6 +318,11 @@ const AddEventModal = ({
 
                           setCalendarEvents(addEvent);
                           setShowModal(false);
+                          localStorage.setItem(
+                            "calendarEvents",
+                            JSON.stringify(addEvent)
+                          );
+                          router.push(`/${addingType}`);
                         }}
                       >
                         Save
@@ -336,6 +343,7 @@ const AddEventModal = ({
                         type="button"
                         onClick={() => {
                           setShowModal(false);
+                          router.push(`/${addingType}`);
                         }}
                       >
                         Save

@@ -40,10 +40,6 @@ const Page = () => {
       : [{}]
   );
 
-  useEffect(() => {
-    localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
-  }, [calendarEvents]);
-
   const [SendDataToShowModal, setSendDataToShowModal] = useState({
     id: "",
     allDay: false,
