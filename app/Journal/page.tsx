@@ -16,6 +16,7 @@ const mockJournal = [
 ];
 
 const Page = () => {
+  // Schedule
   const [showAddingModal, setShowAddingModal] = useState(false);
   const sendDataToAddingModal = {
     allDay: true,
@@ -30,6 +31,13 @@ const Page = () => {
       : [{}]
   );
 
+  //Journal
+  const [journalEvents, setJournalEvents] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
+      : [{}]
+  );
+
   return (
     <div>
       <div id="add-journal">
@@ -41,24 +49,37 @@ const Page = () => {
         </button>
       </div>
       <div id="list-journal">
-        {mockJournal.map((object, index) => {
-          return (
-            <div
-              key={index}
-              className="w-full rounded-lg py-2 mt-1 border space-y-1"
-            >
-              <div className="border-b px-2 pb-2">
-                {`${new Date(object.date).toDateString()} - ${new Date(
-                  object.date
-                ).toTimeString()}`}
-              </div>
-              <div className="w-full p-2">
-                <div className="font-bold">{object.title}</div>
-                <div className="">{object.description}</div>
-              </div>
-            </div>
-          );
-        })}
+        {typeof window !== "undefined"
+          ? localStorage.getItem("journalEvents")
+            ? journalEvents.map(
+                (
+                  object: {
+                    date: number;
+                    title: string;
+                    description: string;
+                  },
+                  index: React.Key | null | undefined
+                ) => {
+                  return (
+                    <div
+                      key={index}
+                      className="w-full rounded-lg py-2 mt-1 border space-y-1"
+                    >
+                      <div className="border-b px-2 pb-2">
+                        {`${new Date(object.date).toDateString()} - ${new Date(
+                          object.date
+                        ).toTimeString()}`}
+                      </div>
+                      <div className="w-full p-2">
+                        <div className="font-bold">{object.title}</div>
+                        <div className="">{object.description}</div>
+                      </div>
+                    </div>
+                  );
+                }
+              )
+            : null
+          : null}
       </div>
       {showAddingModal ? (
         <AddEventModal
@@ -67,6 +88,8 @@ const Page = () => {
           defaultCheckId={"Journal"}
           calendarEvents={calendarEvents}
           setCalendarEvents={setCalendarEvents}
+          journalEvents={journalEvents}
+          setJournalEvents={setJournalEvents}
         />
       ) : null}
     </div>

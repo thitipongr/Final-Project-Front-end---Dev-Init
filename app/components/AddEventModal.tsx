@@ -20,6 +20,8 @@ type AddEventModal = {
   defaultCheckId: string;
   calendarEvents: {}[];
   setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
+  journalEvents: {}[];
+  setJournalEvents: Dispatch<SetStateAction<{}[]>>;
 };
 
 const AddEventModal = ({
@@ -28,6 +30,8 @@ const AddEventModal = ({
   defaultCheckId,
   calendarEvents,
   setCalendarEvents,
+  journalEvents,
+  setJournalEvents,
 }: AddEventModal) => {
   const [addingType, setAddingType] = useState(defaultCheckId);
   const router = useRouter();
@@ -228,6 +232,7 @@ const AddEventModal = ({
                             onChange={(e) => {
                               setJournalDate(e.target.value);
                             }}
+                            max={journalDate}
                           />
                         </div>
                         <div className="flex-1">
@@ -340,6 +345,23 @@ const AddEventModal = ({
                         }
                         type="button"
                         onClick={() => {
+                          const oldEvent = journalEvents.filter(
+                            (value) => Object.keys(value).length !== 0
+                          );
+                          const newEvent = [
+                            {
+                              id: new Date().getTime().toString(),
+                              title: eventTitle,
+                              date: new Date(journalDate).getTime(),
+                              description: eventDescription,
+                            },
+                          ];
+                          const addEvent = [...newEvent, ...oldEvent];
+                          localStorage.setItem(
+                            "journalEvents",
+                            JSON.stringify(addEvent)
+                          );
+                          setJournalEvents(addEvent);
                           setShowModal(false);
                           router.push(`/${addingType}`);
                         }}

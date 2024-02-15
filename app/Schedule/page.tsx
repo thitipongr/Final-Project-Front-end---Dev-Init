@@ -9,6 +9,7 @@ import AddEventModal from "../components/AddEventModal";
 import ShowEventModal from "../components/ShowEventModal";
 
 const Page = () => {
+  // Schedule
   const calendarRef = useRef<FullCalendar>(null!);
 
   let defaultView = "";
@@ -62,6 +63,13 @@ const Page = () => {
     setSendDataToShowModal(packData);
     setShowDetailModal(true);
   };
+
+  //Journal
+  const [journalEvents, setJournalEvents] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
+      : [{}]
+  );
 
   return (
     <div className="inline">
@@ -117,6 +125,8 @@ const Page = () => {
           defaultCheckId={"Schedule"}
           calendarEvents={calendarEvents}
           setCalendarEvents={setCalendarEvents}
+          journalEvents={journalEvents}
+          setJournalEvents={setJournalEvents}
         />
       ) : null}
       {showDetailModal ? (
