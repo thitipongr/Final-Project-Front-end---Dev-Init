@@ -5,24 +5,25 @@ import AddEventModal from "../components/AddEventModal";
 const mockJournal = [
   {
     title: "1",
-    date: new Date().getTime(),
+    date: 1707350400000,
     description: "des#1",
   },
   {
     title: "2",
-    date: new Date().getTime(),
+    date: 1707350400000,
     description: "des#2",
   },
 ];
+
 const Page = () => {
   const [showAddingModal, setShowAddingModal] = useState(false);
-  const [sendDataToAddingModal, setSendDataToAddingModal] = useState({
+  const sendDataToAddingModal = {
     allDay: true,
     startStr: new Date().toLocaleDateString("en-CA"),
     endStr: new Date(
       new Date().setDate(new Date().getDate() + 1)
     ).toLocaleDateString("en-CA"),
-  });
+  };
   const [calendarEvents, setCalendarEvents] = useState(
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("calendarEvents") || "[{}]")

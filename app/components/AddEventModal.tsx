@@ -330,15 +330,13 @@ const AddEventModal = ({
                     ),
                     Journal: (
                       <button
-                        // disabled={
-                        //   eventTitle !== "" &&
-                        //   new Date(startPeriod).getTime() <
-                        //     new Date(endPeriod).getTime()
-                        //     ? false
-                        //     : true
-                        // }
+                        disabled={
+                          eventTitle !== "" && journalDate.length !== 0
+                            ? false
+                            : true
+                        }
                         className={
-                          "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                          "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                         }
                         type="button"
                         onClick={() => {
