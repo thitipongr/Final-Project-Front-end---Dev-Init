@@ -81,7 +81,7 @@ const AddEventModal = ({
 
   // Journal
   const [journalDate, setJournalDate] = useState(
-    new Date().toLocaleString("sv-SE").replace(" ", "T").slice(0, -3)
+    new Date().toLocaleString("sv-SE").replace(" ", "T")
   );
 
   return (

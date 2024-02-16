@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddEventModal from "../components/AddEventModal";
 const mockJournal = [
   {
@@ -32,11 +32,13 @@ const Page = () => {
   );
 
   //Journal
-  const [journalEvents, setJournalEvents] = useState(
-    typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
-      : [{}]
-  );
+  const [journalEvents, setJournalEvents] = useState([{}]);
+
+  useEffect(() => {
+    setJournalEvents(
+      JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
+    );
+  }, []);
 
   return (
     <div>
@@ -48,39 +50,37 @@ const Page = () => {
           Add Journal
         </button>
       </div>
-      <div id="list-journal">
-        {typeof window !== "undefined"
-          ? localStorage.getItem("journalEvents")
-            ? journalEvents.map(
-                (
-                  object: {
-                    date: number;
-                    title: string;
-                    description: string;
-                  },
-                  index: React.Key | null | undefined
-                ) => {
-                  return (
-                    <div
-                      key={index}
-                      className="w-full rounded-lg py-2 mt-1 border space-y-1"
-                    >
-                      <div className="border-b px-2 pb-2">
-                        {`${new Date(object.date).toDateString()} - ${new Date(
-                          object.date
-                        ).toTimeString()}`}
-                      </div>
-                      <div className="w-full p-2">
-                        <div className="font-bold">{object.title}</div>
-                        <div className="">{object.description}</div>
-                      </div>
+
+      <div>
+        {Object.keys(journalEvents[0]).length
+          ? journalEvents.map(
+              (
+                object: {
+                  date?: number;
+                  title?: string;
+                  description?: string;
+                },
+                index?: number
+              ) => {
+                return (
+                  <div
+                    key={index}
+                    className="w-full rounded-lg py-2 mt-1 border space-y-1"
+                  >
+                    <div className="border-b px-2 pb-2">
+                      {new Date(object.date || 0).toLocaleString("sv-SE")}
                     </div>
-                  );
-                }
-              )
-            : null
+                    <div className="w-full p-2">
+                      <div className="font-bold">{object.title}</div>
+                      <div className="">{object.description}</div>
+                    </div>
+                  </div>
+                );
+              }
+            )
           : null}
       </div>
+
       {showAddingModal ? (
         <AddEventModal
           setShowModal={setShowAddingModal}
