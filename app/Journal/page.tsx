@@ -44,14 +44,14 @@ const Page = () => {
     <div>
       <div id="add-journal">
         <button
-          className="w-full bg-gray-100 rounded-lg p-2 font-bold"
+          className="w-full bg-gray-200 rounded-lg p-2 font-bold"
           onClick={() => setShowAddingModal(true)}
         >
           Add Journal
         </button>
       </div>
 
-      <div>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-4">
         {Object.keys(journalEvents[0]).length
           ? journalEvents.map(
               (
@@ -65,14 +65,14 @@ const Page = () => {
                 return (
                   <div
                     key={index}
-                    className="w-full rounded-lg py-2 mt-1 border space-y-1"
+                    className="w-full rounded-lg pb-2 border space-y-1"
                   >
-                    <div className="border-b px-2 pb-2">
+                    <div className="border-b px-2 py-2 bg-gray-100">
                       {new Date(object.date || 0).toLocaleString("sv-SE")}
                     </div>
                     <div className="w-full p-2">
-                      <div className="font-bold">{object.title}</div>
-                      <div className="">{object.description}</div>
+                      <div className="font-bold truncate">{object.title}</div>
+                      <div className="truncate">{object.description}</div>
                     </div>
                   </div>
                 );
