@@ -79,7 +79,7 @@ const Page = () => {
                     }}
                   >
                     <div className="border-b px-2 py-2 bg-gray-100">
-                      {new Date(object.date || 0).toLocaleString("sv-SE")}
+                      {new Date(object.date || 0).toLocaleString("en-US")}
                     </div>
                     <div className="w-full p-2">
                       <div className="font-bold truncate">{object.title}</div>
