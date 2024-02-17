@@ -3,7 +3,7 @@ import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
-type ShowEventModal = {
+type ShowScheduleEventModal = {
   setShowDetailModal: Dispatch<SetStateAction<boolean>>;
   getDataToModal: {
     id: string;
@@ -26,13 +26,13 @@ type ShowEventModal = {
   setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
 };
 
-const ShowEventModal = ({
+const ShowScheduleEventModal = ({
   setShowDetailModal,
   getDataToModal,
   defaultCheckId,
   calendarEvents,
   setCalendarEvents,
-}: ShowEventModal) => {
+}: ShowScheduleEventModal) => {
   const [editTogle, setEditTogle] = useState(false);
   const [confirmationTogle, setConfirmationTogle] = useState(false);
 
@@ -144,27 +144,6 @@ const ShowEventModal = ({
                     setEventTitle(e.target.value);
                   }}
                 />
-
-                {/* <div className="space-x-2">
-                  {pageList.map((list, key) => {
-                    return (
-                      <button
-                        key={key}
-                        className={clsx(
-                          "h-9 px-2 border-0 rounded-lg bg-slate-100",
-                          {
-                            "bg-slate-400": addingType === list.displayName,
-                          }
-                        )}
-                        onClick={() => {
-                          setAddingType(list.displayName);
-                        }}
-                      >
-                        {list.displayName}
-                      </button>
-                    );
-                  })}
-                </div> */}
               </div>
               <div className="flex-1">
                 {
@@ -268,16 +247,7 @@ const ShowEventModal = ({
               <button
                 className="items-start"
                 onClick={() => {
-                  switch (defaultCheckId) {
-                    case "Schedule": {
-                      const deleteResult = calendarEvents.filter(
-                        (object) => object.id !== getDataToModal.id
-                      );
-                      // setCalendarEvents(deleteResult);
-                      // setShowDetailModal(false);
-                      setConfirmationTogle(true);
-                    }
-                  }
+                  setConfirmationTogle(true);
                 }}
               >
                 <svg
@@ -324,127 +294,103 @@ const ShowEventModal = ({
                   </button>
                 )}
 
-                {
-                  {
-                    Schedule: editTogle ? (
-                      <button
-                        disabled={
-                          (eventTitle !== "" &&
-                            eventTitle !== getDataToModal.title) ||
-                          (allDayState
-                            ? startPeriod_allDay.length !== 0 &&
-                              endPeriod_allDay.length !== 0 &&
-                              (startPeriod_allDay !== startPeriod_allDay_old ||
-                                endPeriod_allDay !== endPeriod_allDay_old)
-                              ? true
-                              : false
-                            : startPeriod_subDay.length !== 0 &&
-                              endPeriod_subDay.length !== 0 &&
-                              (startPeriod_subDay !== startPeriod_subDay_old ||
-                                endPeriod_subDay !== endPeriod_subDay_old)
-                            ? true
-                            : false) ||
-                          eventDescription !== getDataToModal.description ||
-                          allDayState !== getDataToModal.allDay
-                            ? false
-                            : true
-                        }
-                        className={
-                          "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                        }
-                        type="button"
-                        onClick={() => {
-                          const event = calendarEvents.filter(
-                            (value) => Object.keys(value).length !== 0
-                          );
-                          const editedIndex = event.findIndex(
-                            (object) => object.id === getDataToModal.id
-                          );
-                          const editedEvent = {
-                            id: getDataToModal.id,
-                            title: eventTitle,
-                            start: allDayState
-                              ? new Date(startPeriod_allDay).getTime()
-                              : new Date(startPeriod_subDay).getTime(),
-                            end: allDayState
-                              ? new Date(
-                                  new Date(endPeriod_allDay).setDate(
-                                    new Date(endPeriod_allDay).getDate() + 1
-                                  )
-                                ).getTime()
-                              : new Date(endPeriod_subDay).getTime(),
-                            allDay: allDayState
-                              ? allDayState
-                              : startPeriod_subDay.split("T")[1] ===
-                                  endPeriod_subDay.split("T")[1] &&
-                                endPeriod_subDay.split("T")[1] === "00:00"
-                              ? true
-                              : false,
-                            description: eventDescription,
-                          };
+                {editTogle ? (
+                  <button
+                    disabled={
+                      (eventTitle !== "" &&
+                        eventTitle !== getDataToModal.title) ||
+                      (allDayState
+                        ? startPeriod_allDay.length !== 0 &&
+                          endPeriod_allDay.length !== 0 &&
+                          (startPeriod_allDay !== startPeriod_allDay_old ||
+                            endPeriod_allDay !== endPeriod_allDay_old)
+                          ? true
+                          : false
+                        : startPeriod_subDay.length !== 0 &&
+                          endPeriod_subDay.length !== 0 &&
+                          (startPeriod_subDay !== startPeriod_subDay_old ||
+                            endPeriod_subDay !== endPeriod_subDay_old)
+                        ? true
+                        : false) ||
+                      eventDescription !== getDataToModal.description ||
+                      allDayState !== getDataToModal.allDay
+                        ? false
+                        : true
+                    }
+                    className={
+                      "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                    }
+                    type="button"
+                    onClick={() => {
+                      const event = calendarEvents.filter(
+                        (value) => Object.keys(value).length !== 0
+                      );
+                      const editedIndex = event.findIndex(
+                        (object) => object.id === getDataToModal.id
+                      );
+                      const editedEvent = {
+                        id: getDataToModal.id,
+                        title: eventTitle,
+                        start: allDayState
+                          ? new Date(startPeriod_allDay).getTime()
+                          : new Date(startPeriod_subDay).getTime(),
+                        end: allDayState
+                          ? new Date(
+                              new Date(endPeriod_allDay).setDate(
+                                new Date(endPeriod_allDay).getDate() + 1
+                              )
+                            ).getTime()
+                          : new Date(endPeriod_subDay).getTime(),
+                        allDay: allDayState
+                          ? allDayState
+                          : startPeriod_subDay.split("T")[1] ===
+                              endPeriod_subDay.split("T")[1] &&
+                            endPeriod_subDay.split("T")[1] === "00:00"
+                          ? true
+                          : false,
+                        description: eventDescription,
+                      };
 
-                          event[editedIndex] = editedEvent;
-                          const addEvent = [...event, {}];
+                      event[editedIndex] = editedEvent;
+                      const addEvent = [...event, {}];
 
-                          setCalendarEvents(addEvent);
+                      setCalendarEvents(addEvent);
 
-                          setStartPeriod_allDay_old(startPeriod_allDay);
-                          setEndPeriod_allDay_old(endPeriod_allDay);
-                          setStartPeriod_subDay_old(startPeriod_subDay);
-                          setEndPeriod_subDay_old(endPeriod_subDay);
-                          getDataToModal.allDay = allDayState;
-                          getDataToModal.title = eventTitle;
-                          getDataToModal.description = eventDescription;
+                      setStartPeriod_allDay_old(startPeriod_allDay);
+                      setEndPeriod_allDay_old(endPeriod_allDay);
+                      setStartPeriod_subDay_old(startPeriod_subDay);
+                      setEndPeriod_subDay_old(endPeriod_subDay);
+                      getDataToModal.allDay = allDayState;
+                      getDataToModal.title = eventTitle;
+                      getDataToModal.description = eventDescription;
 
-                          setEditTogle(false);
-                        }}
-                      >
-                        Save
-                      </button>
-                    ) : (
-                      <button
-                        disabled={
-                          (eventTitle !== "" &&
-                            new Date(startPeriod_allDay).getTime() <
-                              new Date(endPeriod_allDay).getTime()) ||
-                          new Date(startPeriod_subDay).getTime() <
-                            new Date(endPeriod_subDay).getTime()
-                            ? false
-                            : true
-                        }
-                        className={
-                          "w-full bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                        }
-                        type="button"
-                        onClick={() => {
-                          setEditTogle(true);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    ),
-                    Journal: (
-                      <button
-                        // disabled={
-                        //   eventTitle !== "" &&
-                        //   new Date(startPeriod).getTime() <
-                        //     new Date(endPeriod).getTime()
-                        //     ? false
-                        //     : true
-                        // }
-                        className={
-                          "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                        }
-                        type="button"
-                        onClick={() => {
-                          setShowDetailModal(false);
-                        }}
-                      >
-                        Save
-                      </button>
-                    ),
-                  }[defaultCheckId]
-                }
+                      setEditTogle(false);
+                    }}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    disabled={
+                      (eventTitle !== "" &&
+                        new Date(startPeriod_allDay).getTime() <
+                          new Date(endPeriod_allDay).getTime()) ||
+                      new Date(startPeriod_subDay).getTime() <
+                        new Date(endPeriod_subDay).getTime()
+                        ? false
+                        : true
+                    }
+                    className={
+                      "w-full bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                    }
+                    type="button"
+                    onClick={() => {
+                      setEditTogle(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -455,4 +401,4 @@ const ShowEventModal = ({
   );
 };
 
-export default ShowEventModal;
+export default ShowScheduleEventModal;

@@ -352,7 +352,7 @@ const AddEventModal = ({
                             {
                               id: new Date().getTime().toString(),
                               title: eventTitle,
-                              date: new Date(journalDate).getTime(),
+                              date: journalDate,
                               description: eventDescription,
                             },
                           ];

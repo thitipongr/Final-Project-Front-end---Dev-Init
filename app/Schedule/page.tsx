@@ -6,7 +6,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import AddEventModal from "../components/AddEventModal";
-import ShowEventModal from "../components/ShowEventModal";
+import ShowScheduleEventModal from "../components/ShowScheduleEventModal";
 
 const Page = () => {
   // Schedule
@@ -130,7 +130,7 @@ const Page = () => {
         />
       ) : null}
       {showDetailModal ? (
-        <ShowEventModal
+        <ShowScheduleEventModal
           setShowDetailModal={setShowDetailModal}
           getDataToModal={SendDataToShowModal}
           defaultCheckId={"Schedule"}

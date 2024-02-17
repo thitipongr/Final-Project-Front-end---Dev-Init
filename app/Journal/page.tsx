@@ -2,22 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import AddEventModal from "../components/AddEventModal";
-const mockJournal = [
-  {
-    title: "1",
-    date: 1707350400000,
-    description: "des#1",
-  },
-  {
-    title: "2",
-    date: 1707350400000,
-    description: "des#2",
-  },
-];
+import ShowJournalEventModal from "../components/ShowJournalEventModal";
 
 const Page = () => {
   // Schedule
   const [showAddingModal, setShowAddingModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+
   const sendDataToAddingModal = {
     allDay: true,
     startStr: new Date().toLocaleDateString("en-CA"),
@@ -40,6 +31,13 @@ const Page = () => {
     );
   }, []);
 
+  const [SendDataToShowModal, setSendDataToShowModal] = useState({
+    id: "",
+    title: "",
+    date: "",
+    description: "",
+  });
+
   return (
     <div>
       <div id="add-journal">
@@ -56,7 +54,8 @@ const Page = () => {
           ? journalEvents.map(
               (
                 object: {
-                  date?: number;
+                  id?: string;
+                  date?: string;
                   title?: string;
                   description?: string;
                 },
@@ -66,6 +65,18 @@ const Page = () => {
                   <div
                     key={index}
                     className="w-full rounded-lg pb-2 border space-y-1"
+                    onClick={() => {
+                      const packData = {
+                        id: object.id || "",
+                        title: object.title || "",
+                        date: object.date || "",
+                        description: object.description || "",
+                      };
+                      console.log(packData);
+
+                      setSendDataToShowModal(packData);
+                      setShowDetailModal(true);
+                    }}
                   >
                     <div className="border-b px-2 py-2 bg-gray-100">
                       {new Date(object.date || 0).toLocaleString("sv-SE")}
@@ -90,6 +101,16 @@ const Page = () => {
           setCalendarEvents={setCalendarEvents}
           journalEvents={journalEvents}
           setJournalEvents={setJournalEvents}
+        />
+      ) : null}
+
+      {showDetailModal ? (
+        <ShowJournalEventModal
+          setShowDetailModal={setShowDetailModal}
+          getDataToModal={SendDataToShowModal}
+          defaultCheckId={"Journal"}
+          calendarEvents={calendarEvents}
+          setCalendarEvents={setCalendarEvents}
         />
       ) : null}
     </div>
