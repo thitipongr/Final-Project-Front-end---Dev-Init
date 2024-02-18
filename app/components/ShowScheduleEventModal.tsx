@@ -371,15 +371,6 @@ const ShowScheduleEventModal = ({
                   </button>
                 ) : (
                   <button
-                    disabled={
-                      (eventTitle !== "" &&
-                        new Date(startPeriod_allDay).getTime() <
-                          new Date(endPeriod_allDay).getTime()) ||
-                      new Date(startPeriod_subDay).getTime() <
-                        new Date(endPeriod_subDay).getTime()
-                        ? false
-                        : true
-                    }
                     className={
                       "w-full bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                     }

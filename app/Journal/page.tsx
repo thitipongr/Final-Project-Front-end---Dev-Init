@@ -109,8 +109,8 @@ const Page = () => {
           setShowDetailModal={setShowDetailModal}
           getDataToModal={SendDataToShowModal}
           defaultCheckId={"Journal"}
-          calendarEvents={calendarEvents}
-          setCalendarEvents={setCalendarEvents}
+          journalEvents={journalEvents}
+          setJournalEvents={setJournalEvents}
         />
       ) : null}
     </div>

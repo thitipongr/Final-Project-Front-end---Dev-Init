@@ -12,30 +12,29 @@ type ShowJournalEventModal_type = {
     description: string;
   };
   defaultCheckId: string;
-  calendarEvents: {
+  journalEvents: {
     id?: string;
+    date?: string;
     title?: string;
-    start?: number;
-    end?: number;
-    allDay?: boolean;
     description?: string;
   }[];
 
-  setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
+  setJournalEvents: Dispatch<SetStateAction<{}[]>>;
 };
 
 const ShowJournalEventModal = ({
   setShowDetailModal,
   getDataToModal,
   defaultCheckId,
-  calendarEvents,
-  setCalendarEvents,
+  journalEvents,
+  setJournalEvents,
 }: ShowJournalEventModal_type) => {
   const [editTogle, setEditTogle] = useState(false);
   const [confirmationTogle, setConfirmationTogle] = useState(false);
 
   const [eventTitle, setEventTitle] = useState(getDataToModal.title);
   const [journalDate, setJournalDate] = useState(getDataToModal.date);
+  const [journalDate_old, setJournalDate_old] = useState(getDataToModal.date);
 
   const [eventDescription, setEventDescription] = useState(
     getDataToModal.description
@@ -109,7 +108,7 @@ const ShowJournalEventModal = ({
                 onClick={() => {
                   switch (defaultCheckId) {
                     case "Schedule": {
-                      const deleteResult = calendarEvents.filter(
+                      const deleteResult = journalEvents.filter(
                         (object) => object.id !== getDataToModal.id
                       );
                       setConfirmationTogle(true);
@@ -161,30 +160,64 @@ const ShowJournalEventModal = ({
                   </button>
                 )}
 
-                {
-                  {
-                    Journal: (
-                      <button
-                        // disabled={
-                        //   eventTitle !== "" &&
-                        //   new Date(startPeriod).getTime() <
-                        //     new Date(endPeriod).getTime()
-                        //     ? false
-                        //     : true
-                        // }
-                        className={
-                          "bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
-                        }
-                        type="button"
-                        onClick={() => {
-                          setShowDetailModal(false);
-                        }}
-                      >
-                        Save
-                      </button>
-                    ),
-                  }[defaultCheckId]
-                }
+                {editTogle ? (
+                  <button
+                    disabled={
+                      (eventTitle !== "" &&
+                        eventTitle !== getDataToModal.title) ||
+                      (journalDate.length !== 0 &&
+                      journalDate !== journalDate_old
+                        ? true
+                        : false) ||
+                      eventDescription !== getDataToModal.description
+                        ? false
+                        : true
+                    }
+                    className={
+                      "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                    }
+                    type="button"
+                    onClick={() => {
+                      const event = journalEvents.filter(
+                        (value) => Object.keys(value).length !== 0
+                      );
+                      const editedIndex = event.findIndex(
+                        (object) => object.id === getDataToModal.id
+                      );
+                      const editedEvent = {
+                        id: getDataToModal.id,
+                        title: eventTitle,
+                        date: journalDate,
+                        description: eventDescription,
+                      };
+
+                      event[editedIndex] = editedEvent;
+                      const addEvent = [...event];
+
+                      setJournalEvents(addEvent);
+
+                      setJournalDate_old(journalDate);
+                      getDataToModal.title = eventTitle;
+                      getDataToModal.description = eventDescription;
+
+                      setEditTogle(false);
+                    }}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    className={
+                      "w-full bg-yellow-500 text-white active:bg-yellow-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                    }
+                    type="button"
+                    onClick={() => {
+                      setEditTogle(true);
+                    }}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             </div>
           </div>
