@@ -1,6 +1,6 @@
 import { getDateMeta } from "@fullcalendar/core/internal";
 import clsx from "clsx";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
 type ShowScheduleEventModal = {
@@ -118,6 +118,26 @@ const ShowScheduleEventModal = ({
   const [eventDescription, setEventDescription] = useState(
     getDataToModal.description
   );
+
+  const [deleteConfirmState, setDeleteConfirmState] = useState(false);
+
+  useEffect(() => {
+    if (deleteConfirmState) {
+      const deleteResult = calendarEvents.filter(
+        (object) => object.id !== getDataToModal.id
+      );
+      setCalendarEvents(deleteResult);
+      setShowDetailModal(false);
+    } else {
+      setConfirmationTogle(false);
+    }
+  }, [
+    deleteConfirmState,
+    calendarEvents,
+    getDataToModal.id,
+    setCalendarEvents,
+    setShowDetailModal,
+  ]);
 
   return (
     <>
@@ -267,10 +287,8 @@ const ShowScheduleEventModal = ({
               </button>
               {confirmationTogle ? (
                 <ConfirmationModal
-                  thisEventDetail={getDataToModal}
-                  calendarEvents={calendarEvents}
-                  setCalendarEvents={setCalendarEvents}
-                  setShowDetailModal={setShowDetailModal}
+                  setConfirmState={setDeleteConfirmState}
+                  eventTitle={getDataToModal.title}
                   confirmationFrom={defaultCheckId}
                   setConfirmationTogle={setConfirmationTogle}
                 />

@@ -1,33 +1,15 @@
 import React, { Dispatch, SetStateAction } from "react";
 
 type confirmationModal_type = {
-  thisEventDetail: {
-    id: string;
-    allDay: boolean;
-    startStr: string;
-    endStr: string;
-    title: string;
-    description: string;
-  };
-  calendarEvents: {
-    id?: string;
-    title?: string;
-    start?: number;
-    end?: number;
-    allDay?: boolean;
-    description?: string;
-  }[];
-  setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
-  setShowDetailModal: Dispatch<SetStateAction<boolean>>;
+  setConfirmState: Dispatch<SetStateAction<boolean>>;
+  eventTitle: string;
   confirmationFrom: string;
   setConfirmationTogle: Dispatch<SetStateAction<boolean>>;
 };
 
 const ConfirmationModal = ({
-  thisEventDetail,
-  calendarEvents,
-  setCalendarEvents,
-  setShowDetailModal,
+  setConfirmState,
+  eventTitle,
   confirmationFrom,
   setConfirmationTogle,
 }: confirmationModal_type) => {
@@ -39,7 +21,7 @@ const ConfirmationModal = ({
             <div className="flex-none bg-red-500 rounded-t-lg px-2 py-3 text-white font-bold uppercase">
               {`Delete ${confirmationFrom}`}
             </div>
-            <div className="flex flex-1 p-2 items-center">{`Delete ${confirmationFrom}: "${thisEventDetail.title}"?`}</div>
+            <div className="flex flex-1 p-2 items-center">{`Delete ${confirmationFrom}: "${eventTitle}"?`}</div>
             <div className="flex-none flex p-2 border-t">
               <button
                 className="w-full text-red-500 background-transparent font-bold uppercase py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
@@ -54,16 +36,7 @@ const ConfirmationModal = ({
                   "w-full bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
                 }
                 onClick={() => {
-                  switch (confirmationFrom) {
-                    case "Schedule": {
-                      const deleteResult = calendarEvents.filter(
-                        (object) => object.id !== thisEventDetail.id
-                      );
-                      setCalendarEvents(deleteResult);
-                      setShowDetailModal(false);
-                      setConfirmationTogle(true);
-                    }
-                  }
+                  setConfirmState(true);
                 }}
               >
                 Delete
