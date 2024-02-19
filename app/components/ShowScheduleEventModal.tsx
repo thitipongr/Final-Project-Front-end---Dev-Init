@@ -128,6 +128,7 @@ const ShowScheduleEventModal = ({
       );
       setCalendarEvents(deleteResult);
       setShowDetailModal(false);
+      localStorage.setItem("calendarEvents", JSON.stringify(deleteResult));
     } else {
       setConfirmationTogle(false);
     }
@@ -381,6 +382,10 @@ const ShowScheduleEventModal = ({
                       getDataToModal.allDay = allDayState;
                       getDataToModal.title = eventTitle;
                       getDataToModal.description = eventDescription;
+                      localStorage.setItem(
+                        "calendarEvents",
+                        JSON.stringify(event)
+                      );
 
                       setEditTogle(false);
                     }}
