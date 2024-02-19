@@ -1,6 +1,6 @@
 import { getDateMeta } from "@fullcalendar/core/internal";
 import clsx from "clsx";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
 type ShowJournalEventModal_type = {
@@ -39,6 +39,26 @@ const ShowJournalEventModal = ({
   const [eventDescription, setEventDescription] = useState(
     getDataToModal.description
   );
+  const [deleteConfirmState, setDeleteConfirmState] = useState(false);
+
+  useEffect(() => {
+    if (deleteConfirmState) {
+      const deleteResult = journalEvents.filter(
+        (object) => object.id !== getDataToModal.id
+      );
+      setJournalEvents(deleteResult);
+      setShowDetailModal(false);
+      localStorage.setItem("journalEvents", JSON.stringify(deleteResult));
+    } else {
+      setConfirmationTogle(false);
+    }
+  }, [
+    deleteConfirmState,
+    journalEvents,
+    getDataToModal.id,
+    setJournalEvents,
+    setShowDetailModal,
+  ]);
 
   return (
     <>
@@ -106,14 +126,7 @@ const ShowJournalEventModal = ({
               <button
                 className="items-start"
                 onClick={() => {
-                  switch (defaultCheckId) {
-                    case "Schedule": {
-                      const deleteResult = journalEvents.filter(
-                        (object) => object.id !== getDataToModal.id
-                      );
-                      setConfirmationTogle(true);
-                    }
-                  }
+                  setConfirmationTogle(true);
                 }}
               >
                 <svg
@@ -131,16 +144,16 @@ const ShowJournalEventModal = ({
                   />
                 </svg>
               </button>
-              {/* {confirmationTogle ? (
+
+              {confirmationTogle ? (
                 <ConfirmationModal
-                  thisEventDetail={getDataToModal}
-                  calendarEvents={calendarEvents}
-                  setCalendarEvents={setCalendarEvents}
-                  setShowDetailModal={setShowDetailModal}
+                  setConfirmState={setDeleteConfirmState}
+                  eventTitle={getDataToModal.title}
                   confirmationFrom={defaultCheckId}
                   setConfirmationTogle={setConfirmationTogle}
                 />
-              ) : null} */}
+              ) : null}
+
               <div className="flex flex-row w-3/4">
                 {editTogle ? (
                   <button
@@ -199,6 +212,10 @@ const ShowJournalEventModal = ({
                       setJournalDate_old(journalDate);
                       getDataToModal.title = eventTitle;
                       getDataToModal.description = eventDescription;
+                      localStorage.setItem(
+                        "journalEvents",
+                        JSON.stringify(event)
+                      );
 
                       setEditTogle(false);
                     }}
