@@ -80,8 +80,12 @@ const AddEventModal = ({
   const [eventDescription, setEventDescription] = useState("");
 
   // Journal
-  const [journalDate, setJournalDate] = useState(
-    new Date().toLocaleString("sv-SE").replace(" ", "T")
+  const prepDate = new Date().toLocaleString("sv-SE").replace(" ", "T");
+  const [journalDate, setJournalDate] = useState(prepDate);
+
+  // ToDoList
+  const [toDoDate, setToDoDate] = useState(
+    prepDate.split(":")[0] + ":" + prepDate.split(":")[1]
   );
 
   return (
@@ -107,13 +111,13 @@ const AddEventModal = ({
                   }}
                 />
 
-                <div className="space-x-2">
+                <div className="flex space-x-2">
                   {pageList.map((list, key) => {
                     return (
                       <button
                         key={key}
                         className={clsx(
-                          "h-9 px-2 border-0 rounded-lg bg-slate-100",
+                          "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
                           {
                             "bg-slate-400": addingType === list.displayName,
                           }
@@ -129,10 +133,10 @@ const AddEventModal = ({
                 </div>
               </div>
               <div className="flex-1">
-                {
+                <div className="space-y-2 flex flex-col h-full">
                   {
-                    Schedule: (
-                      <div className="space-y-2 flex flex-col h-full">
+                    {
+                      Schedule: (
                         <div>
                           {allDayState ? (
                             <div className="space-y-2">
@@ -210,20 +214,8 @@ const AddEventModal = ({
                           />
                           <label htmlFor="allDayState">ALL DAY</label>
                         </div>
-                        <div className="flex-1">
-                          <textarea
-                            className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
-                            placeholder="Add description"
-                            value={eventDescription}
-                            onChange={(e) => {
-                              setEventDescription(e.target.value);
-                            }}
-                          ></textarea>
-                        </div>
-                      </div>
-                    ),
-                    Journal: (
-                      <div className="space-y-2 flex flex-col h-full">
+                      ),
+                      Journal: (
                         <div>
                           <input
                             type="datetime-local"
@@ -235,20 +227,44 @@ const AddEventModal = ({
                             max={journalDate}
                           />
                         </div>
-                        <div className="flex-1">
-                          <textarea
-                            className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
-                            placeholder="Add description"
-                            value={eventDescription}
+                      ),
+                      ToDo: (
+                        <div className="flex">
+                          <div className="flex flex-col justify-center mr-1">
+                            <input
+                              className=""
+                              type="checkbox"
+                              id="dueDateState"
+                              defaultChecked={allDayState ? true : false}
+                              onChange={(e) => {
+                                setAllDayState(e.target.checked);
+                              }}
+                            />
+                            <label htmlFor="dueDateState">Due Date</label>
+                          </div>
+                          <input
+                            type="datetime-local"
+                            className="px-3 py-2 border rounded-xl focus:outline-none focus:border-cyan-900 flex-1"
+                            value={toDoDate}
                             onChange={(e) => {
-                              setEventDescription(e.target.value);
+                              setToDoDate(e.target.value);
                             }}
-                          ></textarea>
+                          />
                         </div>
-                      </div>
-                    ),
-                  }[addingType]
-                }
+                      ),
+                    }[addingType]
+                  }
+                  <div className="flex-1">
+                    <textarea
+                      className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
+                      placeholder="Add description"
+                      value={eventDescription}
+                      onChange={(e) => {
+                        setEventDescription(e.target.value);
+                      }}
+                    ></textarea>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex items-center justify-end p-2 border-t border-solid border-blueGray-200 rounded-b">
@@ -334,6 +350,42 @@ const AddEventModal = ({
                       </button>
                     ),
                     Journal: (
+                      <button
+                        disabled={
+                          eventTitle !== "" && journalDate.length !== 0
+                            ? false
+                            : true
+                        }
+                        className={
+                          "w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded outline-none focus:outline-none ease-linear transition-all duration-150 disabled:opacity-50"
+                        }
+                        type="button"
+                        onClick={() => {
+                          const oldEvent = journalEvents.filter(
+                            (value) => Object.keys(value).length !== 0
+                          );
+                          const newEvent = [
+                            {
+                              id: new Date().getTime().toString(),
+                              title: eventTitle,
+                              date: journalDate,
+                              description: eventDescription,
+                            },
+                          ];
+                          const addEvent = [...newEvent, ...oldEvent];
+                          localStorage.setItem(
+                            "journalEvents",
+                            JSON.stringify(addEvent)
+                          );
+                          setJournalEvents(addEvent);
+                          setShowModal(false);
+                          router.push(`/${addingType}`);
+                        }}
+                      >
+                        Save
+                      </button>
+                    ),
+                    ToDo: (
                       <button
                         disabled={
                           eventTitle !== "" && journalDate.length !== 0

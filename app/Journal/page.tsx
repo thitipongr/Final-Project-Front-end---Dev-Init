@@ -72,7 +72,6 @@ const Page = () => {
                         date: object.date || "",
                         description: object.description || "",
                       };
-                      console.log(packData);
 
                       setSendDataToShowModal(packData);
                       setShowDetailModal(true);
