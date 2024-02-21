@@ -22,6 +22,8 @@ type AddEventModal = {
   setCalendarEvents: Dispatch<SetStateAction<{}[]>>;
   journalEvents: {}[];
   setJournalEvents: Dispatch<SetStateAction<{}[]>>;
+  toDoTesks: {}[];
+  setToDoTesks: Dispatch<SetStateAction<{}[]>>;
 };
 
 const AddEventModal = ({
@@ -32,6 +34,8 @@ const AddEventModal = ({
   setCalendarEvents,
   journalEvents,
   setJournalEvents,
+  toDoTesks,
+  setToDoTesks,
 }: AddEventModal) => {
   const [addingType, setAddingType] = useState(defaultCheckId);
   const router = useRouter();
@@ -74,7 +78,7 @@ const AddEventModal = ({
       : getDataToModal.endStr.replace(":00+07:00", "")
   );
 
-  const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
+  const [allDayState, setAllDayState] = useState(true);
 
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
@@ -84,7 +88,9 @@ const AddEventModal = ({
   const [journalDate, setJournalDate] = useState(prepDate);
 
   // ToDoList
-  const [toDoDate, setToDoDate] = useState(
+  const [toDoDueDateState, setToDoDueDateState] = useState(false);
+
+  const [toDoDueDate, setToDoDueDate] = useState(
     prepDate.split(":")[0] + ":" + prepDate.split(":")[1]
   );
 
@@ -207,7 +213,7 @@ const AddEventModal = ({
                             className="mt-3 mr-1"
                             type="checkbox"
                             id="allDayState"
-                            defaultChecked={allDayState ? true : false}
+                            defaultChecked={allDayState}
                             onChange={(e) => {
                               setAllDayState(e.target.checked);
                             }}
@@ -230,24 +236,30 @@ const AddEventModal = ({
                       ),
                       ToDo: (
                         <div className="flex">
-                          <div className="flex flex-col justify-center mr-1">
+                          <div className="flex flex-col mr-1 h-[44px] relative">
                             <input
-                              className=""
+                              className="my-1"
                               type="checkbox"
                               id="dueDateState"
-                              defaultChecked={allDayState ? true : false}
+                              defaultChecked={toDoDueDateState}
                               onChange={(e) => {
-                                setAllDayState(e.target.checked);
+                                setToDoDueDateState(e.target.checked);
                               }}
                             />
-                            <label htmlFor="dueDateState">Due Date</label>
+                            <label
+                              htmlFor="dueDateState"
+                              className="h-full flex"
+                            >
+                              <div className="self-end">Due Date</div>
+                            </label>
                           </div>
                           <input
                             type="datetime-local"
-                            className="px-3 py-2 border rounded-xl focus:outline-none focus:border-cyan-900 flex-1"
-                            value={toDoDate}
+                            className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400"
+                            disabled={!toDoDueDateState}
+                            value={toDoDueDate}
                             onChange={(e) => {
-                              setToDoDate(e.target.value);
+                              setToDoDueDate(e.target.value);
                             }}
                           />
                         </div>
@@ -388,7 +400,12 @@ const AddEventModal = ({
                     ToDo: (
                       <button
                         disabled={
-                          eventTitle !== "" && journalDate.length !== 0
+                          eventTitle !== "" &&
+                          (toDoDueDateState
+                            ? toDoDueDate.length !== 0
+                              ? true
+                              : false
+                            : true)
                             ? false
                             : true
                         }
@@ -397,25 +414,28 @@ const AddEventModal = ({
                         }
                         type="button"
                         onClick={() => {
-                          const oldEvent = journalEvents.filter(
+                          const oldEvent = toDoTesks.filter(
                             (value) => Object.keys(value).length !== 0
                           );
                           const newEvent = [
                             {
                               id: new Date().getTime().toString(),
                               title: eventTitle,
-                              date: journalDate,
+                              dueDateState: toDoDueDateState,
+                              dueDate: toDoDueDateState ? toDoDueDate : "",
                               description: eventDescription,
+                              teskState: "TODO",
                             },
                           ];
+
                           const addEvent = [...newEvent, ...oldEvent];
                           localStorage.setItem(
-                            "journalEvents",
+                            "toDoEvents",
                             JSON.stringify(addEvent)
                           );
-                          setJournalEvents(addEvent);
+                          setToDoTesks(addEvent);
                           setShowModal(false);
-                          router.push(`/${addingType}`);
+                          router.push(`/${addingType}List`);
                         }}
                       >
                         Save

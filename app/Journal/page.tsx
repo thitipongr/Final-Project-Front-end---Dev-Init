@@ -38,6 +38,15 @@ const Page = () => {
     description: "",
   });
 
+  //ToDoList
+  const [toDoTesks, setToDoTesks] = useState([{}]);
+
+  useEffect(() => {
+    setJournalEvents(
+      JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
+    );
+  }, []);
+
   return (
     <div>
       <div id="add-journal">
@@ -100,6 +109,8 @@ const Page = () => {
           setCalendarEvents={setCalendarEvents}
           journalEvents={journalEvents}
           setJournalEvents={setJournalEvents}
+          toDoTesks={toDoTesks}
+          setToDoTesks={setToDoTesks}
         />
       ) : null}
 

@@ -71,6 +71,15 @@ const Page = () => {
       : [{}]
   );
 
+  //ToDoList
+  const [toDoTesks, setToDoTesks] = useState([{}]);
+
+  useEffect(() => {
+    setJournalEvents(
+      JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
+    );
+  }, []);
+
   return (
     <div className="inline">
       <FullCalendar
@@ -127,6 +136,8 @@ const Page = () => {
           setCalendarEvents={setCalendarEvents}
           journalEvents={journalEvents}
           setJournalEvents={setJournalEvents}
+          toDoTesks={toDoTesks}
+          setToDoTesks={setToDoTesks}
         />
       ) : null}
       {showDetailModal ? (
