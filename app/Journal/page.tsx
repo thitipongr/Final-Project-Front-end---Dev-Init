@@ -58,7 +58,7 @@ const Page = () => {
         </button>
       </div>
 
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-4">
+      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-2">
         {Object.keys(journalEvents[0] || {}).length
           ? journalEvents.map(
               (
