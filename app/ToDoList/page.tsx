@@ -1,11 +1,45 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import AddEventModal from "../components/AddEventModal";
 
 const Page = () => {
+  // Schedule
+  const [showAddingModal, setShowAddingModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+
+  const sendDataToAddingModal = {
+    allDay: true,
+    startStr: new Date().toLocaleDateString("en-CA"),
+    endStr: new Date(
+      new Date().setDate(new Date().getDate() + 1)
+    ).toLocaleDateString("en-CA"),
+  };
+  const [calendarEvents, setCalendarEvents] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("calendarEvents") || "[{}]")
+      : [{}]
+  );
+
+  //Journal
+  const [journalEvents, setJournalEvents] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
+      : [{}]
+  );
+
+  //ToDoList
+  const [toDoTesks, setToDoTesks] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("toDoEvents") || "[{}]")
+      : [{}]
+  );
+
   return (
     <div className="flex flex-col h-full space-y-2">
       <button
         className="w-full bg-gray-200 rounded-lg p-2 font-bold"
-        // onClick={() => setShowAddingModal(true)}
+        onClick={() => setShowAddingModal(true)}
       >
         Add ToDo
       </button>
@@ -27,6 +61,20 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      {showAddingModal ? (
+        <AddEventModal
+          setShowModal={setShowAddingModal}
+          getDataToModal={sendDataToAddingModal}
+          defaultCheckId={"ToDo"}
+          calendarEvents={calendarEvents}
+          setCalendarEvents={setCalendarEvents}
+          journalEvents={journalEvents}
+          setJournalEvents={setJournalEvents}
+          toDoTesks={toDoTesks}
+          setToDoTesks={setToDoTesks}
+        />
+      ) : null}
     </div>
   );
 };

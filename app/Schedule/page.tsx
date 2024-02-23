@@ -72,13 +72,11 @@ const Page = () => {
   );
 
   //ToDoList
-  const [toDoTesks, setToDoTesks] = useState([{}]);
-
-  useEffect(() => {
-    setJournalEvents(
-      JSON.parse(localStorage.getItem("journalEvents") || "[{}]")
-    );
-  }, []);
+  const [toDoTesks, setToDoTesks] = useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("toDoEvents") || "[{}]")
+      : [{}]
+  );
 
   return (
     <div className="inline">
