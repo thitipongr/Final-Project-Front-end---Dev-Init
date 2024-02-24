@@ -94,6 +94,8 @@ const AddEventModal = ({
     prepDate.split(":")[0] + ":" + prepDate.split(":")[1]
   );
 
+  const [toDoState, setToDoState] = useState("ToDo");
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -235,33 +237,70 @@ const AddEventModal = ({
                         </div>
                       ),
                       ToDo: (
-                        <div className="flex">
-                          <div className="flex flex-col mr-1 h-[44px] relative">
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex">
+                            <div className="flex flex-col mr-1 h-[44px] relative">
+                              <input
+                                className="my-1"
+                                type="checkbox"
+                                id="dueDateState"
+                                defaultChecked={toDoDueDateState}
+                                onChange={(e) => {
+                                  setToDoDueDateState(e.target.checked);
+                                }}
+                              />
+                              <label
+                                htmlFor="dueDateState"
+                                className="h-full flex"
+                              >
+                                <div className="self-end">Due Date</div>
+                              </label>
+                            </div>
                             <input
-                              className="my-1"
-                              type="checkbox"
-                              id="dueDateState"
-                              defaultChecked={toDoDueDateState}
+                              type="datetime-local"
+                              className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400"
+                              disabled={!toDoDueDateState}
+                              value={toDoDueDate}
                               onChange={(e) => {
-                                setToDoDueDateState(e.target.checked);
+                                setToDoDueDate(e.target.value);
                               }}
                             />
-                            <label
-                              htmlFor="dueDateState"
-                              className="h-full flex"
-                            >
-                              <div className="self-end">Due Date</div>
-                            </label>
                           </div>
-                          <input
-                            type="datetime-local"
-                            className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400"
-                            disabled={!toDoDueDateState}
-                            value={toDoDueDate}
-                            onChange={(e) => {
-                              setToDoDueDate(e.target.value);
-                            }}
-                          />
+                          <div className="flex space-x-2">
+                            <button
+                              className={clsx(
+                                "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                                {
+                                  "bg-slate-400": toDoState === "ToDo",
+                                }
+                              )}
+                              onClick={() => setToDoState("ToDo")}
+                            >
+                              ToDo
+                            </button>
+                            <button
+                              className={clsx(
+                                "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                                {
+                                  "bg-slate-400": toDoState === "Doing",
+                                }
+                              )}
+                              onClick={() => setToDoState("Doing")}
+                            >
+                              Doing
+                            </button>
+                            <button
+                              className={clsx(
+                                "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                                {
+                                  "bg-slate-400": toDoState === "Done",
+                                }
+                              )}
+                              onClick={() => setToDoState("Done")}
+                            >
+                              Done
+                            </button>
+                          </div>
                         </div>
                       ),
                     }[addingType]
@@ -424,7 +463,8 @@ const AddEventModal = ({
                               dueDateState: toDoDueDateState,
                               dueDate: toDoDueDateState ? toDoDueDate : "",
                               description: eventDescription,
-                              teskState: "TODO",
+                              teskState: toDoState,
+                              archive: false,
                             },
                           ];
 
