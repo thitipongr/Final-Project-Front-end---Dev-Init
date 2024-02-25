@@ -29,11 +29,11 @@ const Page = () => {
   );
 
   //ToDoList
-  const [toDoTesks, setToDoTesks] = useState(
-    typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("toDoEvents") || "[{}]")
-      : [{}]
-  );
+  const [toDoTesks, setToDoTesks] = useState([{}]);
+
+  useEffect(() => {
+    setToDoTesks(JSON.parse(localStorage.getItem("toDoEvents") || "[{}]"));
+  }, []);
 
   return (
     <div className="flex flex-col h-full space-y-2">
@@ -48,16 +48,90 @@ const Page = () => {
           <div className="border-b px-2 py-2 bg-gray-100 font-bold text-center">
             ToDo
           </div>
-          <div className="p-2"></div>
+          <div className="p-2 space-y-2">
+            {Object.keys(toDoTesks[0] || {}).length
+              ? toDoTesks.map(
+                  (
+                    toDoTesks: {
+                      id?: string;
+                      title?: string;
+                      dueDateState?: boolean;
+                      dueDate?: string;
+                      description?: string;
+                      teskState?: string;
+                      archive?: boolean;
+                    },
+                    index: number
+                  ) => {
+                    if (toDoTesks.teskState === "ToDo")
+                      return (
+                        <div className="" key={index}>
+                          {toDoTesks.title}
+                        </div>
+                      );
+                  }
+                )
+              : null}
+          </div>
         </div>
         <div className="w-full rounded-lg border">
           <div className="border-b px-2 py-2 bg-gray-100 font-bold text-center">
             Doing
           </div>
+          <div className="p-2 space-y-2">
+            {Object.keys(toDoTesks[0] || {}).length
+              ? toDoTesks.map(
+                  (
+                    toDoTesks: {
+                      id?: string;
+                      title?: string;
+                      dueDateState?: boolean;
+                      dueDate?: string;
+                      description?: string;
+                      teskState?: string;
+                      archive?: boolean;
+                    },
+                    index: number
+                  ) => {
+                    if (toDoTesks.teskState === "Doing")
+                      return (
+                        <div className="" key={index}>
+                          {toDoTesks.title}
+                        </div>
+                      );
+                  }
+                )
+              : null}
+          </div>
         </div>
         <div className="w-full rounded-lg border">
           <div className="border-b px-2 py-2 bg-gray-100 font-bold text-center">
             Done
+          </div>
+          <div className="p-2 space-y-2">
+            {Object.keys(toDoTesks[0] || {}).length
+              ? toDoTesks.map(
+                  (
+                    toDoTesks: {
+                      id?: string;
+                      title?: string;
+                      dueDateState?: boolean;
+                      dueDate?: string;
+                      description?: string;
+                      teskState?: string;
+                      archive?: boolean;
+                    },
+                    index: number
+                  ) => {
+                    if (toDoTesks.teskState === "Done")
+                      return (
+                        <div className="" key={index}>
+                          {toDoTesks.title}
+                        </div>
+                      );
+                  }
+                )
+              : null}
           </div>
         </div>
       </div>
