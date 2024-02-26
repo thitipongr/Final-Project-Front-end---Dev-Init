@@ -241,7 +241,7 @@ const AddEventModal = ({
                           <div className="flex">
                             <div className="flex flex-col mr-1 h-[44px] relative">
                               <input
-                                className="my-1"
+                                className="mt-1"
                                 type="checkbox"
                                 id="dueDateState"
                                 defaultChecked={toDoDueDateState}

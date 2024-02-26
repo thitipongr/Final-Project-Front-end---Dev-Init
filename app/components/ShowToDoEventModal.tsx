@@ -15,22 +15,22 @@ type ShowToDoEventModal_type = {
     archive: boolean;
   };
   defaultCheckId: string;
-  journalEvents: {
+  toDoTesks: {
     id?: string;
     date?: string;
     title?: string;
     description?: string;
   }[];
 
-  setJournalEvents: Dispatch<SetStateAction<{}[]>>;
+  setToDoTesks: Dispatch<SetStateAction<{}[]>>;
 };
 
 const ShowToDoEventModal = ({
   setShowDetailModal,
   getDataToModal,
   defaultCheckId,
-  journalEvents,
-  setJournalEvents,
+  toDoTesks,
+  setToDoTesks,
 }: ShowToDoEventModal_type) => {
   const [editTogle, setEditTogle] = useState(false);
   const [confirmationTogle, setConfirmationTogle] = useState(false);
@@ -39,11 +39,20 @@ const ShowToDoEventModal = ({
   const [toDoDueDateState, setToDoDueDateState] = useState(
     getDataToModal.dueDateState
   );
-  const [toDoDueDate, setToDoDueDate] = useState(getDataToModal.dueDate);
-  const [toDoDueDate_old, setToDoDueDate_old] = useState(
-    getDataToModal.dueDate
+  const [toDoDueDateState_old, setToDoDueDateState_old] = useState(
+    getDataToModal.dueDateState
   );
   const toDayDate = new Date().toLocaleString("sv-SE").replace(" ", "T");
+  const [toDoDueDate, setToDoDueDate] = useState(
+    toDoDueDateState_old
+      ? getDataToModal.dueDate
+      : toDayDate.split(":")[0] + ":" + toDayDate.split(":")[1]
+  );
+  const [toDoDueDate_old, setToDoDueDate_old] = useState(
+    toDoDueDateState_old
+      ? getDataToModal.dueDate
+      : toDayDate.split(":")[0] + ":" + toDayDate.split(":")[1]
+  );
 
   const [toDoState, setToDoState] = useState(getDataToModal.teskState);
 
@@ -54,20 +63,20 @@ const ShowToDoEventModal = ({
 
   useEffect(() => {
     if (deleteConfirmState) {
-      const deleteResult = journalEvents.filter(
+      const deleteResult = toDoTesks.filter(
         (object) => object.id !== getDataToModal.id
       );
-      setJournalEvents(deleteResult);
+      setToDoTesks(deleteResult);
       setShowDetailModal(false);
-      localStorage.setItem("journalEvents", JSON.stringify(deleteResult));
+      localStorage.setItem("toDoEvents", JSON.stringify(deleteResult));
     } else {
       setConfirmationTogle(false);
     }
   }, [
     deleteConfirmState,
-    journalEvents,
+    toDoTesks,
     getDataToModal.id,
-    setJournalEvents,
+    setToDoTesks,
     setShowDetailModal,
   ]);
 
@@ -101,7 +110,7 @@ const ShowToDoEventModal = ({
                 <div className="flex">
                   <div className="flex flex-col mr-1 h-[44px] relative">
                     <input
-                      className="my-1"
+                      className="mt-1"
                       type="checkbox"
                       id="dueDateState"
                       defaultChecked={toDoDueDateState}
@@ -117,13 +126,7 @@ const ShowToDoEventModal = ({
                     type="datetime-local"
                     className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400"
                     disabled={!toDoDueDateState}
-                    value={
-                      toDoDueDateState
-                        ? toDoDueDate
-                        : toDayDate.split(":")[0] +
-                          ":" +
-                          toDayDate.split(":")[1]
-                    }
+                    value={toDoDueDate}
                     onChange={(e) => {
                       setToDoDueDate(e.target.value);
                     }}
@@ -232,10 +235,18 @@ const ShowToDoEventModal = ({
                     disabled={
                       (eventTitle !== "" &&
                         eventTitle !== getDataToModal.title) ||
+                      (toDoDueDateState !== toDoDueDateState_old
+                        ? toDoDueDateState
+                          ? toDoDueDate.length !== 0
+                            ? true
+                            : false
+                          : true
+                        : false) ||
                       (toDoDueDate.length !== 0 &&
                       toDoDueDate !== toDoDueDate_old
                         ? true
                         : false) ||
+                      toDoState !== getDataToModal.teskState ||
                       toDoDescription !== getDataToModal.description
                         ? false
                         : true
@@ -245,7 +256,7 @@ const ShowToDoEventModal = ({
                     }
                     type="button"
                     onClick={() => {
-                      const event = journalEvents.filter(
+                      const event = toDoTesks.filter(
                         (value) => Object.keys(value).length !== 0
                       );
                       const editedIndex = event.findIndex(
@@ -256,20 +267,22 @@ const ShowToDoEventModal = ({
                         title: eventTitle,
                         date: toDoDueDate,
                         description: toDoDescription,
+                        dueDateState: toDoDueDateState,
+                        dueDate: toDoDueDate,
+                        teskState: toDoState,
+                        archive: false,
                       };
 
                       event[editedIndex] = editedEvent;
                       const addEvent = [...event];
 
-                      setJournalEvents(addEvent);
+                      setToDoTesks(addEvent);
 
+                      setToDoDueDateState_old(toDoDueDateState);
                       setToDoDueDate_old(toDoDueDate);
                       getDataToModal.title = eventTitle;
                       getDataToModal.description = toDoDescription;
-                      localStorage.setItem(
-                        "journalEvents",
-                        JSON.stringify(event)
-                      );
+                      localStorage.setItem("toDoEvents", JSON.stringify(event));
 
                       setEditTogle(false);
                     }}

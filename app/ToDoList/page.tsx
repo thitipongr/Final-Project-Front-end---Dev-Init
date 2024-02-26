@@ -237,9 +237,9 @@ const Page = () => {
         <ShowToDoEventModal
           setShowDetailModal={setShowDetailModal}
           getDataToModal={SendDataToShowModal}
-          defaultCheckId={"Journal"}
-          journalEvents={journalEvents}
-          setJournalEvents={setJournalEvents}
+          defaultCheckId={"ToDo"}
+          toDoTesks={toDoTesks}
+          setToDoTesks={setToDoTesks}
         />
       ) : null}
     </div>
