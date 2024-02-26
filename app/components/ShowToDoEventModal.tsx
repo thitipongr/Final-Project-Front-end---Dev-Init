@@ -3,13 +3,16 @@ import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
-type ShowJournalEventModal_type = {
+type ShowToDoEventModal_type = {
   setShowDetailModal: Dispatch<SetStateAction<boolean>>;
   getDataToModal: {
     id: string;
-    date: string;
     title: string;
+    dueDateState: boolean;
+    dueDate: string;
     description: string;
+    teskState: string;
+    archive: boolean;
   };
   defaultCheckId: string;
   journalEvents: {
@@ -22,21 +25,29 @@ type ShowJournalEventModal_type = {
   setJournalEvents: Dispatch<SetStateAction<{}[]>>;
 };
 
-const ShowJournalEventModal = ({
+const ShowToDoEventModal = ({
   setShowDetailModal,
   getDataToModal,
   defaultCheckId,
   journalEvents,
   setJournalEvents,
-}: ShowJournalEventModal_type) => {
+}: ShowToDoEventModal_type) => {
   const [editTogle, setEditTogle] = useState(false);
   const [confirmationTogle, setConfirmationTogle] = useState(false);
 
   const [eventTitle, setEventTitle] = useState(getDataToModal.title);
-  const [journalDate, setJournalDate] = useState(getDataToModal.date);
-  const [journalDate_old, setJournalDate_old] = useState(getDataToModal.date);
+  const [toDoDueDateState, setToDoDueDateState] = useState(
+    getDataToModal.dueDateState
+  );
+  const [toDoDueDate, setToDoDueDate] = useState(getDataToModal.dueDate);
+  const [toDoDueDate_old, setToDoDueDate_old] = useState(
+    getDataToModal.dueDate
+  );
+  const toDayDate = new Date().toLocaleString("sv-SE").replace(" ", "T");
 
-  const [eventDescription, setEventDescription] = useState(
+  const [toDoState, setToDoState] = useState(getDataToModal.teskState);
+
+  const [toDoDescription, setToDoDescription] = useState(
     getDataToModal.description
   );
   const [deleteConfirmState, setDeleteConfirmState] = useState(false);
@@ -86,34 +97,83 @@ const ShowJournalEventModal = ({
                   }}
                 />
               </div>
-              <div className="flex-1">
-                <div className="space-y-2 flex flex-col h-full">
-                  <div>
-                    {
-                      <div className="space-y-2">
-                        <input
-                          className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
-                          type="datetime-local"
-                          value={journalDate}
-                          onChange={(e) => {
-                            setJournalDate(e.target.value);
-                          }}
-                          max={new Date().getTime()}
-                        />
-                      </div>
-                    }
-                  </div>
-                  <div className="flex-1">
-                    <textarea
-                      className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
-                      placeholder="Add description"
-                      value={eventDescription}
+              <div className="flex flex-col space-y-2">
+                <div className="flex">
+                  <div className="flex flex-col mr-1 h-[44px] relative">
+                    <input
+                      className="my-1"
+                      type="checkbox"
+                      id="dueDateState"
+                      defaultChecked={toDoDueDateState}
                       onChange={(e) => {
-                        setEventDescription(e.target.value);
+                        setToDoDueDateState(e.target.checked);
                       }}
-                    ></textarea>
+                    />
+                    <label htmlFor="dueDateState" className="h-full flex">
+                      <div className="self-end">Due Date</div>
+                    </label>
                   </div>
+                  <input
+                    type="datetime-local"
+                    className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400"
+                    disabled={!toDoDueDateState}
+                    value={
+                      toDoDueDateState
+                        ? toDoDueDate
+                        : toDayDate.split(":")[0] +
+                          ":" +
+                          toDayDate.split(":")[1]
+                    }
+                    onChange={(e) => {
+                      setToDoDueDate(e.target.value);
+                    }}
+                  />
                 </div>
+                <div className="flex space-x-2">
+                  <button
+                    className={clsx(
+                      "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                      {
+                        "bg-slate-400": toDoState === "ToDo",
+                      }
+                    )}
+                    onClick={() => setToDoState("ToDo")}
+                  >
+                    ToDo
+                  </button>
+                  <button
+                    className={clsx(
+                      "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                      {
+                        "bg-slate-400": toDoState === "Doing",
+                      }
+                    )}
+                    onClick={() => setToDoState("Doing")}
+                  >
+                    Doing
+                  </button>
+                  <button
+                    className={clsx(
+                      "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                      {
+                        "bg-slate-400": toDoState === "Done",
+                      }
+                    )}
+                    onClick={() => setToDoState("Done")}
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+              <div className="flex-1">
+                <textarea
+                  className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
+                  placeholder="Add description"
+                  value={toDoDescription}
+                  onChange={(e) => {
+                    setToDoDescription(e.target.value);
+                  }}
+                ></textarea>
               </div>
             </div>
             <div className="flex items-center justify-between p-2 border-t border-solid border-blueGray-200 rounded-b">
@@ -172,11 +232,11 @@ const ShowJournalEventModal = ({
                     disabled={
                       (eventTitle !== "" &&
                         eventTitle !== getDataToModal.title) ||
-                      (journalDate.length !== 0 &&
-                      journalDate !== journalDate_old
+                      (toDoDueDate.length !== 0 &&
+                      toDoDueDate !== toDoDueDate_old
                         ? true
                         : false) ||
-                      eventDescription !== getDataToModal.description
+                      toDoDescription !== getDataToModal.description
                         ? false
                         : true
                     }
@@ -194,8 +254,8 @@ const ShowJournalEventModal = ({
                       const editedEvent = {
                         id: getDataToModal.id,
                         title: eventTitle,
-                        date: journalDate,
-                        description: eventDescription,
+                        date: toDoDueDate,
+                        description: toDoDescription,
                       };
 
                       event[editedIndex] = editedEvent;
@@ -203,9 +263,9 @@ const ShowJournalEventModal = ({
 
                       setJournalEvents(addEvent);
 
-                      setJournalDate_old(journalDate);
+                      setToDoDueDate_old(toDoDueDate);
                       getDataToModal.title = eventTitle;
-                      getDataToModal.description = eventDescription;
+                      getDataToModal.description = toDoDescription;
                       localStorage.setItem(
                         "journalEvents",
                         JSON.stringify(event)
@@ -239,4 +299,4 @@ const ShowJournalEventModal = ({
   );
 };
 
-export default ShowJournalEventModal;
+export default ShowToDoEventModal;

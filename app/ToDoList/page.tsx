@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import AddEventModal from "../components/AddEventModal";
 import clsx from "clsx";
+import ShowToDoEventModal from "../components/ShowToDoEventModal";
 
 const Page = () => {
   // Schedule
@@ -35,6 +36,16 @@ const Page = () => {
   useEffect(() => {
     setToDoTesks(JSON.parse(localStorage.getItem("toDoEvents") || "[{}]"));
   }, []);
+
+  const [SendDataToShowModal, setSendDataToShowModal] = useState({
+    id: "",
+    title: "",
+    dueDateState: false,
+    dueDate: "",
+    description: "",
+    teskState: "",
+    archive: false,
+  });
 
   return (
     <div className="flex flex-col h-full space-y-2">
@@ -69,17 +80,20 @@ const Page = () => {
                         <div
                           key={index}
                           className="w-full rounded-lg border"
-                          // onClick={() => {
-                          //   const packData = {
-                          //     id: toDoTesks.id || "",
-                          //     title: toDoTesks.title || "",
-                          //     date: toDoTesks.date || "",
-                          //     description: toDoTesks.description || "",
-                          //   };
+                          onClick={() => {
+                            const packData = {
+                              id: toDoTesks.id || "",
+                              title: toDoTesks.title || "",
+                              dueDateState: toDoTesks.dueDateState || false,
+                              dueDate: toDoTesks.dueDate || "",
+                              description: toDoTesks.description || "",
+                              teskState: toDoTesks.teskState || "",
+                              archive: toDoTesks.archive || false,
+                            };
 
-                          //   setSendDataToShowModal(packData);
-                          //   setShowDetailModal(true);
-                          // }}
+                            setSendDataToShowModal(packData);
+                            setShowDetailModal(true);
+                          }}
                         >
                           <div
                             className={clsx(
@@ -216,6 +230,16 @@ const Page = () => {
           setJournalEvents={setJournalEvents}
           toDoTesks={toDoTesks}
           setToDoTesks={setToDoTesks}
+        />
+      ) : null}
+
+      {showDetailModal ? (
+        <ShowToDoEventModal
+          setShowDetailModal={setShowDetailModal}
+          getDataToModal={SendDataToShowModal}
+          defaultCheckId={"Journal"}
+          journalEvents={journalEvents}
+          setJournalEvents={setJournalEvents}
         />
       ) : null}
     </div>
