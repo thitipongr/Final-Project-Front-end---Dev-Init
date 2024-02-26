@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import AddEventModal from "../components/AddEventModal";
+import clsx from "clsx";
 
 const Page = () => {
   // Schedule
@@ -65,8 +66,76 @@ const Page = () => {
                   ) => {
                     if (toDoTesks.teskState === "ToDo")
                       return (
-                        <div className="" key={index}>
-                          {toDoTesks.title}
+                        <div
+                          key={index}
+                          className="w-full rounded-lg border"
+                          // onClick={() => {
+                          //   const packData = {
+                          //     id: toDoTesks.id || "",
+                          //     title: toDoTesks.title || "",
+                          //     date: toDoTesks.date || "",
+                          //     description: toDoTesks.description || "",
+                          //   };
+
+                          //   setSendDataToShowModal(packData);
+                          //   setShowDetailModal(true);
+                          // }}
+                        >
+                          <div
+                            className={clsx(
+                              "rounded-lg p-2 bg-gray-100 font-bold truncate",
+                              {
+                                "border-b rounded-b-none":
+                                  toDoTesks.description !== "" ||
+                                  toDoTesks.dueDateState,
+                              }
+                            )}
+                          >
+                            {toDoTesks.title}
+                          </div>
+                          <div
+                            className={clsx("w-full space-y-2", {
+                              "p-2":
+                                toDoTesks.description !== "" ||
+                                toDoTesks.dueDateState,
+                            })}
+                          >
+                            {toDoTesks.description !== "" ? (
+                              <div className="truncate">
+                                {toDoTesks.description}
+                              </div>
+                            ) : null}
+                            {toDoTesks.dueDateState ? (
+                              <div
+                                className={clsx(
+                                  "truncate p-2 w-min rounded-lg",
+                                  {
+                                    "bg-red-300 border-red-600":
+                                      new Date(
+                                        toDoTesks.dueDate || 0
+                                      ).getTime() <= new Date().getTime(),
+                                    "bg-yellow-200 border-yellow-500":
+                                      new Date(
+                                        toDoTesks.dueDate || 0
+                                      ).getTime() > new Date().getTime() &&
+                                      new Date(
+                                        toDoTesks.dueDate || 0
+                                      ).getTime() <
+                                        new Date().getTime() + 86400000,
+                                    "bg-green-200 border-green-500":
+                                      new Date(
+                                        toDoTesks.dueDate || 0
+                                      ).getTime() >
+                                      new Date().getTime() + 86400000,
+                                  }
+                                )}
+                              >
+                                {new Date(toDoTesks.dueDate || 0)
+                                  .toLocaleString("en-US")
+                                  .replace(":00", "")}
+                              </div>
+                            ) : null}
+                          </div>
                         </div>
                       );
                   }
