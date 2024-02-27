@@ -232,7 +232,6 @@ const AddEventModal = ({
                             onChange={(e) => {
                               setJournalDate(e.target.value);
                             }}
-                            max={journalDate}
                           />
                         </div>
                       ),

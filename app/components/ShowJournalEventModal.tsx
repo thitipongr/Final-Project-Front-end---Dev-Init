@@ -98,7 +98,6 @@ const ShowJournalEventModal = ({
                           onChange={(e) => {
                             setJournalDate(e.target.value);
                           }}
-                          max={new Date().getTime()}
                         />
                       </div>
                     }
