@@ -193,7 +193,8 @@ const ShowScheduleEventModal = ({
                                   "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
                                   {
                                     "border-red-500 focus:border-red-500":
-                                      startPeriod_allDay > endPeriod_allDay,
+                                      new Date(startPeriod_allDay).getTime() >
+                                      new Date(endPeriod_allDay).getTime(),
                                   }
                                 )}
                                 type="date"
@@ -225,7 +226,8 @@ const ShowScheduleEventModal = ({
                                   "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
                                   {
                                     "border-red-500 focus:border-red-500":
-                                      startPeriod_subDay >= endPeriod_subDay,
+                                      new Date(startPeriod_subDay).getTime() >=
+                                      new Date(endPeriod_subDay).getTime(),
                                   }
                                 )}
                                 type="datetime-local"
@@ -316,23 +318,36 @@ const ShowScheduleEventModal = ({
                 {editTogle ? (
                   <button
                     disabled={
-                      (eventTitle !== "" &&
+                      ((eventTitle !== "" &&
                         eventTitle !== getDataToModal.title) ||
+                        eventDescription !== getDataToModal.description ||
+                        allDayState !== getDataToModal.allDay ||
+                        (allDayState
+                          ? new Date(startPeriod_allDay).getTime() !==
+                              new Date(startPeriod_allDay_old).getTime() ||
+                            new Date(endPeriod_allDay).getTime() !==
+                              new Date(endPeriod_allDay_old).getTime()
+                            ? true
+                            : false
+                          : new Date(startPeriod_subDay).getTime() !==
+                              new Date(startPeriod_subDay_old).getTime() ||
+                            new Date(endPeriod_subDay).getTime() !==
+                              new Date(endPeriod_subDay_old).getTime()
+                          ? true
+                          : false)) &&
                       (allDayState
                         ? startPeriod_allDay.length !== 0 &&
                           endPeriod_allDay.length !== 0 &&
-                          (startPeriod_allDay !== startPeriod_allDay_old ||
-                            endPeriod_allDay !== endPeriod_allDay_old)
+                          new Date(startPeriod_allDay).getTime() <=
+                            new Date(endPeriod_allDay).getTime()
                           ? true
                           : false
                         : startPeriod_subDay.length !== 0 &&
                           endPeriod_subDay.length !== 0 &&
-                          (startPeriod_subDay !== startPeriod_subDay_old ||
-                            endPeriod_subDay !== endPeriod_subDay_old)
+                          new Date(startPeriod_subDay).getTime() <=
+                            new Date(endPeriod_subDay).getTime()
                         ? true
-                        : false) ||
-                      eventDescription !== getDataToModal.description ||
-                      allDayState !== getDataToModal.allDay
+                        : false)
                         ? false
                         : true
                     }
