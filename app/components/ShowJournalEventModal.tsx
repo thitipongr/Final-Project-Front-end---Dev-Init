@@ -152,7 +152,13 @@ const ShowJournalEventModal = ({
                   <button
                     className="w-full text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setEditTogle(false)}
+                    onClick={() => {
+                      setEventTitle(getDataToModal.title);
+                      setJournalDate(getDataToModal.date);
+                      setJournalDate(journalDate_old);
+                      setEventDescription(getDataToModal.description);
+                      setEditTogle(false);
+                    }}
                   >
                     Cancle
                   </button>

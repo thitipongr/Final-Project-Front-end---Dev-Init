@@ -113,7 +113,7 @@ const ShowToDoEventModal = ({
                       className="mt-1"
                       type="checkbox"
                       id="dueDateState"
-                      defaultChecked={toDoDueDateState}
+                      checked={toDoDueDateState}
                       onChange={(e) => {
                         setToDoDueDateState(e.target.checked);
                       }}
@@ -216,7 +216,14 @@ const ShowToDoEventModal = ({
                   <button
                     className="w-full text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setEditTogle(false)}
+                    onClick={() => {
+                      setEventTitle(getDataToModal.title);
+                      setToDoDueDateState(toDoDueDateState_old);
+                      setToDoDueDate(toDoDueDate_old);
+                      setToDoState(getDataToModal.teskState);
+                      setToDoDescription(getDataToModal.description);
+                      setEditTogle(false);
+                    }}
                   >
                     Cancle
                   </button>

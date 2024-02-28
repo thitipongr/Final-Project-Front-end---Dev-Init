@@ -243,7 +243,7 @@ const ShowScheduleEventModal = ({
                             className="mt-3 mr-1 disabled:text-green-600"
                             type="checkbox"
                             id="allDayState"
-                            defaultChecked={allDayState ? true : false}
+                            checked={allDayState}
                             onChange={(e) => {
                               setAllDayState(e.target.checked);
                             }}
@@ -301,7 +301,17 @@ const ShowScheduleEventModal = ({
                   <button
                     className="w-full text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setEditTogle(false)}
+                    onClick={() => {
+                      setStartPeriod_allDay(startPeriod_allDay_old);
+                      setEndPeriod_allDay(endPeriod_allDay_old);
+                      setStartPeriod_subDay(startPeriod_subDay_old);
+                      setEndPeriod_subDay(endPeriod_subDay_old);
+
+                      setAllDayState(getDataToModal.allDay);
+                      setEventTitle(getDataToModal.title);
+                      setEventDescription(getDataToModal.description);
+                      setEditTogle(false);
+                    }}
                   >
                     Cancle
                   </button>
