@@ -233,21 +233,17 @@ const ShowToDoEventModal = ({
                 {editTogle ? (
                   <button
                     disabled={
-                      (eventTitle !== "" &&
+                      ((eventTitle !== "" &&
                         eventTitle !== getDataToModal.title) ||
-                      (toDoDueDateState !== toDoDueDateState_old
-                        ? toDoDueDateState
-                          ? toDoDueDate.length !== 0
-                            ? true
-                            : false
-                          : true
-                        : false) ||
-                      (toDoDueDate.length !== 0 &&
-                      toDoDueDate !== toDoDueDate_old
-                        ? true
-                        : false) ||
-                      toDoState !== getDataToModal.teskState ||
-                      toDoDescription !== getDataToModal.description
+                        toDoState !== getDataToModal.teskState ||
+                        toDoDescription !== getDataToModal.description ||
+                        toDoDueDateState !== toDoDueDateState_old ||
+                        toDoDueDate !== toDoDueDate_old) &&
+                      (toDoDueDateState
+                        ? toDoDueDate.length !== 0
+                          ? true
+                          : false
+                        : true)
                         ? false
                         : true
                     }
