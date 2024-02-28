@@ -169,13 +169,11 @@ const ShowJournalEventModal = ({
                 {editTogle ? (
                   <button
                     disabled={
-                      (eventTitle !== "" &&
+                      ((eventTitle !== "" &&
                         eventTitle !== getDataToModal.title) ||
-                      (journalDate.length !== 0 &&
-                      journalDate !== journalDate_old
-                        ? true
-                        : false) ||
-                      eventDescription !== getDataToModal.description
+                        journalDate !== journalDate_old ||
+                        eventDescription !== getDataToModal.description) &&
+                      journalDate.length !== 0
                         ? false
                         : true
                     }
