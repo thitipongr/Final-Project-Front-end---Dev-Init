@@ -1,7 +1,7 @@
 import { getDateMeta } from "@fullcalendar/core/internal";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "../ConfirmationModal";
 
 type ShowToDoEventModal_type = {
   setShowDetailModal: Dispatch<SetStateAction<boolean>>;
