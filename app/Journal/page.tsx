@@ -56,46 +56,47 @@ const Page = () => {
         </button>
       </div>
 
-      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-2">
-        {Object.keys(journalEvents[0] || {}).length
-          ? journalEvents.map(
-              (
-                object: {
-                  id?: string;
-                  date?: string;
-                  title?: string;
-                  description?: string;
-                },
-                index?: number
-              ) => {
-                return (
-                  <div
-                    key={index}
-                    className="w-full rounded-lg pb-2 border space-y-1"
-                    onClick={() => {
-                      const packData = {
-                        id: object.id || "",
-                        title: object.title || "",
-                        date: object.date || "",
-                        description: object.description || "",
-                      };
-
-                      setSendDataToShowModal(packData);
-                      setShowDetailModal(true);
-                    }}
-                  >
-                    <div className="border-b px-2 py-2 bg-gray-100">
-                      {new Date(object.date || 0).toLocaleString("en-US")}
+      <div className="mt-2 h-[calc(100vh-(61px+8px+16px+20px+40px+8px))] overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-2">
+          {Object.keys(journalEvents[0] || {}).length
+            ? journalEvents.map(
+                (
+                  object: {
+                    id?: string;
+                    date?: string;
+                    title?: string;
+                    description?: string;
+                  },
+                  index?: number
+                ) => {
+                  return (
+                    <div
+                      key={index}
+                      className="w-full rounded-lg pb-2 border space-y-1"
+                      onClick={() => {
+                        const packData = {
+                          id: object.id || "",
+                          title: object.title || "",
+                          date: object.date || "",
+                          description: object.description || "",
+                        };
+                        setSendDataToShowModal(packData);
+                        setShowDetailModal(true);
+                      }}
+                    >
+                      <div className="border-b px-2 py-2 bg-gray-100">
+                        {new Date(object.date || 0).toLocaleString("en-US")}
+                      </div>
+                      <div className="w-full p-2">
+                        <div className="font-bold truncate">{object.title}</div>
+                        <div className="truncate">{object.description}</div>
+                      </div>
                     </div>
-                    <div className="w-full p-2">
-                      <div className="font-bold truncate">{object.title}</div>
-                      <div className="truncate">{object.description}</div>
-                    </div>
-                  </div>
-                );
-              }
-            )
-          : null}
+                  );
+                }
+              )
+            : null}
+        </div>
       </div>
 
       {showAddingModal ? (
