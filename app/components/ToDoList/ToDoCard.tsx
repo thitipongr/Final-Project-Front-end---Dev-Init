@@ -30,7 +30,7 @@ type ToDoCard_type = {
 const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
   return (
     <div
-      className="w-full rounded-lg border"
+      className="w-full rounded-lg border select-none"
       onClick={() => {
         const packData = {
           id: toDoTesks.id || "",
@@ -47,7 +47,7 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
       }}
     >
       <div
-        className={clsx("flex rounded-lg p-2 bg-gray-100 truncate", {
+        className={clsx("flex rounded-lg p-2 bg-gray-50 truncate", {
           "border-b rounded-b-none": toDoTesks.description !== "",
         })}
       >

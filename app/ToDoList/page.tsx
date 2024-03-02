@@ -48,6 +48,10 @@ const Page = () => {
     archive: false,
   });
 
+  const [toDoExpand, setToDoExpand] = useState(true);
+  const [doingExpand, setDoingExpand] = useState(false);
+  const [doneExpand, setDoneExpand] = useState(false);
+
   return (
     <>
       <div className="flex flex-col h-full space-y-2">
@@ -57,12 +61,39 @@ const Page = () => {
         >
           Add ToDo
         </button>
-        <div className="flex h-full justify-between space-x-2">
-          <div className="w-1/3 rounded-lg border h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]">
-            <div className="flex-initial border-b px-2 py-2 bg-gray-100 font-bold text-center ">
+        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 lg:space-x-2 select-none">
+          <div
+            className={clsx(
+              "lg:w-1/3 rounded-lg border lg:h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]",
+              {
+                "h-[calc(100vh-(61px+8px+16px+20px+40px+8px+40px+8px+40px+8px+10px))] ":
+                  toDoExpand,
+              }
+            )}
+          >
+            <div
+              className={clsx(
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg",
+                {
+                  "rounded-b-none border-b": toDoExpand,
+                }
+              )}
+              onClick={() => {
+                setToDoExpand(true),
+                  setDoingExpand(false),
+                  setDoneExpand(false);
+              }}
+            >
               ToDo
             </div>
-            <div className="p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]">
+            <div
+              className={clsx(
+                "p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]",
+                {
+                  "hidden lg:block": !toDoExpand,
+                }
+              )}
+            >
               {Object.keys(toDoTesks[0] || {}).length
                 ? toDoTesks.map(
                     (
@@ -93,11 +124,38 @@ const Page = () => {
                 : null}
             </div>
           </div>
-          <div className="w-1/3 rounded-lg border h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]">
-            <div className="border-b px-2 py-2 bg-gray-100 font-bold text-center">
+          <div
+            className={clsx(
+              "lg:w-1/3 rounded-lg border lg:h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]",
+              {
+                "h-[calc(100vh-(61px+8px+16px+20px+40px+8px+40px+8px+40px+8px+10px))] ":
+                  doingExpand,
+              }
+            )}
+          >
+            <div
+              className={clsx(
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg",
+                {
+                  "rounded-b-none border-b": doingExpand,
+                }
+              )}
+              onClick={() => {
+                setToDoExpand(false),
+                  setDoingExpand(true),
+                  setDoneExpand(false);
+              }}
+            >
               Doing
             </div>
-            <div className="p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]">
+            <div
+              className={clsx(
+                "p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]",
+                {
+                  "hidden lg:block": !doingExpand,
+                }
+              )}
+            >
               {Object.keys(toDoTesks[0] || {}).length
                 ? toDoTesks.map(
                     (
@@ -128,11 +186,38 @@ const Page = () => {
                 : null}
             </div>
           </div>
-          <div className="w-1/3 rounded-lg border h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]">
-            <div className="border-b px-2 py-2 bg-gray-100 font-bold text-center">
+          <div
+            className={clsx(
+              "lg:w-1/3 rounded-lg border lg:h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]",
+              {
+                "h-[calc(100vh-(61px+8px+16px+20px+40px+8px+40px+8px+40px+8px+10px))] ":
+                  doneExpand,
+              }
+            )}
+          >
+            <div
+              className={clsx(
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg",
+                {
+                  "rounded-b-none border-b": doneExpand,
+                }
+              )}
+              onClick={() => {
+                setToDoExpand(false),
+                  setDoingExpand(false),
+                  setDoneExpand(true);
+              }}
+            >
               Done
             </div>
-            <div className="p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]">
+            <div
+              className={clsx(
+                "p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]",
+                {
+                  "hidden lg:block": !doneExpand,
+                }
+              )}
+            >
               {Object.keys(toDoTesks[0] || {}).length
                 ? toDoTesks.map(
                     (
