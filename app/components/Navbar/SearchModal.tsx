@@ -2,6 +2,8 @@ import { getDateMeta } from "@fullcalendar/core/internal";
 import clsx from "clsx";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ToDoCard from "../ToDoList/ToDoCard";
+import { useRouter } from "next/navigation";
+import ShowToDoEventModal from "../ToDoList/ShowToDoEventModal";
 
 type SearchModal_type = { setSearchModal: Dispatch<SetStateAction<boolean>> };
 
@@ -24,6 +26,7 @@ const SearchModal = ({ setSearchModal }: SearchModal_type) => {
     setToDoTesks(JSON.parse(localStorage.getItem("toDoEvents") || "[{}]"));
   }, []);
 
+  const router = useRouter();
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none">
@@ -48,7 +51,7 @@ const SearchModal = ({ setSearchModal }: SearchModal_type) => {
               </div>
               <div className="flex-1 relative">
                 {Object.keys(toDoTesks[0] || {}).length ? (
-                  <div className="absolute h-full w-full space-y-2 overflow-y-auto">
+                  <div className="flex flex-col absolute h-full w-full space-y-2 overflow-y-auto">
                     {toDoTesks
                       .filter(
                         (data: {
@@ -67,14 +70,18 @@ const SearchModal = ({ setSearchModal }: SearchModal_type) => {
                       )
                       .map((toDoTesks, index) => {
                         return (
-                          <ToDoCard
+                          <button
                             key={index}
-                            toDoTesks={toDoTesks}
-                            setState={{
-                              setSendDataToShowModal,
-                              setShowDetailModal,
-                            }}
-                          />
+                            onClick={() => router.push(`/ToDoList`)}
+                          >
+                            <ToDoCard
+                              toDoTesks={toDoTesks}
+                              setState={{
+                                setSendDataToShowModal,
+                                setShowDetailModal,
+                              }}
+                            />
+                          </button>
                         );
                       })}
                   </div>
@@ -88,6 +95,15 @@ const SearchModal = ({ setSearchModal }: SearchModal_type) => {
           onClick={() => setSearchModal(false)}
         ></div>
       </div>
+      {showDetailModal ? (
+        <ShowToDoEventModal
+          setShowDetailModal={setShowDetailModal}
+          getDataToModal={SendDataToShowModal}
+          defaultCheckId={"ToDo"}
+          toDoTesks={toDoTesks}
+          setToDoTesks={setToDoTesks}
+        />
+      ) : null}
     </>
   );
 };
