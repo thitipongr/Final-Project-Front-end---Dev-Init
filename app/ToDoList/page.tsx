@@ -61,13 +61,13 @@ const Page = () => {
         >
           Add ToDo
         </button>
-        <div className="flex flex-col lg:flex-row justify-between space-y-2 lg:space-y-0 lg:space-x-2 select-none">
+
+        <div className="flex flex-col flex-1 lg:flex-row justify-between space-y-2 lg:space-y-0 lg:space-x-2 select-none">
           <div
             className={clsx(
-              "lg:w-1/3 rounded-lg border lg:h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]",
+              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1",
               {
-                "h-[calc(100vh-(61px+8px+16px+20px+40px+8px+40px+8px+40px+8px+10px))] ":
-                  toDoExpand,
+                "flex-1": toDoExpand,
               }
             )}
           >
@@ -99,54 +99,51 @@ const Page = () => {
                 </div>
               )}
             </div>
-            <div
-              className={clsx(
-                "p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]",
-                {
-                  "hidden lg:block": !toDoExpand,
-                }
-              )}
-            >
-              {Object.keys(toDoTesks[0] || {}).length ? (
-                toDoTesks.map(
-                  (
-                    toDoTesks: {
-                      id?: string;
-                      title?: string;
-                      dueDateState?: boolean;
-                      dueDate?: string;
-                      description?: string;
-                      teskState?: string;
-                      archive?: boolean;
-                    },
-                    index: number
-                  ) => {
-                    if (toDoTesks.teskState === "ToDo")
-                      return (
-                        <ToDoCard
-                          key={index}
-                          toDoTesks={toDoTesks}
-                          setState={{
-                            setSendDataToShowModal,
-                            setShowDetailModal,
-                          }}
-                        />
-                      );
+            <div className="relative flex-1">
+              <div
+                className={clsx(
+                  "p-2 space-y-2 overflow-y-auto absolute h-full w-full",
+                  {
+                    "hidden lg:block": !toDoExpand,
                   }
-                )
-              ) : (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
-                  ...
-                </div>
-              )}
+                )}
+              >
+                {Object.keys(toDoTesks[0] || {}).length
+                  ? toDoTesks.map(
+                      (
+                        toDoTesks: {
+                          id?: string;
+                          title?: string;
+                          dueDateState?: boolean;
+                          dueDate?: string;
+                          description?: string;
+                          teskState?: string;
+                          archive?: boolean;
+                        },
+                        index: number
+                      ) => {
+                        if (toDoTesks.teskState === "ToDo")
+                          return (
+                            <ToDoCard
+                              key={index}
+                              toDoTesks={toDoTesks}
+                              setState={{
+                                setSendDataToShowModal,
+                                setShowDetailModal,
+                              }}
+                            />
+                          );
+                      }
+                    )
+                  : null}
+              </div>
             </div>
           </div>
           <div
             className={clsx(
-              "lg:w-1/3 rounded-lg border lg:h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]",
+              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1",
               {
-                "h-[calc(100vh-(61px+8px+16px+20px+40px+8px+40px+8px+40px+8px+10px))] ":
-                  doingExpand,
+                "flex-1": doingExpand,
               }
             )}
           >
@@ -178,50 +175,51 @@ const Page = () => {
                 </div>
               )}
             </div>
-            <div
-              className={clsx(
-                "p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]",
-                {
-                  "hidden lg:block": !doingExpand,
-                }
-              )}
-            >
-              {Object.keys(toDoTesks[0] || {}).length
-                ? toDoTesks.map(
-                    (
-                      toDoTesks: {
-                        id?: string;
-                        title?: string;
-                        dueDateState?: boolean;
-                        dueDate?: string;
-                        description?: string;
-                        teskState?: string;
-                        archive?: boolean;
-                      },
-                      index: number
-                    ) => {
-                      if (toDoTesks.teskState === "Doing")
-                        return (
-                          <ToDoCard
-                            key={index}
-                            toDoTesks={toDoTesks}
-                            setState={{
-                              setSendDataToShowModal,
-                              setShowDetailModal,
-                            }}
-                          />
-                        );
-                    }
-                  )
-                : null}
+            <div className="relative flex-1">
+              <div
+                className={clsx(
+                  "p-2 space-y-2 overflow-y-auto absolute h-full w-full",
+                  {
+                    "hidden lg:block": !doingExpand,
+                  }
+                )}
+              >
+                {Object.keys(toDoTesks[0] || {}).length
+                  ? toDoTesks.map(
+                      (
+                        toDoTesks: {
+                          id?: string;
+                          title?: string;
+                          dueDateState?: boolean;
+                          dueDate?: string;
+                          description?: string;
+                          teskState?: string;
+                          archive?: boolean;
+                        },
+                        index: number
+                      ) => {
+                        if (toDoTesks.teskState === "Doing")
+                          return (
+                            <ToDoCard
+                              key={index}
+                              toDoTesks={toDoTesks}
+                              setState={{
+                                setSendDataToShowModal,
+                                setShowDetailModal,
+                              }}
+                            />
+                          );
+                      }
+                    )
+                  : null}
+              </div>
             </div>
           </div>
           <div
             className={clsx(
-              "lg:w-1/3 rounded-lg border lg:h-[calc(100vh-(61px+8px+16px+20px+40px+8px))]",
+              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1",
               {
-                "h-[calc(100vh-(61px+8px+16px+20px+40px+8px+40px+8px+40px+8px+10px))] ":
-                  doneExpand,
+                "flex-1": doneExpand,
               }
             )}
           >
@@ -253,42 +251,44 @@ const Page = () => {
                 </div>
               )}
             </div>
-            <div
-              className={clsx(
-                "p-2 space-y-2 overflow-y-auto h-[calc(100%-41px)]",
-                {
-                  "hidden lg:block": !doneExpand,
-                }
-              )}
-            >
-              {Object.keys(toDoTesks[0] || {}).length
-                ? toDoTesks.map(
-                    (
-                      toDoTesks: {
-                        id?: string;
-                        title?: string;
-                        dueDateState?: boolean;
-                        dueDate?: string;
-                        description?: string;
-                        teskState?: string;
-                        archive?: boolean;
-                      },
-                      index: number
-                    ) => {
-                      if (toDoTesks.teskState === "Done")
-                        return (
-                          <ToDoCard
-                            key={index}
-                            toDoTesks={toDoTesks}
-                            setState={{
-                              setSendDataToShowModal,
-                              setShowDetailModal,
-                            }}
-                          />
-                        );
-                    }
-                  )
-                : null}
+            <div className="relative flex-1">
+              <div
+                className={clsx(
+                  "p-2 space-y-2 overflow-y-auto absolute h-full w-full",
+                  {
+                    "hidden lg:block": !doneExpand,
+                  }
+                )}
+              >
+                {Object.keys(toDoTesks[0] || {}).length
+                  ? toDoTesks.map(
+                      (
+                        toDoTesks: {
+                          id?: string;
+                          title?: string;
+                          dueDateState?: boolean;
+                          dueDate?: string;
+                          description?: string;
+                          teskState?: string;
+                          archive?: boolean;
+                        },
+                        index: number
+                      ) => {
+                        if (toDoTesks.teskState === "Done")
+                          return (
+                            <ToDoCard
+                              key={index}
+                              toDoTesks={toDoTesks}
+                              setState={{
+                                setSendDataToShowModal,
+                                setShowDetailModal,
+                              }}
+                            />
+                          );
+                      }
+                    )
+                  : null}
+              </div>
             </div>
           </div>
         </div>

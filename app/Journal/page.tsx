@@ -46,18 +46,18 @@ const Page = () => {
   );
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div id="add-journal">
         <button
-          className="w-full bg-gray-200 rounded-lg p-2 font-bold"
+          className="flex-initial w-full bg-gray-200 rounded-lg p-2 font-bold"
           onClick={() => setShowAddingModal(true)}
         >
           Add Journal
         </button>
       </div>
 
-      <div className="mt-2 h-[calc(100vh-(61px+8px+16px+20px+40px+8px))] overflow-y-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-2">
+      <div className="flex-1 mt-2 relative overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 grid-rows-4 gap-2 absolute w-full">
           {Object.keys(journalEvents[0] || {}).length
             ? journalEvents.map(
                 (
