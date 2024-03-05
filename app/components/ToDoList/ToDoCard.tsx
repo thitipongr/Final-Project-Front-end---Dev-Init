@@ -82,7 +82,7 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
         })}
       >
         {toDoTesks.description !== "" ? (
-          <div className="truncate">{toDoTesks.description}</div>
+          <div className="truncate text-left">{toDoTesks.description}</div>
         ) : null}
       </div>
     </div>
