@@ -4,7 +4,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SearchModal from "./SearchModal";
 
 const pageList = [
@@ -47,6 +47,7 @@ const Navbar = () => {
   };
 
   const [searchModal, setSearchModal] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="flex justify-center border-b z-10  lg:px-7">
@@ -163,6 +164,7 @@ const Navbar = () => {
                 className="rounded-lg border lg:mx-3 py-2 px-3 w-full flex flex-row hover:bg-gray-100"
                 onClick={() => {
                   setSearchModal(true);
+                  router.push("/ToDoList");
                 }}
               >
                 <div className="w-full text-left">To Do search...</div>
@@ -289,7 +291,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {searchModal ? <SearchModal setSearchModal={setSearchModal}/> : null}
+      {searchModal ? <SearchModal setSearchModal={setSearchModal} /> : null}
     </div>
   );
 };

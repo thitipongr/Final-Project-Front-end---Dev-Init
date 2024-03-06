@@ -68,22 +68,38 @@ const SearchModal = ({ setSearchModal }: SearchModal_type) => {
                             .includes(searchTxt.toLowerCase());
                         }
                       )
-                      .map((toDoTesks, index) => {
-                        return (
-                          <button
-                            key={index}
-                            onClick={() => router.push(`/ToDoList`)}
-                          >
-                            <ToDoCard
-                              toDoTesks={toDoTesks}
-                              setState={{
-                                setSendDataToShowModal,
-                                setShowDetailModal,
+                      .map(
+                        (
+                          toDoTesks: {
+                            id?: string;
+                            title?: string;
+                            dueDateState?: boolean;
+                            dueDate?: string;
+                            description?: string;
+                            teskState?: string;
+                            archive?: boolean;
+                          },
+                          index
+                        ) => {
+                          return (
+                            <button
+                              key={index}
+                              onClick={() => {
+                                router.push(`/ToDoList?hlTodo=${toDoTesks.id}`);
+                                setSearchModal(false);
                               }}
-                            />
-                          </button>
-                        );
-                      })}
+                            >
+                              <ToDoCard
+                                toDoTesks={toDoTesks}
+                                setState={{
+                                  setSendDataToShowModal,
+                                  setShowDetailModal,
+                                }}
+                              />
+                            </button>
+                          );
+                        }
+                      )}
                   </div>
                 ) : null}
               </div>

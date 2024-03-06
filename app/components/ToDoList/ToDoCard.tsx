@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useSearchParams } from "next/navigation";
 import React, { Dispatch, SetStateAction } from "react";
 
 type ToDoCard_type = {
@@ -28,9 +29,14 @@ type ToDoCard_type = {
 };
 
 const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
+  const params = useSearchParams();
+
   return (
     <div
-      className="w-full rounded-lg border select-none"
+      id={toDoTesks.id}
+      className={clsx("w-full rounded-lg border select-none ", {
+        "border-8 border-yellow-200": params.get("hlTodo") === toDoTesks.id,
+      })}
       onClick={() => {
         const packData = {
           id: toDoTesks.id || "",
