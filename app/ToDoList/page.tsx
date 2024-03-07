@@ -73,7 +73,7 @@ const Page = () => {
           >
             <div
               className={clsx(
-                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg relative",
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative",
                 {
                   "rounded-b-none border-b": toDoExpand,
                 }
@@ -149,7 +149,7 @@ const Page = () => {
           >
             <div
               className={clsx(
-                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg relative",
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative",
                 {
                   "rounded-b-none border-b": doingExpand,
                 }
@@ -225,7 +225,7 @@ const Page = () => {
           >
             <div
               className={clsx(
-                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg relative",
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative",
                 {
                   "rounded-b-none border-b": doneExpand,
                 }
