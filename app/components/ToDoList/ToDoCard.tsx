@@ -31,11 +31,13 @@ type ToDoCard_type = {
 const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
   const params = useSearchParams();
 
+  document.getElementById(`${params.get("hlTodo")}`)?.scrollIntoView();
+
   return (
     <div
       id={toDoTesks.id}
       className={clsx("w-full rounded-lg border select-none ", {
-        "border-8 border-yellow-200": params.get("hlTodo") === toDoTesks.id,
+        "border-4 border-yellow-200": params.get("hlTodo") === toDoTesks.id,
       })}
       onClick={() => {
         const packData = {
