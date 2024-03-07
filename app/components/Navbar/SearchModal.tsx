@@ -5,9 +5,15 @@ import ToDoCard from "../ToDoList/ToDoCard";
 import { useRouter } from "next/navigation";
 import ShowToDoEventModal from "../ToDoList/ShowToDoEventModal";
 
-type SearchModal_type = { setSearchModal: Dispatch<SetStateAction<boolean>> };
+type SearchModal_type = {
+  setExpandMenuState: Dispatch<SetStateAction<boolean>>;
+  setSearchModal: Dispatch<SetStateAction<boolean>>;
+};
 
-const SearchModal = ({ setSearchModal }: SearchModal_type) => {
+const SearchModal = ({
+  setSearchModal,
+  setExpandMenuState,
+}: SearchModal_type) => {
   const [searchTxt, setSearchTxt] = useState("");
   const [toDoTesks, setToDoTesks] = useState([{}]);
 
@@ -87,6 +93,7 @@ const SearchModal = ({ setSearchModal }: SearchModal_type) => {
                               onClick={() => {
                                 router.push(`/ToDoList?hlTodo=${toDoTesks.id}`);
                                 setSearchModal(false);
+                                setExpandMenuState(false);
                               }}
                             >
                               <ToDoCard

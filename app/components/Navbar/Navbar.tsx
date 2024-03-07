@@ -50,7 +50,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <div className="flex justify-center border-b z-10  lg:px-7">
+    <div className="flex justify-center border-b z-10 lg:px-7">
       <div className="flex flex-row justify-between items-center h-[60px] container">
         <div
           className={clsx(
@@ -291,7 +291,12 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {searchModal ? <SearchModal setSearchModal={setSearchModal} /> : null}
+      {searchModal ? (
+        <SearchModal
+          setExpandMenuState={setExpandMenuState}
+          setSearchModal={setSearchModal}
+        />
+      ) : null}
     </div>
   );
 };
