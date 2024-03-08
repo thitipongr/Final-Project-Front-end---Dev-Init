@@ -5,6 +5,7 @@ import AddEventModal from "../components/AddEventModal";
 import clsx from "clsx";
 import ShowToDoEventModal from "../components/ToDoList/ShowToDoEventModal";
 import ToDoCard from "../components/ToDoList/ToDoCard";
+import { useSearchParams } from "next/navigation";
 
 const Page = () => {
   // Schedule
@@ -51,6 +52,25 @@ const Page = () => {
   const [toDoExpand, setToDoExpand] = useState(true);
   const [doingExpand, setDoingExpand] = useState(false);
   const [doneExpand, setDoneExpand] = useState(false);
+
+  const params = useSearchParams();
+
+  useEffect(() => {
+    switch (params.get("hlTodoState")) {
+      case "ToDo": {
+        setToDoExpand(true), setDoingExpand(false), setDoneExpand(false);
+        break;
+      }
+      case "Doing": {
+        setToDoExpand(false), setDoingExpand(true), setDoneExpand(false);
+        break;
+      }
+      case "Done": {
+        setToDoExpand(false), setDoingExpand(false), setDoneExpand(true);
+        break;
+      }
+    }
+  }, [params]);
 
   return (
     <>

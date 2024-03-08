@@ -91,7 +91,9 @@ const SearchModal = ({
                             <button
                               key={index}
                               onClick={() => {
-                                router.push(`/ToDoList?hlTodo=${toDoTesks.id}`);
+                                router.push(
+                                  `/ToDoList?hlTodo=${toDoTesks.id}&hlTodoState=${toDoTesks.teskState}`
+                                );
                                 setSearchModal(false);
                                 setExpandMenuState(false);
                               }}
