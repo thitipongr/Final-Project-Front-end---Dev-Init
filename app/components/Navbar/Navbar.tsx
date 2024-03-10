@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import SearchModal from "./SearchModal";
 
@@ -40,11 +40,18 @@ const Navbar = () => {
   };
 
   const [darkModeSwicth, setDarkModeSwicth] = useState(false);
+
   const darkModeSwicthHandler = () => {
-    darkModeSwicth === false
-      ? setDarkModeSwicth(true)
-      : setDarkModeSwicth(false);
+    !document.documentElement.classList.contains("dark")
+      ? (setDarkModeSwicth(true), localStorage.setItem("darkTheme", "true"))
+      : (setDarkModeSwicth(false), localStorage.setItem("darkTheme", "false"));
+    document.documentElement.classList.toggle("dark");
   };
+
+  useEffect(() => {
+    setDarkModeSwicth(localStorage.getItem("darkTheme") === "true");
+    if (darkModeSwicth) document.documentElement.classList.add("dark");
+  }, [darkModeSwicth]);
 
   const [searchModal, setSearchModal] = useState(false);
   const router = useRouter();
