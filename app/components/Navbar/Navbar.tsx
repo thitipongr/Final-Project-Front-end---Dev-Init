@@ -57,13 +57,13 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <div className="flex justify-center border-b z-10 lg:px-7">
+    <div className="flex justify-center border-b z-10 lg:px-7 dark:text-neutral-50">
       <div className="flex flex-row justify-between items-center h-[60px] container">
         <div
           className={clsx(
             "flex lg:hidden w-[60px] items-center justify-center h-full",
             {
-              "bg-gray-200": expandMenuState,
+              "bg-gray-200 dark:bg-slate-800": expandMenuState,
             }
           )}
           onClick={expandMenuHandler}
@@ -140,7 +140,7 @@ const Navbar = () => {
         <div className="flex flex-row items-center pr-5 lg:pr-0">
           <div
             className={clsx(
-              "items-center py-5 pt-4 lg:flex lg:flex-row lg:static lg:bg-white lg:py-0 lg:mr-4",
+              "items-center py-5 pt-4 lg:flex lg:flex-row lg:static lg:bg-white lg:py-0 lg:mr-4 bg-white dark:bg-gray-900",
               {
                 hidden: !expandMenuState,
                 "flex flex-col fixed top-[60px] left-0 right-0 bg-gray-200 mr-[80px] lg:mx-0 rounded-br-lg":
@@ -154,9 +154,9 @@ const Navbar = () => {
                   key={index}
                   href={data.pathName}
                   className={clsx(
-                    "p-2 w-10/12 mx-1 my-1 lg:w-auto lg:hover:bg-gray-100 lg:hover:rounded-lg",
+                    "p-2 w-10/12 mx-1 my-1 lg:w-auto lg:hover:bg-gray-100 lg:hover:rounded-lg hover:dark:bg-slate-700",
                     {
-                      "bg-gray-50 rounded-lg lg:bg-gray-300 hover:lg:bg-gray-300":
+                      "bg-gray-50 rounded-lg lg:bg-gray-300 hover:lg:bg-gray-300 dark:bg-slate-800 hover:dark:bg-slate-700":
                         pathname === data.pathName ||
                         (pathname === "/" && data.displayName === "Schedule"),
                     }
@@ -168,7 +168,7 @@ const Navbar = () => {
             })}
             <div className="pt-2 w-10/12 lg:pt-0 lg:pb-0 lg:w-auto">
               <button
-                className="rounded-lg border lg:mx-3 py-2 px-3 w-full flex flex-row hover:bg-gray-100"
+                className="rounded-lg border lg:mx-3 py-2 px-3 w-full flex flex-row hover:bg-gray-100 hover:dark:bg-slate-700 dark:border-slate-700"
                 onClick={() => {
                   setSearchModal(true);
                   router.push("/ToDoList");
@@ -204,7 +204,7 @@ const Navbar = () => {
             />
             <div
               className={clsx(
-                "items-center w-10 py-5 pt-12 space-y-7 lg:ml-3",
+                "items-center w-10 py-5 pt-12 space-y-7 lg:ml-3 dark:bg-slate-800",
                 {
                   hidden: !expandProfileState,
                   "flex flex-col fixed top-[30px] bg-gray-200 rounded-b-full -z-10":

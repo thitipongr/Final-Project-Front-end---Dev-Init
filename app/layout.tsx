@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col h-screen bg-white dark:bg-black`}
+        className={`${inter.className} flex flex-col h-screen bg-white dark:bg-gray-900`}
       >
         <Navbar />
         <div className="flex justify-center flex-1 my-2 px-5 lg:px-7">
