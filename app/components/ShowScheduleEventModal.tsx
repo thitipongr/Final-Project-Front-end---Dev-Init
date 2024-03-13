@@ -142,9 +142,9 @@ const ShowScheduleEventModal = ({
 
   return (
     <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none dark:text-white">
         <div className="relative w-[315px]">
-          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none dark:bg-slate-900">
             <div
               className={clsx("relative p-2 flex flex-col space-y-2 h-full", {
                 "pointer-events-none": !editTogle,
@@ -155,7 +155,7 @@ const ShowScheduleEventModal = ({
                   type="text"
                   placeholder="Add title"
                   className={clsx(
-                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 px-1",
+                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 px-1 dark:bg-slate-900",
                     {
                       "border-red-500 focus:border-red-500": eventTitle === "",
                     }
@@ -175,7 +175,7 @@ const ShowScheduleEventModal = ({
                           {allDayState ? (
                             <div className="space-y-2">
                               <input
-                                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900 dark:bg-slate-900"
                                 type="date"
                                 value={startPeriod_allDay}
                                 onChange={(e) => {
@@ -190,7 +190,7 @@ const ShowScheduleEventModal = ({
                               />
                               <input
                                 className={clsx(
-                                  "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
+                                  "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900 dark:bg-slate-900",
                                   {
                                     "border-red-500 focus:border-red-500":
                                       new Date(startPeriod_allDay).getTime() >
@@ -208,7 +208,7 @@ const ShowScheduleEventModal = ({
                           ) : (
                             <div className="space-y-2">
                               <input
-                                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900"
+                                className="px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900 dark:bg-slate-900"
                                 type="datetime-local"
                                 value={startPeriod_subDay}
                                 onChange={(e) => {
@@ -223,7 +223,7 @@ const ShowScheduleEventModal = ({
                               />
                               <input
                                 className={clsx(
-                                  "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900",
+                                  "px-3 py-2 w-full border rounded-xl focus:outline-none focus:border-cyan-900 dark:bg-slate-900",
                                   {
                                     "border-red-500 focus:border-red-500":
                                       new Date(startPeriod_subDay).getTime() >=
@@ -252,7 +252,7 @@ const ShowScheduleEventModal = ({
                         </div>
                         <div className="flex-1">
                           <textarea
-                            className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
+                            className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none dark:bg-slate-900"
                             placeholder="Add description"
                             value={eventDescription}
                             onChange={(e) => {
@@ -435,7 +435,7 @@ const ShowScheduleEventModal = ({
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      <div className="opacity-80 fixed inset-0 z-40 bg-black"></div>
     </>
   );
 };
