@@ -78,7 +78,7 @@ const AddEventModal = ({
       : getDataToModal.endStr.replace(":00+07:00", "")
   );
 
-  const [allDayState, setAllDayState] = useState(true);
+  const [allDayState, setAllDayState] = useState(getDataToModal.allDay);
 
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
