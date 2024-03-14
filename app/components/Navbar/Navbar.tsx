@@ -42,10 +42,14 @@ const Navbar = () => {
   const [darkModeSwicth, setDarkModeSwicth] = useState(false);
 
   const darkModeSwicthHandler = () => {
-    !document.documentElement.classList.contains("dark")
-      ? (setDarkModeSwicth(true), localStorage.setItem("darkTheme", "true"))
-      : (setDarkModeSwicth(false), localStorage.setItem("darkTheme", "false"));
-    document.documentElement.classList.toggle("dark");
+    if (!document.documentElement.classList.contains("dark"))
+      setDarkModeSwicth(true),
+        localStorage.setItem("darkTheme", "true"),
+        document.documentElement.classList.add("dark");
+    else
+      setDarkModeSwicth(false),
+        localStorage.setItem("darkTheme", "false"),
+        document.documentElement.classList.remove("dark");
   };
 
   useEffect(() => {
