@@ -74,9 +74,9 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full space-y-2">
+      <div className="flex flex-col h-full space-y-2 dark:text-white">
         <button
-          className="w-full bg-gray-200 rounded-lg p-2 font-bold"
+          className="w-full bg-gray-200 rounded-lg p-2 font-bold dark:bg-slate-700"
           onClick={() => setShowAddingModal(true)}
         >
           Add ToDo
@@ -85,7 +85,7 @@ const Page = () => {
         <div className="flex flex-col flex-1 lg:flex-row justify-between space-y-2 lg:space-y-0 lg:space-x-2 select-none">
           <div
             className={clsx(
-              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1",
+              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1 dark:border-gray-600",
               {
                 "flex-1": toDoExpand,
               }
@@ -93,7 +93,7 @@ const Page = () => {
           >
             <div
               className={clsx(
-                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative",
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative rounded-t-md dark:bg-slate-700 dark:border-gray-600",
                 {
                   "rounded-b-none border-b": toDoExpand,
                 }
@@ -106,7 +106,7 @@ const Page = () => {
             >
               ToDo
               {Object.keys(toDoTesks[0] || {}).length ? (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
+                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 dark:bg-slate-950 dark:border-slate-800 right-1 bottom-1">
                   {
                     toDoTesks.filter((toDoTesks: { teskState?: string }) => {
                       return toDoTesks.teskState === "ToDo";
@@ -114,7 +114,7 @@ const Page = () => {
                   }
                 </div>
               ) : (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
+                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 dark:bg-slate-950 dark:border-slate-800 right-1 bottom-1">
                   ...
                 </div>
               )}
@@ -161,7 +161,7 @@ const Page = () => {
           </div>
           <div
             className={clsx(
-              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1",
+              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1 dark:border-gray-600",
               {
                 "flex-1": doingExpand,
               }
@@ -169,7 +169,7 @@ const Page = () => {
           >
             <div
               className={clsx(
-                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative",
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative rounded-t-md dark:bg-slate-700 dark:border-gray-600",
                 {
                   "rounded-b-none border-b": doingExpand,
                 }
@@ -182,7 +182,7 @@ const Page = () => {
             >
               Doing
               {Object.keys(toDoTesks[0] || {}).length ? (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
+                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 dark:bg-slate-950 dark:border-slate-800 right-1 bottom-1">
                   {
                     toDoTesks.filter((toDoTesks: { teskState?: string }) => {
                       return toDoTesks.teskState === "Doing";
@@ -190,7 +190,7 @@ const Page = () => {
                   }
                 </div>
               ) : (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
+                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 dark:bg-slate-950 dark:border-slate-800 right-1 bottom-1">
                   ...
                 </div>
               )}
@@ -237,7 +237,7 @@ const Page = () => {
           </div>
           <div
             className={clsx(
-              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1",
+              "flex flex-col lg:w-1/3 rounded-lg border relative lg:flex-1 dark:border-gray-600",
               {
                 "flex-1": doneExpand,
               }
@@ -245,7 +245,7 @@ const Page = () => {
           >
             <div
               className={clsx(
-                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative",
+                "border-none px-2 py-2 bg-gray-100 font-bold text-center rounded-lg lg:rounded-b-none relative rounded-t-md dark:bg-slate-700 dark:border-gray-600",
                 {
                   "rounded-b-none border-b": doneExpand,
                 }
@@ -258,7 +258,7 @@ const Page = () => {
             >
               Done
               {Object.keys(toDoTesks[0] || {}).length ? (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
+                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 dark:bg-slate-950 dark:border-slate-800 right-1 bottom-1">
                   {
                     toDoTesks.filter((toDoTesks: { teskState?: string }) => {
                       return toDoTesks.teskState === "Done";
@@ -266,7 +266,7 @@ const Page = () => {
                   }
                 </div>
               ) : (
-                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 right-1 bottom-1">
+                <div className="border rounded-full px-2 py-1 absolute bg-yellow-200 border-yellow-500 dark:bg-slate-950 dark:border-slate-800 right-1 bottom-1">
                   ...
                 </div>
               )}
