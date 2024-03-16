@@ -36,9 +36,12 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
   return (
     <div
       id={toDoTesks.id}
-      className={clsx("w-full rounded-lg border select-none ", {
-        "border-4 border-yellow-200": params.get("hlTodo") === toDoTesks.id,
-      })}
+      className={clsx(
+        "w-full rounded-lg border select-none dark:border-slate-600",
+        {
+          "border-4 border-yellow-200": params.get("hlTodo") === toDoTesks.id,
+        }
+      )}
       onClick={() => {
         const packData = {
           id: toDoTesks.id || "",
@@ -55,9 +58,12 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
       }}
     >
       <div
-        className={clsx("flex rounded-lg p-2 bg-gray-50 truncate", {
-          "border-b rounded-b-none": toDoTesks.description !== "",
-        })}
+        className={clsx(
+          "flex rounded-lg p-2 bg-gray-50 truncate dark:bg-slate-950 dark:border-slate-600",
+          {
+            "border-b rounded-b-none": toDoTesks.description !== "",
+          }
+        )}
       >
         <div className="flex flex-1 h-[40px] font-bold items-center truncate">
           <div className="truncate">{toDoTesks.title}</div>
