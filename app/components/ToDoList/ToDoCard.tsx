@@ -37,9 +37,10 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
     <div
       id={toDoTesks.id}
       className={clsx(
-        "w-full rounded-lg border select-none dark:border-slate-600",
+        "w-full rounded-xl border select-none dark:border-slate-600",
         {
-          "border-4 border-yellow-200": params.get("hlTodo") === toDoTesks.id,
+          "border-4 border-yellow-200 dark:border-yellow-100":
+            params.get("hlTodo") === toDoTesks.id,
         }
       )}
       onClick={() => {
