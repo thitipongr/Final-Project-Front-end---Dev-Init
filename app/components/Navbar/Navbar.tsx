@@ -79,7 +79,7 @@ const Navbar = () => {
   const router = useRouter();
 
   if (typeof window !== "undefined") {
-    var myProfileMenu = document.getElementById("profileMenu");
+    const myProfileMenu = document.getElementById("profileMenu");
     document.body.addEventListener("click", (event) => {
       if (!myProfileMenu?.contains(event.target as Node)) {
         setExpandProfileState(false);
@@ -223,7 +223,7 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative" id="profileMenu">
             <Image
               onClick={expandProfileHandler}
               src={"https://avatars.githubusercontent.com/u/144009672?v=4"}
@@ -234,7 +234,6 @@ const Navbar = () => {
               className="rounded-full z-50 lg:ml-3"
             />
             <div
-              id="profileMenu"
               className={clsx(
                 "items-center w-10 py-5 pt-12 lg:ml-3 dark:bg-slate-800",
                 {
