@@ -59,30 +59,33 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
     >
       <div
         className={clsx(
-          "flex rounded-lg p-2 bg-gray-50 truncate dark:bg-slate-700 dark:border-slate-600",
+          "flex rounded-lg p-2 bg-gray-50 truncate dark:bg-slate-700 dark:border-slate-600 font-bold",
           {
             "border-b rounded-b-none": toDoTesks.description !== "",
           }
         )}
       >
-        <div className="flex flex-1 h-[40px] font-bold items-center truncate">
+        <div className="flex flex-1 h-[40px] items-center truncate">
           <div className="truncate">{toDoTesks.title}</div>
         </div>
         {toDoTesks.dueDateState ? (
           <div
-            className={clsx("flex-initial truncate p-2 w-min rounded-lg ml-2", {
-              "bg-red-300 border-red-600":
-                new Date(toDoTesks.dueDate || 0).getTime() <=
-                new Date().getTime(),
-              "bg-yellow-200 border-yellow-500":
-                new Date(toDoTesks.dueDate || 0).getTime() >
-                  new Date().getTime() &&
-                new Date(toDoTesks.dueDate || 0).getTime() <
+            className={clsx(
+              "flex-initial truncate p-2 w-min rounded-lg ml-2 text-black",
+              {
+                "bg-red-300 border-red-600":
+                  new Date(toDoTesks.dueDate || 0).getTime() <=
+                  new Date().getTime(),
+                "bg-yellow-200 border-yellow-500":
+                  new Date(toDoTesks.dueDate || 0).getTime() >
+                    new Date().getTime() &&
+                  new Date(toDoTesks.dueDate || 0).getTime() <
+                    new Date().getTime() + 86400000,
+                "bg-green-200 border-green-500":
+                  new Date(toDoTesks.dueDate || 0).getTime() >
                   new Date().getTime() + 86400000,
-              "bg-green-200 border-green-500":
-                new Date(toDoTesks.dueDate || 0).getTime() >
-                new Date().getTime() + 86400000,
-            })}
+              }
+            )}
           >
             {new Date(toDoTesks.dueDate || 0)
               .toLocaleString("en-US")
