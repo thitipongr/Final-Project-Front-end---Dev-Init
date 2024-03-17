@@ -84,7 +84,7 @@ const ShowToDoEventModal = ({
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative w-[315px]">
-          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none dark:bg-slate-900 dark:text-white">
             <div
               className={clsx("relative p-2 flex flex-col space-y-2 h-full", {
                 "pointer-events-none": !editTogle,
@@ -95,7 +95,7 @@ const ShowToDoEventModal = ({
                   type="text"
                   placeholder="Add title"
                   className={clsx(
-                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 px-1",
+                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 px-1 dark:bg-slate-900",
                     {
                       "border-red-500 focus:border-red-500": eventTitle === "",
                     }
@@ -124,7 +124,7 @@ const ShowToDoEventModal = ({
                   </div>
                   <input
                     type="datetime-local"
-                    className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400"
+                    className="px-3 py-2 border rounded-xl flex-1 focus:outline-none focus:border-cyan-900 disabled:text-gray-400 dark:bg-slate-900"
                     disabled={!toDoDueDateState}
                     value={toDoDueDate}
                     onChange={(e) => {
@@ -135,9 +135,9 @@ const ShowToDoEventModal = ({
                 <div className="flex space-x-2">
                   <button
                     className={clsx(
-                      "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                      "h-9 px-2 border-0 rounded-lg bg-slate-100 dark:bg-slate-800 w-full",
                       {
-                        "bg-slate-400": toDoState === "ToDo",
+                        "bg-slate-400 dark:bg-slate-950": toDoState === "ToDo",
                       }
                     )}
                     onClick={() => setToDoState("ToDo")}
@@ -146,9 +146,9 @@ const ShowToDoEventModal = ({
                   </button>
                   <button
                     className={clsx(
-                      "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                      "h-9 px-2 border-0 rounded-lg bg-slate-100 dark:bg-slate-800 w-full",
                       {
-                        "bg-slate-400": toDoState === "Doing",
+                        "bg-slate-400 dark:bg-slate-950": toDoState === "Doing",
                       }
                     )}
                     onClick={() => setToDoState("Doing")}
@@ -157,9 +157,9 @@ const ShowToDoEventModal = ({
                   </button>
                   <button
                     className={clsx(
-                      "h-9 px-2 border-0 rounded-lg bg-slate-100 w-full",
+                      "h-9 px-2 border-0 rounded-lg bg-slate-100 dark:bg-slate-800 w-full",
                       {
-                        "bg-slate-400": toDoState === "Done",
+                        "bg-slate-400 dark:bg-slate-950": toDoState === "Done",
                       }
                     )}
                     onClick={() => setToDoState("Done")}
@@ -170,7 +170,7 @@ const ShowToDoEventModal = ({
               </div>
               <div className="flex-1">
                 <textarea
-                  className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none"
+                  className="px-3 py-2 w-full h-full border rounded-xl focus:outline-none focus:border-cyan-900 resize-none dark:bg-slate-800"
                   placeholder="Add description"
                   value={toDoDescription}
                   onChange={(e) => {
@@ -310,7 +310,7 @@ const ShowToDoEventModal = ({
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      <div className="opacity-80 fixed inset-0 z-40 bg-black"></div>
     </>
   );
 };
