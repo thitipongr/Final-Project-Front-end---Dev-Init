@@ -76,7 +76,7 @@ const Page = () => {
     <>
       <div className="flex flex-col h-full space-y-2 dark:text-white">
         <button
-          className="w-full bg-gray-200 rounded-lg p-2 font-bold dark:bg-slate-700"
+          className="w-full bg-gray-200 rounded-lg p-2 font-bold dark:bg-slate-700 select-none"
           onClick={() => setShowAddingModal(true)}
         >
           Add ToDo

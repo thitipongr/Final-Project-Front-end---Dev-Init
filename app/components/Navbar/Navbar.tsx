@@ -61,7 +61,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <div className="flex justify-center border-b z-10 lg:px-7 dark:text-neutral-50">
+    <div className="flex justify-center border-b z-10 lg:px-7 dark:text-neutral-50 select-none">
       <div className="flex flex-row justify-between items-center h-[60px] container">
         <div
           className={clsx(

@@ -49,7 +49,7 @@ const Page = () => {
     <div className="flex flex-col h-full dark:text-white">
       <div id="add-journal">
         <button
-          className="flex-initial w-full bg-gray-200 rounded-lg p-2 font-bold dark:bg-slate-700"
+          className="flex-initial w-full bg-gray-200 rounded-lg p-2 font-bold dark:bg-slate-700 select-none"
           onClick={() => setShowAddingModal(true)}
         >
           Add Journal
@@ -72,7 +72,7 @@ const Page = () => {
                   return (
                     <div
                       key={index}
-                      className="w-full rounded-lg pb-2 border space-y-1 dark:border-gray-600"
+                      className="w-full rounded-lg pb-2 border space-y-1 dark:border-gray-600 select-none"
                       onClick={() => {
                         const packData = {
                           id: object.id || "",
