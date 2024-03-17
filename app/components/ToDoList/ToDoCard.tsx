@@ -59,7 +59,7 @@ const ToDoCard = ({ toDoTesks, setState }: ToDoCard_type) => {
     >
       <div
         className={clsx(
-          "flex rounded-lg p-2 bg-gray-50 truncate dark:bg-slate-950 dark:border-slate-600",
+          "flex rounded-lg p-2 bg-gray-50 truncate dark:bg-slate-700 dark:border-slate-600",
           {
             "border-b rounded-b-none": toDoTesks.description !== "",
           }

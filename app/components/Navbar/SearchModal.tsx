@@ -37,7 +37,7 @@ const SearchModal = ({
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none">
         <div className="relative w-[315px] z-50">
-          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg relative flex flex-col w-full h-[400px] bg-white dark:bg-slate-900 dark:text-white outline-none focus:outline-none">
             <div
               className={clsx("relative p-2 flex flex-col space-y-2 h-full")}
             >
@@ -46,7 +46,7 @@ const SearchModal = ({
                   type="text"
                   placeholder="Search..."
                   className={clsx(
-                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 px-1"
+                    "w-full py-1 border-b focus:outline-none focus:border-cyan-900 dark:bg-slate-900 px-1"
                   )}
                   value={searchTxt}
                   onChange={(e) => {
@@ -116,7 +116,7 @@ const SearchModal = ({
           </div>
         </div>
         <div
-          className="opacity-25 fixed inset-0 z-40 bg-black"
+          className="opacity-80 fixed inset-0 z-40 bg-black"
           onClick={() => setSearchModal(false)}
         ></div>
       </div>
